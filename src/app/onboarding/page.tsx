@@ -198,7 +198,7 @@ export default function OnboardingPage() {
                   Génération...
                 </span>
               ) : step === 3 ? (
-                'Créer mon App de Réservation'
+                'Créer mon Kōdo Bookings'
               ) : (
                 'Continuer'
               )}
