@@ -95,7 +95,7 @@ ${Object.entries(reportData.pipelineStatus).map(([statut, count]) => `- ${statut
 ## 💡 Recommandation de l'Agent
 ${reportData.posLeads > reportData.bookingsLeads 
   ? "Le marché Retail (POS) est actuellement plus réceptif. Je recommande d'intensifier la prospection sur ce segment la semaine prochaine." 
-  : "Les salons (Bookings) montrent une forte traction. Assure-toi de mettre en avant la fonctionnalité de 'Tasting Bar' lors de tes démos."}
+  : "Les établissements (Bookings) montrent une forte traction. Assure-toi de mettre en avant la fonctionnalité de 'Tasting Bar' lors de tes démos."}
 
 *En attente de vos instructions pour la semaine prochaine, CEO.*
     `;

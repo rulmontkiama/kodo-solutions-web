@@ -83,7 +83,7 @@ export default function OnboardingPage() {
 
         <div className="mb-10 mt-4 text-center">
           <h1 className="text-[28px] font-semibold tracking-tight mb-2 text-black">
-            {step === 1 && "Créons votre Salon"}
+            {step === 1 && "Créons votre Espace"}
             {step === 2 && "Vos Horaires"}
             {step === 3 && "Votre Carte"}
           </h1>
@@ -104,7 +104,7 @@ export default function OnboardingPage() {
           {step === 1 && (
             <div className="space-y-5 animate-in fade-in slide-in-from-right-4 duration-500">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1.5 ml-1">Nom du Salon</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1.5 ml-1">Nom de l'Établissement</label>
                 <input type="text" name="nomSalon" required value={formData.nomSalon} onChange={handleChange} className="w-full px-4 py-3.5 bg-[#F9F9F9] border border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-black/5 focus:border-gray-400 transition-all placeholder-gray-400" placeholder="L'Adresse" />
               </div>
               <div>
@@ -114,7 +114,7 @@ export default function OnboardingPage() {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1.5 ml-1">Email</label>
-                  <input type="email" name="email" required value={formData.email} onChange={handleChange} className="w-full px-4 py-3.5 bg-[#F9F9F9] border border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-black/5 focus:border-gray-400 transition-all placeholder-gray-400" placeholder="jean@salon.com" />
+                  <input type="email" name="email" required value={formData.email} onChange={handleChange} className="w-full px-4 py-3.5 bg-[#F9F9F9] border border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-black/5 focus:border-gray-400 transition-all placeholder-gray-400" placeholder="jean@mon-espace.com" />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1.5 ml-1">Mot de passe</label>
@@ -198,7 +198,7 @@ export default function OnboardingPage() {
                   Génération...
                 </span>
               ) : step === 3 ? (
-                'Lancer mon SaaS'
+                'Créer mon App de Réservation'
               ) : (
                 'Continuer'
               )}

@@ -71,7 +71,7 @@ export default function KodoWebPage() {
               <MonitorSmartphone className="w-10 h-10 text-accent mb-6" />
               <h3 className="text-xl font-bold mb-3 text-foreground tracking-tight">Design Sur-Mesure</h3>
               <p className="text-foreground/60 leading-relaxed text-sm">
-                Des interfaces visuellement époustouflantes qui reflètent l'ADN de votre salon. Adaptatif sur tous les écrans (mobile, tablette, bureau).
+                Des interfaces visuellement époustouflantes qui reflètent l'ADN de votre établissement. Adaptatif sur tous les écrans (mobile, tablette, bureau).
               </p>
             </motion.div>
 

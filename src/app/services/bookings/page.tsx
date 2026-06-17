@@ -117,7 +117,7 @@ export default function KodoBookingsPage() {
             <div className="absolute top-0 right-0 w-64 h-64 bg-accent/20 blur-[80px] rounded-full pointer-events-none" />
             
             <h2 className="text-3xl font-black mb-8 text-foreground tracking-tight relative z-10">
-              Transformez votre salon
+              Transformez votre établissement
             </h2>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 relative z-10">

@@ -94,7 +94,7 @@ export default function Services() {
               
               <h3 className="text-2xl font-black text-foreground mb-4 tracking-tight">Kōdo Bookings</h3>
               <p className="text-foreground/60 leading-relaxed mb-8 font-medium text-sm">
-                La plateforme de réservation sur-mesure pour les salons et services. Maximisez votre remplissage et éliminez les rendez-vous manqués.
+                La plateforme de réservation sur-mesure pour tous types de professionnels. Maximisez votre remplissage et éliminez les rendez-vous manqués.
               </p>
 
               <ul className="space-y-4 mb-10 text-sm font-bold tracking-wider text-foreground/70 flex-grow">

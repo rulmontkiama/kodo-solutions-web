@@ -111,12 +111,12 @@ export default function KodoPosPage() {
               value={formData.email}
               onChange={handleChange}
               className="w-full px-4 py-3.5 bg-[#F9F9F9] border border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-black/5 focus:border-gray-400 transition-all placeholder-gray-400"
-              placeholder="jean@salon.com"
+              placeholder="jean@mon-espace.com"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1.5 ml-1">Nom du Salon</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1.5 ml-1">Nom de l'Établissement</label>
             <input
               type="text"
               name="salon"
