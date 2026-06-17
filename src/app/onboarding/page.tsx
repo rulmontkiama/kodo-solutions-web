@@ -105,7 +105,7 @@ export default function OnboardingPage() {
             <div className="space-y-5 animate-in fade-in slide-in-from-right-4 duration-500">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1.5 ml-1">Nom de l'Établissement</label>
-                <input type="text" name="nomSalon" required value={formData.nomSalon} onChange={handleChange} className="w-full px-4 py-3.5 bg-[#F9F9F9] border border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-black/5 focus:border-gray-400 transition-all placeholder-gray-400" placeholder="L'Adresse" />
+                <input type="text" name="nomSalon" required value={formData.nomSalon} onChange={handleChange} className="w-full px-4 py-3.5 bg-[#F9F9F9] border border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-black/5 focus:border-gray-400 transition-all placeholder-gray-400" placeholder="Ex: Kōdo Studio" />
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1.5 ml-1">Nom complet (Gérant)</label>

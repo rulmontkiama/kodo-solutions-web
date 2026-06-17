@@ -124,7 +124,7 @@ export default function KodoPosPage() {
               value={formData.salon}
               onChange={handleChange}
               className="w-full px-4 py-3.5 bg-[#F9F9F9] border border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-black/5 focus:border-gray-400 transition-all placeholder-gray-400"
-              placeholder="L'Adresse"
+              placeholder="Ex: Kōdo Studio"
             />
           </div>
 
