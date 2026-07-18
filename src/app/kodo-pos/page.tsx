@@ -12,6 +12,7 @@ export default function KodoPosPage() {
   const [success, setSuccess] = useState(false);
   const [downloadUrl, setDownloadUrl] = useState('');
   const [error, setError] = useState('');
+  const [acceptTerms, setAcceptTerms] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -128,10 +129,24 @@ export default function KodoPosPage() {
             />
           </div>
 
+          <div className="flex items-start gap-2.5 mt-4">
+            <input
+              type="checkbox"
+              id="acceptTerms"
+              required
+              checked={acceptTerms}
+              onChange={(e) => setAcceptTerms(e.target.checked)}
+              className="mt-1 h-4 w-4 rounded border-gray-300 text-black focus:ring-black cursor-pointer"
+            />
+            <label htmlFor="acceptTerms" className="text-xs leading-tight text-gray-500 font-medium select-none cursor-pointer">
+              J'accepte les <a href="/cgv" target="_blank" className="underline hover:text-black font-semibold">Conditions Générales de Vente (CGV)</a> et la <a href="/politique-de-confidentialite" target="_blank" className="underline hover:text-black font-semibold">Politique de Confidentialité</a>.
+            </label>
+          </div>
+
           <button
             type="submit"
-            disabled={loading}
-            className="w-full py-4 px-4 bg-black text-white font-medium rounded-2xl hover:bg-gray-800 transition-all shadow-sm flex justify-center items-center mt-8"
+            disabled={loading || !acceptTerms}
+            className="w-full py-4 px-4 bg-black text-white font-medium rounded-2xl hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm flex justify-center items-center mt-8"
           >
             {loading ? (
               <span className="flex items-center gap-2">
