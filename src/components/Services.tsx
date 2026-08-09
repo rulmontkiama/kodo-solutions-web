@@ -53,13 +53,13 @@ export default function Services() {
           {/* Card: Kodo POS */}
           <motion.div 
             variants={cardVariants}
-            className="group relative glass p-10 rounded-[2.5rem] border border-white/5 hover:border-accent/30 transition-all duration-500 overflow-hidden bg-gradient-to-br from-white/5 to-transparent hover:shadow-2xl hover:shadow-accent/10"
+            className="group relative glass p-10 rounded-[2.5rem] border border-foreground/5 hover:border-accent/30 transition-all duration-500 overflow-hidden bg-gradient-to-br from-foreground/5 to-transparent hover:shadow-2xl hover:shadow-accent/10"
           >
             {/* Card internal glow on hover */}
             <div className="absolute -inset-x-20 -top-20 h-40 bg-accent/20 blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
             
             <div className="relative z-10">
-              <div className="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-8 group-hover:scale-110 group-hover:bg-accent/10 transition-all duration-500">
+              <div className="w-16 h-16 rounded-2xl bg-foreground/5 border border-foreground/10 flex items-center justify-center mb-8 group-hover:scale-110 group-hover:bg-accent/10 transition-all duration-500">
                 <Store size={32} className="text-foreground group-hover:text-accent transition-colors duration-500" />
               </div>
               
@@ -83,18 +83,18 @@ export default function Services() {
           {/* Card: Kodo Bookings */}
           <motion.div 
             variants={cardVariants}
-            className="group relative glass p-10 rounded-[2.5rem] border border-white/5 hover:border-accent/30 transition-all duration-500 overflow-hidden bg-gradient-to-br from-white/5 to-transparent hover:shadow-2xl hover:shadow-accent/10 flex flex-col"
+            className="group relative glass p-10 rounded-[2.5rem] border border-foreground/5 hover:border-accent/30 transition-all duration-500 overflow-hidden bg-gradient-to-br from-foreground/5 to-transparent hover:shadow-2xl hover:shadow-accent/10 flex flex-col"
           >
             <div className="absolute -inset-x-20 -top-20 h-40 bg-accent/20 blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
             
             <div className="relative z-10 flex flex-col h-full">
-              <div className="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-8 group-hover:scale-110 group-hover:bg-accent/10 transition-all duration-500 shrink-0">
+              <div className="w-16 h-16 rounded-2xl bg-foreground/5 border border-foreground/10 flex items-center justify-center mb-8 group-hover:scale-110 group-hover:bg-accent/10 transition-all duration-500 shrink-0">
                 <CalendarDays size={32} className="text-foreground group-hover:text-accent transition-colors duration-500" />
               </div>
               
               <div className="flex items-center justify-between gap-3 mb-4">
                 <h3 className="text-2xl font-black text-foreground tracking-tight">Kōdo Bookings</h3>
-                <span className="text-[10px] font-extrabold uppercase tracking-wider px-3 py-1 bg-amber-500/20 text-amber-300 border border-amber-500/30 rounded-full shrink-0">
+                <span className="text-[10px] font-extrabold uppercase tracking-wider px-3 py-1 bg-amber-500/20 text-amber-600 dark:text-amber-300 border border-amber-500/30 rounded-full shrink-0">
                   ⏳ Bientôt disponible
                 </span>
               </div>
@@ -117,12 +117,12 @@ export default function Services() {
           {/* Card: Kodo Web */}
           <motion.div 
             variants={cardVariants}
-            className="group relative glass p-10 rounded-[2.5rem] border border-white/5 hover:border-accent/30 transition-all duration-500 overflow-hidden bg-gradient-to-br from-white/5 to-transparent hover:shadow-2xl hover:shadow-accent/10 flex flex-col"
+            className="group relative glass p-10 rounded-[2.5rem] border border-foreground/5 hover:border-accent/30 transition-all duration-500 overflow-hidden bg-gradient-to-br from-foreground/5 to-transparent hover:shadow-2xl hover:shadow-accent/10 flex flex-col"
           >
             <div className="absolute -inset-x-20 -top-20 h-40 bg-accent/20 blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
             
             <div className="relative z-10 flex flex-col h-full">
-              <div className="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-8 group-hover:scale-110 group-hover:bg-accent/10 transition-all duration-500 shrink-0">
+              <div className="w-16 h-16 rounded-2xl bg-foreground/5 border border-foreground/10 flex items-center justify-center mb-8 group-hover:scale-110 group-hover:bg-accent/10 transition-all duration-500 shrink-0">
                 <Code2 size={32} className="text-foreground group-hover:text-accent transition-colors duration-500" />
               </div>
               

@@ -19,8 +19,11 @@ export default function Hero() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <Link href="/" className="flex items-center gap-3">
-              <Image src="/logo-light.png" alt="KŌDO Logo" width={32} height={32} className="h-8 w-auto drop-shadow-md" />
+            <Link href="/" className="flex items-center gap-3 group">
+              <div className="relative h-8 w-8 transition-transform group-hover:scale-105">
+                <Image src="/logo-light.png" alt="KŌDO Logo" width={32} height={32} className="h-8 w-auto drop-shadow-md hidden dark:block" />
+                <Image src="/logo-dark.png" alt="KŌDO Logo" width={32} height={32} className="h-8 w-auto drop-shadow-md block dark:hidden" />
+              </div>
               <span className="text-xl font-black tracking-widest text-foreground uppercase mt-1">KŌDO</span>
             </Link>
           </motion.div>
@@ -72,13 +75,13 @@ export default function Hero() {
           transition={{ duration: 0.5, delay: 0.4 }}
           className="flex flex-col sm:flex-row items-center gap-4"
         >
-          <Link href="/kodo-pos" className="group flex items-center gap-3 bg-white hover:bg-gray-200 text-black px-10 py-5 rounded-full font-bold shadow-2xl shadow-white/10 hover:shadow-white/20 hover:-translate-y-1 transition-all text-lg">
+          <Link href="/kodo-pos" className="group flex items-center gap-3 bg-foreground hover:bg-foreground/90 text-background px-10 py-5 rounded-full font-bold shadow-2xl shadow-foreground/10 hover:shadow-foreground/20 hover:-translate-y-1 transition-all text-lg">
             Obtenir Kōdo POS
             <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
           </Link>
-          <Link href="/services/bookings" className="group flex items-center gap-3 bg-transparent border border-white/20 hover:bg-white/5 text-white px-8 py-5 rounded-full font-bold hover:-translate-y-1 transition-all text-lg">
+          <Link href="/services/bookings" className="group flex items-center gap-3 bg-transparent border border-foreground/20 hover:bg-foreground/5 text-foreground px-8 py-5 rounded-full font-bold hover:-translate-y-1 transition-all text-lg">
             <span>Kōdo Bookings</span>
-            <span className="text-[11px] font-extrabold uppercase px-3 py-1 bg-amber-500/20 text-amber-300 border border-amber-500/40 rounded-full">Bientôt disponible</span>
+            <span className="text-[11px] font-extrabold uppercase px-3 py-1 bg-amber-500/20 text-amber-500 dark:text-amber-300 border border-amber-500/40 rounded-full">Bientôt disponible</span>
           </Link>
         </motion.div>
       </main>
