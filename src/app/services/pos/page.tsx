@@ -35,7 +35,7 @@ export default function KodoPOSPage() {
                 Kōdo <span className="text-accent">POS</span>
               </h1>
               <p className="text-xl text-foreground/70 font-medium leading-relaxed mb-8">
-                Le cerveau de votre commerce. Un système d'encaissement intelligent, conçu pour la rapidité, la fiabilité et l'analyse de données prédictive.
+                Le cerveau de votre commerce. Un système d&apos;encaissement intelligent, conçu pour la rapidité, la fiabilité et l&apos;analyse de données prédictive.
               </p>
               <Link href="/#contact" className="inline-block bg-accent text-accent-foreground font-black px-8 py-4 rounded-full tracking-widest uppercase text-sm hover:scale-105 hover:shadow-[0_0_40px_rgba(var(--accent),0.4)] transition-all">
                 Demander une démo
@@ -82,7 +82,7 @@ export default function KodoPOSPage() {
               <PieChart className="w-10 h-10 text-accent mb-6" />
               <h3 className="text-xl font-bold mb-3 text-foreground tracking-tight">Analytics Prédictifs</h3>
               <p className="text-foreground/60 leading-relaxed text-sm">
-                Tableaux de bord en temps réel. Découvrez vos meilleures ventes, vos heures d'affluence et anticipez les tendances pour optimiser votre stock.
+                Tableaux de bord en temps réel. Découvrez vos meilleures ventes, vos heures d&apos;affluence et anticipez les tendances pour optimiser votre stock.
               </p>
             </motion.div>
 
@@ -91,7 +91,7 @@ export default function KodoPOSPage() {
               className="glass p-8 rounded-[2rem] border border-white/5 hover:border-accent/30 transition-colors"
             >
               <Store className="w-10 h-10 text-accent mb-6" />
-              <h3 className="text-xl font-bold mb-3 text-foreground tracking-tight">Gestion d'Inventaire IA</h3>
+              <h3 className="text-xl font-bold mb-3 text-foreground tracking-tight">Gestion d&apos;Inventaire IA</h3>
               <p className="text-foreground/60 leading-relaxed text-sm">
                 Décompte automatique des stocks à chaque vente. Alertes intelligentes de rupture et suggestion de commandes fournisseurs.
               </p>
@@ -128,7 +128,7 @@ export default function KodoPOSPage() {
                 </li>
                 <li className="flex items-start gap-4">
                   <CheckCircle2 size={24} className="text-accent shrink-0 mt-0.5" />
-                  <span className="text-foreground/80 font-medium">Réduction de 90% des erreurs d'inventaire.</span>
+                  <span className="text-foreground/80 font-medium">Réduction de 90% des erreurs d&apos;inventaire.</span>
                 </li>
               </ul>
               <ul className="space-y-4">

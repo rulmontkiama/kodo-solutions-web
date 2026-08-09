@@ -1,3 +1,4 @@
+
 import { NextResponse } from 'next/server';
 import { adminAuth, adminDb } from '@/lib/firebase/admin';
 
@@ -88,8 +89,8 @@ export async function POST(request: Request) {
       salonId,
       slug: finalSlug 
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Erreur Onboarding API:', error);
-    return NextResponse.json({ error: error.message || 'Erreur interne du serveur' }, { status: 500 });
+    return NextResponse.json({ error:  (error as Error).message || 'Erreur interne du serveur' }, { status: 500 });
   }
 }

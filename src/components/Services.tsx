@@ -39,7 +39,7 @@ export default function Services() {
             Nos solutions <span className="text-accent">métiers</span>
           </h2>
           <p className="text-lg text-foreground/60 max-w-2xl mx-auto font-medium">
-            Des outils spécialisés et des créations sur-mesure pour propulser votre activité vers l'excellence digitale.
+            Des outils spécialisés et des créations sur-mesure pour propulser votre activité vers l&apos;excellence digitale.
           </p>
         </motion.div>
 
@@ -70,7 +70,7 @@ export default function Services() {
 
               <ul className="space-y-4 mb-10 text-sm font-bold tracking-wider text-foreground/70">
                 <li className="flex items-center gap-3"><CheckCircle2 size={18} className="text-accent" /> Encaissement multi-canal</li>
-                <li className="flex items-center gap-3"><CheckCircle2 size={18} className="text-accent" /> Gestion d'inventaire IA</li>
+                <li className="flex items-center gap-3"><CheckCircle2 size={18} className="text-accent" /> Gestion d&apos;inventaire IA</li>
                 <li className="flex items-center gap-3"><CheckCircle2 size={18} className="text-accent" /> Fidélisation client</li>
               </ul>
 

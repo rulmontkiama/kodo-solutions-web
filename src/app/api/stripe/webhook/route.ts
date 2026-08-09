@@ -1,3 +1,4 @@
+
 import { NextResponse } from 'next/server';
 import { stripe } from '@/lib/stripe';
 import { createLicenseRecord } from '@/lib/license';
@@ -16,9 +17,9 @@ export async function POST(request: Request) {
       // Dev fallback parsing
       event = JSON.parse(body);
     }
-  } catch (err: any) {
-    console.error('⚠️ Signature webhook Stripe invalide:', err.message);
-    return NextResponse.json({ error: `Webhook Error: ${err.message}` }, { status: 400 });
+  } catch (err: unknown) {
+    console.error('⚠️ Signature webhook Stripe invalide:', (err as Error).message);
+    return NextResponse.json({ error: `Webhook Error: ${(err as Error).message}` }, { status: 400 });
   }
 
   // Handle checkout.session.completed

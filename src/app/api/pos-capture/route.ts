@@ -1,3 +1,4 @@
+
 import { NextResponse } from 'next/server';
 import { adminDb } from '@/lib/firebase/admin';
 
@@ -32,7 +33,7 @@ export async function POST(request: Request) {
       message: 'Prospect enregistré avec succès',
       downloadUrl: '/Installation_Kodo_POS.dmg'
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Erreur Capture POS API:', error);
     return NextResponse.json({ 
       success: true, 

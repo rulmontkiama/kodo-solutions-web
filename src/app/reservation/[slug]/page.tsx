@@ -1,3 +1,4 @@
+
 import { adminDb } from '@/lib/firebase/admin';
 import { notFound } from 'next/navigation';
 
@@ -37,7 +38,7 @@ export default async function ReservationPage({ params }: { params: { slug: stri
         
         {/* Horaires Section */}
         <section className="bg-white p-8 rounded-[32px] border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.03)]">
-          <h2 className="text-xl font-semibold mb-6">Heures d'ouverture</h2>
+          <h2 className="text-xl font-semibold mb-6">Heures d&apos;ouverture</h2>
           <div className="flex flex-wrap gap-3">
             {salon.horaires?.map((jour: string) => (
               <span key={jour} className="px-4 py-2.5 bg-[#F9F9F9] rounded-2xl text-sm font-medium text-gray-700">

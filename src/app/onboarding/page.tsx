@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -63,8 +64,8 @@ export default function OnboardingPage() {
       }
 
       router.push(`/reservation/${data.slug}`);
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      setError((err as Error).message);
       setLoading(false);
     }
   };
@@ -104,7 +105,7 @@ export default function OnboardingPage() {
           {step === 1 && (
             <div className="space-y-5 animate-in fade-in slide-in-from-right-4 duration-500">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1.5 ml-1">Nom de l'Établissement</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1.5 ml-1">Nom de l&apos;Établissement</label>
                 <input type="text" name="nomSalon" required value={formData.nomSalon} onChange={handleChange} className="w-full px-4 py-3.5 bg-[#F9F9F9] border border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-black/5 focus:border-gray-400 transition-all placeholder-gray-400" placeholder="Ex: Kōdo Studio" />
               </div>
               <div>
@@ -127,7 +128,7 @@ export default function OnboardingPage() {
           {/* ETAPE 2 : Horaires */}
           {step === 2 && (
             <div className="space-y-5 animate-in fade-in slide-in-from-right-4 duration-500">
-              <label className="block text-sm font-medium text-gray-700 mb-1.5 ml-1 text-center">Sélectionnez vos jours d'ouverture</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1.5 ml-1 text-center">Sélectionnez vos jours d&apos;ouverture</label>
               <div className="flex flex-wrap gap-3 justify-center">
                 {JOURS.map(jour => {
                   const isActive = formData.horaires.includes(jour);

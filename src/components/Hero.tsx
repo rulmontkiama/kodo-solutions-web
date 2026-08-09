@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { ArrowRight, Sparkles } from 'lucide-react';
 
@@ -19,7 +20,7 @@ export default function Hero() {
             transition={{ duration: 0.5 }}
           >
             <Link href="/" className="flex items-center gap-3">
-              <img src="/logo-light.png" alt="KŌDO Logo" className="h-8 w-auto drop-shadow-md" />
+              <Image src="/logo-light.png" alt="KŌDO Logo" width={32} height={32} className="h-8 w-auto drop-shadow-md" />
               <span className="text-xl font-black tracking-widest text-foreground uppercase mt-1">KŌDO</span>
             </Link>
           </motion.div>

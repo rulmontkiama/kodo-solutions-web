@@ -23,6 +23,7 @@ function SuccessContent() {
     const mockKey = `KODO-${Math.random().toString(36).substring(2, 6).toUpperCase()}-${Math.random().toString(36).substring(2, 6).toUpperCase()}-${Math.random().toString(36).substring(2, 6).toUpperCase()}`;
     const mockRef = `REF-KODO-${Math.floor(1000 + Math.random() * 9000)}`;
 
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setLicenseData({
       licenseKey: mockKey,
       referralCode: mockRef,

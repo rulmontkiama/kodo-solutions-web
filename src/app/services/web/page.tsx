@@ -35,7 +35,7 @@ export default function KodoWebPage() {
                 Kōdo <span className="text-accent">Web</span>
               </h1>
               <p className="text-xl text-foreground/70 font-medium leading-relaxed mb-8">
-                Votre marque mérite l'excellence digitale. Conception de sites web sur-mesure, ultra-rapides et taillés pour convertir.
+                Votre marque mérite l&apos;excellence digitale. Conception de sites web sur-mesure, ultra-rapides et taillés pour convertir.
               </p>
               <Link href="/#contact" className="inline-block bg-accent text-accent-foreground font-black px-8 py-4 rounded-full tracking-widest uppercase text-sm hover:scale-105 hover:shadow-[0_0_40px_rgba(var(--accent),0.4)] transition-all">
                 Lancer mon projet web
@@ -71,7 +71,7 @@ export default function KodoWebPage() {
               <MonitorSmartphone className="w-10 h-10 text-accent mb-6" />
               <h3 className="text-xl font-bold mb-3 text-foreground tracking-tight">Design Sur-Mesure</h3>
               <p className="text-foreground/60 leading-relaxed text-sm">
-                Des interfaces visuellement époustouflantes qui reflètent l'ADN de votre établissement. Adaptatif sur tous les écrans (mobile, tablette, bureau).
+                Des interfaces visuellement époustouflantes qui reflètent l&apos;ADN de votre établissement. Adaptatif sur tous les écrans (mobile, tablette, bureau).
               </p>
             </motion.div>
 
@@ -117,7 +117,7 @@ export default function KodoWebPage() {
             <div className="absolute top-0 right-0 w-64 h-64 bg-accent/20 blur-[80px] rounded-full pointer-events-none" />
             
             <h2 className="text-3xl font-black mb-8 text-foreground tracking-tight relative z-10">
-              L'impact d'un site premium
+              L&apos;impact d&apos;un site premium
             </h2>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 relative z-10">
