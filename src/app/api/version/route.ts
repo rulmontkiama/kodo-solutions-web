@@ -2,10 +2,13 @@ import { NextResponse } from 'next/server';
 
 export async function GET() {
   return NextResponse.json({
-    latestVersion: "1.0.3",
+    version: "1.0.4",
+    latestVersion: "1.0.4",
     releaseDate: "2026-08-09",
-    downloadUrl: "https://kōdo-solutions.com/Installation_Kodo_POS.dmg",
+    notes: "Nouveau module de sécurité et changement interactif de Code PIN.",
+    changelog: "Nouveau module de sécurité et changement interactif de Code PIN.",
+    downloadUrl: "https://kodo-solutions-web.vercel.app/Kodo_POS_macOS.zip",
+    distPatchUrl: "https://kodo-solutions-web.vercel.app/updates/dist_v1.0.4.zip",
     mandatory: false,
-    changelog: "Connexion par Code PIN Vendeur au lancement et Téléchargement interactif des exports comptables Pro.",
   });
 }
