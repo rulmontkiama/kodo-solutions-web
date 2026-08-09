@@ -58,6 +58,19 @@ export const metadata: Metadata = {
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  alternates: {
+    canonical: "https://kōdo-solutions.com",
+  },
+  verification: {
+    google: "VOTRE_CODE_DE_VERIFICATION_GOOGLE", // The user can replace this later
   },
 };
 

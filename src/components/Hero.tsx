@@ -22,8 +22,8 @@ export default function Hero() {
           >
             <Link href="/" className="flex items-center gap-3 group">
               <div className="relative h-8 w-8 transition-transform group-hover:scale-105">
-                <Image src="/logo-light.png" alt="KŌDO Logo" width={32} height={32} className="h-8 w-auto drop-shadow-md hidden dark:block" />
-                <Image src="/logo-dark.png" alt="KŌDO Logo" width={32} height={32} className="h-8 w-auto drop-shadow-md block dark:hidden" />
+                <Image src="/logo-light.png" alt="Logo KŌDO Solutions - Mode sombre" width={32} height={32} className="h-8 w-auto drop-shadow-md hidden dark:block" />
+                <Image src="/logo-dark.png" alt="Logo KŌDO Solutions - Mode clair" width={32} height={32} className="h-8 w-auto drop-shadow-md block dark:hidden" />
               </div>
               <span className="text-xl font-black tracking-widest text-foreground uppercase mt-1">KŌDO</span>
             </Link>
@@ -52,14 +52,14 @@ export default function Hero() {
           KŌDO SOLUTIONS
         </motion.div>
         
-        <motion.h2 
+        <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
           className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter mb-8 text-foreground leading-[1.05] text-glow"
         >
           Le système d&apos;exploitation <br className="hidden md:block" /> de votre commerce.
-        </motion.h2>
+        </motion.h1>
         
         <motion.p 
           initial={{ opacity: 0, y: 20 }}
