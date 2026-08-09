@@ -31,14 +31,17 @@ export default function KodoBookingsPage() {
               <div className="w-20 h-20 rounded-3xl bg-white/5 border border-white/10 flex items-center justify-center shadow-2xl shadow-accent/10 mb-8">
                 <CalendarDays size={40} className="text-accent" />
               </div>
+              <div className="inline-flex items-center gap-2 text-xs font-bold text-amber-300 tracking-widest uppercase bg-amber-500/20 border border-amber-500/30 px-5 py-2.5 rounded-full mb-6">
+                ⏳ Module Bientôt Disponible — Lancement Prochain
+              </div>
               <h1 className="text-4xl md:text-6xl font-black text-foreground tracking-tight mb-6 text-glow">
                 Kōdo <span className="text-accent">Bookings</span>
               </h1>
               <p className="text-xl text-foreground/70 font-medium leading-relaxed mb-8">
-                La plateforme de réservation ultime. Remplissez votre carnet d'adresses sans effort et offrez une expérience fluide à vos clients.
+                La plateforme de réservation intelligente pour salons, instituts et professionnels. Bientôt disponible pour simplifier la prise de rendez-vous 24/7.
               </p>
-              <Link href="/#contact" className="inline-block bg-accent text-accent-foreground font-black px-8 py-4 rounded-full tracking-widest uppercase text-sm hover:scale-105 hover:shadow-[0_0_40px_rgba(var(--accent),0.4)] transition-all">
-                Ouvrir un agenda
+              <Link href="/#contact" className="inline-block bg-white text-black font-black px-8 py-4 rounded-full tracking-widest uppercase text-sm hover:scale-105 transition-all shadow-xl">
+                S&apos;inscrire sur la liste d&apos;attente
               </Link>
             </motion.div>
 

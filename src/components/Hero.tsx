@@ -71,12 +71,13 @@ export default function Hero() {
           transition={{ duration: 0.5, delay: 0.4 }}
           className="flex flex-col sm:flex-row items-center gap-4"
         >
-          <Link href="/onboarding" className="group flex items-center gap-3 bg-white hover:bg-gray-200 text-black px-10 py-5 rounded-full font-bold shadow-2xl shadow-white/10 hover:shadow-white/20 hover:-translate-y-1 transition-all text-lg">
-            Lancer Kōdo Bookings
+          <Link href="/kodo-pos" className="group flex items-center gap-3 bg-white hover:bg-gray-200 text-black px-10 py-5 rounded-full font-bold shadow-2xl shadow-white/10 hover:shadow-white/20 hover:-translate-y-1 transition-all text-lg">
+            Obtenir Kōdo POS
             <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
           </Link>
-          <Link href="/kodo-pos" className="group flex items-center gap-3 bg-transparent border border-white/20 hover:bg-white/5 text-white px-10 py-5 rounded-full font-bold hover:-translate-y-1 transition-all text-lg">
-            Obtenir Kōdo POS
+          <Link href="/services/bookings" className="group flex items-center gap-3 bg-transparent border border-white/20 hover:bg-white/5 text-white px-8 py-5 rounded-full font-bold hover:-translate-y-1 transition-all text-lg">
+            <span>Kōdo Bookings</span>
+            <span className="text-[11px] font-extrabold uppercase px-3 py-1 bg-amber-500/20 text-amber-300 border border-amber-500/40 rounded-full">Bientôt disponible</span>
           </Link>
         </motion.div>
       </main>

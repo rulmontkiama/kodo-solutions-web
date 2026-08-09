@@ -92,7 +92,12 @@ export default function Services() {
                 <CalendarDays size={32} className="text-foreground group-hover:text-accent transition-colors duration-500" />
               </div>
               
-              <h3 className="text-2xl font-black text-foreground mb-4 tracking-tight">Kōdo Bookings</h3>
+              <div className="flex items-center justify-between gap-3 mb-4">
+                <h3 className="text-2xl font-black text-foreground tracking-tight">Kōdo Bookings</h3>
+                <span className="text-[10px] font-extrabold uppercase tracking-wider px-3 py-1 bg-amber-500/20 text-amber-300 border border-amber-500/30 rounded-full shrink-0">
+                  ⏳ Bientôt disponible
+                </span>
+              </div>
               <p className="text-foreground/60 leading-relaxed mb-8 font-medium text-sm">
                 La plateforme de réservation sur-mesure pour tous types de professionnels. Maximisez votre remplissage et éliminez les rendez-vous manqués.
               </p>
@@ -104,7 +109,7 @@ export default function Services() {
               </ul>
 
               <Link href="/services/bookings" className="inline-flex items-center gap-2 text-accent font-black uppercase tracking-widest text-sm hover:gap-4 transition-all">
-                Voir Bookings <ArrowRight size={16} />
+                En savoir plus (Bientôt disponible) <ArrowRight size={16} />
               </Link>
             </div>
           </motion.div>
