@@ -85,11 +85,24 @@ export default function Pricing() {
         </div>
 
         {/* Pricing Cards Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          variants={{
+            hidden: { opacity: 0 },
+            visible: { opacity: 1, transition: { staggerChildren: 0.2 } }
+          }}
+          className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch"
+        >
           
           {/* Plan: Monthly */}
           <motion.div 
-            whileHover={{ y: -8 }}
+            variants={{
+              hidden: { opacity: 0, y: 30 },
+              visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 100, damping: 20 } }
+            }}
+            whileHover={{ y: -8, scale: 1.02 }}
             className="glass p-10 rounded-[2.5rem] border border-foreground/10 flex flex-col justify-between relative bg-gradient-to-b from-foreground/5 to-transparent"
           >
             <div>
@@ -121,8 +134,12 @@ export default function Pricing() {
 
           {/* Plan: Annual (POPULAR) */}
           <motion.div 
-            whileHover={{ y: -8 }}
-            className="glass p-10 rounded-[2.5rem] border-2 border-accent shadow-2xl shadow-accent/20 flex flex-col justify-between relative bg-gradient-to-b from-accent/10 to-transparent scale-105 z-20"
+            variants={{
+              hidden: { opacity: 0, y: 30 },
+              visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 100, damping: 20 } }
+            }}
+            whileHover={{ y: -8, scale: 1.07 }}
+            className="glass p-10 rounded-[2.5rem] border-2 border-accent shadow-2xl shadow-accent/20 flex flex-col justify-between relative bg-gradient-to-b from-accent/10 to-transparent lg:scale-105 z-20"
           >
             <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-accent text-accent-foreground text-[10px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full shadow-lg">
               🔥 2 MOIS OFFERTS — RECOMMANDÉ
@@ -157,7 +174,11 @@ export default function Pricing() {
 
           {/* Plan: Lifetime */}
           <motion.div 
-            whileHover={{ y: -8 }}
+            variants={{
+              hidden: { opacity: 0, y: 30 },
+              visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 100, damping: 20 } }
+            }}
+            whileHover={{ y: -8, scale: 1.02 }}
             className="glass p-10 rounded-[2.5rem] border border-foreground/10 flex flex-col justify-between relative bg-gradient-to-b from-foreground/5 to-transparent"
           >
             <div>
@@ -187,7 +208,7 @@ export default function Pricing() {
             </button>
           </motion.div>
 
-        </div>
+        </motion.div>
 
         {/* Security badge */}
         <div className="mt-16 flex flex-col sm:flex-row items-center justify-center gap-6 text-xs text-foreground/50 font-medium">

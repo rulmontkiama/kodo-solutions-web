@@ -1,6 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -14,27 +16,25 @@
   --font-sans: "Outfit", sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #030303;
-    --foreground: #ffffff;
-    --primary: #ffffff;
-    --primary-dark: #e0e0e0;
-    --accent: #FF7F7F;
-    --accent-glow: rgba(255, 127, 127, 0.5);
-    --surface: #0a0a0a;
-    --surface-variant: #121212;
-    --outline: #262626;
+:root,
+.light {
+  --background: #fafafa;
+  --foreground: #09090b;
+  --primary: #000000;
+  --primary-dark: #333333;
+  --accent: #ef4444;
+  --accent-glow: rgba(239, 68, 68, 0.3);
+  --surface: #ffffff;
+  --surface-variant: #f4f4f5;
+  --outline: #e5e5e5;
 
-    --grid-line-color: rgba(255, 255, 255, 0.03);
-    --glass-bg: rgba(255, 255, 255, 0.03);
-    --glass-border: rgba(255, 255, 255, 0.05);
-    --text-glow-color: rgba(255, 255, 255, 0.15);
-  }
+  --grid-line-color: rgba(0, 0, 0, 0.03);
+  --glass-bg: rgba(255, 255, 255, 0.6);
+  --glass-border: rgba(0, 0, 0, 0.08);
+  --text-glow-color: rgba(0, 0, 0, 0.1);
 }
 
-/* Fallback for no preference (default to dark as it was) */
-:root {
+.dark {
   --background: #030303;
   --foreground: #ffffff;
   --primary: #ffffff;
@@ -49,25 +49,6 @@
   --glass-bg: rgba(255, 255, 255, 0.03);
   --glass-border: rgba(255, 255, 255, 0.05);
   --text-glow-color: rgba(255, 255, 255, 0.15);
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    --background: #fafafa;
-    --foreground: #09090b;
-    --primary: #000000;
-    --primary-dark: #333333;
-    --accent: #ef4444; /* darker red for better contrast in light mode */
-    --accent-glow: rgba(239, 68, 68, 0.3);
-    --surface: #ffffff;
-    --surface-variant: #f4f4f5;
-    --outline: #e5e5e5;
-
-    --grid-line-color: rgba(0, 0, 0, 0.03);
-    --glass-bg: rgba(255, 255, 255, 0.6);
-    --glass-border: rgba(0, 0, 0, 0.08);
-    --text-glow-color: rgba(0, 0, 0, 0.1);
-  }
 }
 
 body {

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { ArrowRight, Sparkles } from 'lucide-react';
+import { ThemeToggle } from './ThemeToggle';
 
 export default function Hero() {
   return (
@@ -33,8 +34,9 @@ export default function Hero() {
             transition={{ duration: 0.5 }}
             className="space-x-8 text-sm text-foreground/70 font-medium flex items-center"
           >
-            <Link href="#services" className="hover:text-white transition-colors">Services</Link>
+            <Link href="#services" className="hover:text-foreground transition-colors">Services</Link>
             <Link href="#contact" className="text-foreground hover:text-accent transition-colors">Demander une démo</Link>
+            <ThemeToggle />
           </motion.div>
         </div>
       </nav>

@@ -53,6 +53,7 @@ export default function Services() {
           {/* Card: Kodo POS */}
           <motion.div 
             variants={cardVariants}
+            whileHover={{ y: -8 }}
             className="group relative glass p-10 rounded-[2.5rem] border border-foreground/5 hover:border-accent/30 transition-all duration-500 overflow-hidden bg-gradient-to-br from-foreground/5 to-transparent hover:shadow-2xl hover:shadow-accent/10"
           >
             {/* Card internal glow on hover */}
@@ -83,6 +84,7 @@ export default function Services() {
           {/* Card: Kodo Bookings */}
           <motion.div 
             variants={cardVariants}
+            whileHover={{ y: -8 }}
             className="group relative glass p-10 rounded-[2.5rem] border border-foreground/5 hover:border-accent/30 transition-all duration-500 overflow-hidden bg-gradient-to-br from-foreground/5 to-transparent hover:shadow-2xl hover:shadow-accent/10 flex flex-col"
           >
             <div className="absolute -inset-x-20 -top-20 h-40 bg-accent/20 blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
@@ -117,6 +119,7 @@ export default function Services() {
           {/* Card: Kodo Web */}
           <motion.div 
             variants={cardVariants}
+            whileHover={{ y: -8 }}
             className="group relative glass p-10 rounded-[2.5rem] border border-foreground/5 hover:border-accent/30 transition-all duration-500 overflow-hidden bg-gradient-to-br from-foreground/5 to-transparent hover:shadow-2xl hover:shadow-accent/10 flex flex-col"
           >
             <div className="absolute -inset-x-20 -top-20 h-40 bg-accent/20 blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
