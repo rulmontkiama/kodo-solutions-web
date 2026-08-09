@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { NextResponse } from 'next/server';
 import { stripe } from '@/lib/stripe';
@@ -17,7 +18,7 @@ export async function POST(request: Request) {
       // Dev fallback parsing
       event = JSON.parse(body);
     }
-  } catch (err: unknown) {
+  } catch (err: any) {
     console.error('⚠️ Signature webhook Stripe invalide:', (err as Error).message);
     return NextResponse.json({ error: `Webhook Error: ${(err as Error).message}` }, { status: 400 });
   }

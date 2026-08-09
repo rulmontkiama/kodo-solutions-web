@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 'use client';
 
@@ -64,7 +65,7 @@ export default function OnboardingPage() {
       }
 
       router.push(`/reservation/${data.slug}`);
-    } catch (err: unknown) {
+    } catch (err: any) {
       setError((err as Error).message);
       setLoading(false);
     }

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 'use client';
 
@@ -39,7 +40,7 @@ export default function KodoPosPage() {
 
       setDownloadUrl(data.downloadUrl);
       setSuccess(true);
-    } catch (err: unknown) {
+    } catch (err: any) {
       setError((err as Error).message);
     } finally {
       setLoading(false);

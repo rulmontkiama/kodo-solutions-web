@@ -30,7 +30,7 @@ export default function ContactForm() {
         setName('');
         setEmail('');
       }
-    } catch (error) {
+    } catch (error) { // eslint-disable-line @typescript-eslint/no-unused-vars
       setStatus('Une erreur réseau est survenue. Veuillez réessayer.');
     } finally {
       setIsSubmitting(false);

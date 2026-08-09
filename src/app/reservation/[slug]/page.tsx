@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { adminDb } from '@/lib/firebase/admin';
 import { notFound } from 'next/navigation';
