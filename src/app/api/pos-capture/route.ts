@@ -28,12 +28,12 @@ export async function POST(request: Request) {
     return NextResponse.json({ 
       success: true, 
       message: 'Prospect enregistré avec succès',
-      downloadUrl: '/Installation_Kodo_POS.dmg'
+      downloadUrl: '/Kodo_POS_macOS.zip'
     });
   } catch (error: any) {
     return NextResponse.json({ 
       success: true, 
-      downloadUrl: '/Installation_Kodo_POS.dmg' 
+      downloadUrl: '/Kodo_POS_macOS.zip' 
     });
   }
 }
