@@ -23,7 +23,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: `Webhook Error: ${(err as Error).message}` }, { status: 400 });
   }
 
-  // Handle checkout.session.completed
+  // Handle events
   if (event.type === 'checkout.session.completed') {
     const session = event.data.object as any;
     const customerEmail = session.customer_details?.email || session.customer_email;
@@ -48,7 +48,7 @@ export async function POST(request: Request) {
       if (referralCodeUsed) {
         try {
           const parrainQuery = await adminDb
-            .collection('licenses')
+            .collection('pos_licenses')
             .where('referralCode', '==', referralCodeUsed.trim().toUpperCase())
             .limit(1)
             .get();
@@ -72,6 +72,63 @@ export async function POST(request: Request) {
         } catch (refError) {
           console.error('Erreur traitement parrainage:', refError);
         }
+      }
+    }
+  } else if (event.type === 'invoice.payment_succeeded') {
+    const invoice = event.data.object as any;
+    const subscriptionId = invoice.subscription;
+    if (subscriptionId) {
+      try {
+        const query = await adminDb.collection('pos_licenses')
+          .where('stripeSubscriptionId', '==', subscriptionId)
+          .limit(1)
+          .get();
+
+        if (!query.empty) {
+          const docRef = query.docs[0].ref;
+          const data = query.docs[0].data();
+
+          // Extend expiry_date based on plan
+          let newExpiryDate = '2099-12-31';
+          if (data.plan === 'monthly') {
+             const d = new Date();
+             d.setMonth(d.getMonth() + 1);
+             newExpiryDate = d.toISOString().split('T')[0];
+          } else if (data.plan === 'annual') {
+             const d = new Date();
+             d.setFullYear(d.getFullYear() + 1);
+             newExpiryDate = d.toISOString().split('T')[0];
+          }
+
+          await docRef.update({
+            status: 'active',
+            expiry_date: newExpiryDate
+          });
+          console.log(`✅ Licence prolongée pour l'abonnement ${subscriptionId}`);
+        }
+      } catch (err) {
+        console.error('Erreur prolongation licence:', err);
+      }
+    }
+  } else if (event.type === 'customer.subscription.deleted' || event.type === 'invoice.payment_failed') {
+    const object = event.data.object as any;
+    const subscriptionId = event.type === 'customer.subscription.deleted' ? object.id : object.subscription;
+
+    if (subscriptionId) {
+      try {
+        const query = await adminDb.collection('pos_licenses')
+          .where('stripeSubscriptionId', '==', subscriptionId)
+          .limit(1)
+          .get();
+
+        if (!query.empty) {
+          const docRef = query.docs[0].ref;
+          const newStatus = event.type === 'customer.subscription.deleted' ? 'expired' : 'suspended';
+          await docRef.update({ status: newStatus });
+          console.log(`❌ Statut de la licence mis à jour (${newStatus}) pour l'abonnement ${subscriptionId}`);
+        }
+      } catch (err) {
+        console.error('Erreur mise à jour statut licence:', err);
       }
     }
   }
