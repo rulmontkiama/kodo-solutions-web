@@ -68,10 +68,28 @@ export default function KodoPosPage() {
             </svg>
             Télécharger pour Mac
           </a>
+
+          <div className="mt-6 p-4 bg-amber-50/70 border border-amber-200/60 rounded-2xl text-left text-xs text-amber-900 space-y-2">
+            <div className="font-semibold flex items-center gap-1.5 text-amber-950 text-sm">
+              <span>💡 Premier Lancement macOS</span>
+            </div>
+            <p className="text-amber-800">
+              Si macOS affiche le message <em>« Apple n&apos;a pas pu confirmer... »</em> :
+            </p>
+            <ol className="list-decimal list-inside space-y-1.5 text-amber-900 font-medium pl-1">
+              <li>Faites un <strong>CLIC DROIT</strong> (ou Ctrl+Clic) sur l&apos;application <strong>Kodo_POS</strong>.</li>
+              <li>Sélectionnez <strong>Ouvrir</strong> dans le menu contextuel.</li>
+              <li>Dans la pop-up de confirmation, cliquez sur <strong>Ouvrir</strong>.</li>
+            </ol>
+            <p className="text-[11px] text-amber-700/90 pt-1">
+              (Ou allez dans <em>Réglages Système &gt; Confidentialité et sécurité</em> et cliquez sur <em>Ouvrir quand même</em>).
+            </p>
+          </div>
         </div>
       </div>
     );
   }
+
 
   return (
     <div className="min-h-screen bg-[#FAFAFA] text-gray-900 flex items-center justify-center p-6 selection:bg-gray-200">
