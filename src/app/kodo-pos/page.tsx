@@ -28,7 +28,7 @@ export default function KodoPosPage() {
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setOs('Windows');
     } else if (userAgent.includes('mac')) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
+
       setOs('macOS');
     }
   }, []);
@@ -97,9 +97,9 @@ export default function KodoPosPage() {
             transition={{ delay: 0.2, type: 'spring' }}
             className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-white/5 border border-white/10 mb-6 shadow-2xl shadow-[#FF7F7F]/20 backdrop-blur-md"
           >
-            <span className="font-heading font-black text-3xl text-white">KŌDO</span>
+            <span className=" font-black text-3xl text-white">KŌDO</span>
           </motion.div>
-          <h1 className="font-heading text-4xl md:text-5xl font-black tracking-tight mb-4 text-white">
+          <h1 className=" text-4xl md:text-5xl font-black tracking-tight mb-4 text-white">
             Obtenir Kōdo POS
           </h1>
           <p className="text-white/50 text-lg">Le système de caisse ultra-premium pour les commerçants ambitieux.</p>
@@ -205,7 +205,7 @@ export default function KodoPosPage() {
                 <CheckCircle2 size={40} />
               </div>
 
-              <h2 className="font-heading text-3xl font-bold mb-4 text-white">Votre téléchargement est prêt.</h2>
+              <h2 className=" text-3xl font-bold mb-4 text-white">Votre téléchargement est prêt.</h2>
               <p className="text-white/60 mb-10 leading-relaxed">
                 Merci de faire confiance à Kōdo POS. Lancez l&apos;installateur ci-dessous pour démarrer l&apos;expérience.
               </p>

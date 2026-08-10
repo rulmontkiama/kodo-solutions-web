@@ -55,7 +55,7 @@ export default function Pricing() {
           className="max-w-xl mx-auto mb-16 p-6 glass rounded-2xl border border-amber-500/30 bg-amber-500/10 text-center relative overflow-hidden"
         >
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-amber-500/10 to-transparent translate-x-[-100%] animate-[shimmer_2s_infinite]" />
-          <h3 className="font-heading font-black text-amber-500 text-xl mb-2 flex justify-center items-center gap-2">
+          <h3 className=" font-black text-amber-500 text-xl mb-2 flex justify-center items-center gap-2">
             🚧 Module de paiement bientôt disponible
           </h3>
           <p className="text-foreground/70 text-sm font-medium">

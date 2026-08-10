@@ -39,7 +39,7 @@ export default function Hero() {
             transition={{ duration: 0.5 }}
           >
             <Link href="/" className="flex items-center gap-2 group">
-              <span className="text-2xl font-black tracking-widest text-foreground uppercase mt-1 transition-transform group-hover:scale-105 font-heading">KŌDO</span>
+              <span className="text-2xl font-black tracking-widest text-foreground uppercase mt-1 transition-transform group-hover:scale-105 ">KŌDO</span>
             </Link>
           </motion.div>
           <motion.div 

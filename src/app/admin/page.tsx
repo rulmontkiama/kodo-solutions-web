@@ -107,7 +107,7 @@ export default function AdminPortal() {
             <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-bold tracking-widest uppercase mb-4 text-[#FF7F7F]">
               <ShieldCheck size={14} /> Portail Administrateur
             </div>
-            <h1 className="font-heading text-3xl md:text-4xl font-black tracking-tight text-white">
+            <h1 className=" text-3xl md:text-4xl font-black tracking-tight text-white">
               Gestion des Leads
             </h1>
           </div>
