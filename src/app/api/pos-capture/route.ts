@@ -29,11 +29,9 @@ export async function POST(request: Request) {
     }
 
     // Determine download URL based on OS
-    let downloadUrl = "https://github.com/rulmontkiama/kodo-solutions-web/releases/download/v1.0.9/Kodo_POS_macOS_Installer.zip";
+    let downloadUrl = "/updates/dist_v1.0.13.zip"; // Fichier local disponible dans /public/updates/
     if (operating_system === 'Windows') {
-       // Using a placeholder or the same for now since we don't have a real Windows link in the prompt,
-       // but typically we'd use a .exe or .zip for Windows.
-       downloadUrl = "https://github.com/rulmontkiama/kodo-solutions-web/releases/download/v1.0.9/Kodo_POS_Windows_Setup.zip";
+       downloadUrl = "/updates/dist_v1.0.13.zip"; // Fichier local disponible
     }
 
     return NextResponse.json({ 
@@ -47,7 +45,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ 
       success: true, 
-      downloadUrl: "https://github.com/rulmontkiama/kodo-solutions-web/releases/download/v1.0.9/Kodo_POS_macOS_Installer.zip" 
+      downloadUrl: "/updates/dist_v1.0.13.zip"
     });
   }
 }
