@@ -39,10 +39,26 @@ export default function Pricing() {
 
   return (
     <section id="pricing" className="py-28 px-6 relative z-10 overflow-hidden bg-background">
-      {/* Background decoration */}
+      {/* Background decoration & Animated Orbs */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-accent/5 blur-[160px] rounded-full pointer-events-none" />
+      <motion.div
+        animate={{
+          scale: [1, 1.2, 1],
+          opacity: [0.1, 0.3, 0.1],
+        }}
+        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute top-20 right-10 w-96 h-96 bg-accent/10 blur-[120px] rounded-full pointer-events-none"
+      />
+      <motion.div
+        animate={{
+          scale: [1, 1.3, 1],
+          opacity: [0.1, 0.2, 0.1],
+        }}
+        transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+        className="absolute bottom-20 left-10 w-80 h-80 bg-amber-500/10 blur-[120px] rounded-full pointer-events-none"
+      />
 
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-6xl mx-auto relative z-10">
         <div className="text-center mb-16">
           <div className="inline-flex items-center gap-2 text-xs font-bold text-accent tracking-widest uppercase glass px-5 py-2.5 rounded-full mb-6">
             <Zap size={14} className="text-accent" />
@@ -138,12 +154,19 @@ export default function Pricing() {
               hidden: { opacity: 0, y: 30 },
               visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 100, damping: 20 } }
             }}
-            whileHover={{ y: -8, scale: 1.07 }}
-            className="glass p-10 rounded-[2.5rem] border-2 border-accent shadow-2xl shadow-accent/20 flex flex-col justify-between relative bg-gradient-to-b from-accent/10 to-transparent lg:scale-105 z-20"
+            whileHover={{ y: -8, scale: 1.05 }}
+            animate={{
+              boxShadow: ["0px 0px 0px rgba(var(--accent-rgb), 0)", "0px 0px 30px rgba(var(--accent-rgb), 0.3)", "0px 0px 0px rgba(var(--accent-rgb), 0)"]
+            }}
+            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+            className="glass p-10 rounded-[2.5rem] border-2 border-accent flex flex-col justify-between relative bg-gradient-to-b from-accent/10 to-transparent lg:scale-105 z-20 group"
           >
-            <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-accent text-accent-foreground text-[10px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full shadow-lg">
+            <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-accent text-accent-foreground text-[10px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full shadow-lg whitespace-nowrap">
               🔥 2 MOIS OFFERTS — RECOMMANDÉ
             </div>
+
+            {/* Subtle internal animated glow */}
+            <div className="absolute -inset-x-10 -top-10 h-32 bg-accent/20 blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
 
             <div>
               <h3 className="text-2xl font-black text-foreground mb-2 mt-2">Offre Annuelle</h3>

@@ -24,10 +24,20 @@ export default function Services() {
 
   return (
     <section id="services" className="py-32 px-6 relative z-10 overflow-hidden">
-      {/* Background glow top right */}
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-accent/5 blur-[120px] rounded-full pointer-events-none" />
+      {/* Background glow top right and animated floating orbs */}
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-accent/10 blur-[120px] rounded-full pointer-events-none" />
+      <motion.div
+        animate={{
+          y: [0, -30, 0],
+          x: [0, 20, 0],
+          scale: [1, 1.1, 1],
+          opacity: [0.3, 0.5, 0.3]
+        }}
+        transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute bottom-10 left-10 w-[400px] h-[400px] bg-amber-500/10 blur-[150px] rounded-full pointer-events-none"
+      />
 
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-7xl mx-auto relative z-10">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -60,9 +70,13 @@ export default function Services() {
             <div className="absolute -inset-x-20 -top-20 h-40 bg-accent/20 blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
             
             <div className="relative z-10">
-              <div className="w-16 h-16 rounded-2xl bg-foreground/5 border border-foreground/10 flex items-center justify-center mb-8 group-hover:scale-110 group-hover:bg-accent/10 transition-all duration-500">
+              <motion.div
+                animate={{ y: [0, -5, 0] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                className="w-16 h-16 rounded-2xl bg-foreground/5 border border-foreground/10 flex items-center justify-center mb-8 group-hover:scale-110 group-hover:bg-accent/10 transition-all duration-500"
+              >
                 <Store size={32} className="text-foreground group-hover:text-accent transition-colors duration-500" />
-              </div>
+              </motion.div>
               
               <h3 className="text-2xl font-black text-foreground mb-4 tracking-tight">Kōdo POS</h3>
               <p className="text-foreground/60 leading-relaxed mb-8 font-medium text-sm">
@@ -90,9 +104,13 @@ export default function Services() {
             <div className="absolute -inset-x-20 -top-20 h-40 bg-accent/20 blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
             
             <div className="relative z-10 flex flex-col h-full">
-              <div className="w-16 h-16 rounded-2xl bg-foreground/5 border border-foreground/10 flex items-center justify-center mb-8 group-hover:scale-110 group-hover:bg-accent/10 transition-all duration-500 shrink-0">
+              <motion.div
+                animate={{ y: [0, -5, 0] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                className="w-16 h-16 rounded-2xl bg-foreground/5 border border-foreground/10 flex items-center justify-center mb-8 group-hover:scale-110 group-hover:bg-accent/10 transition-all duration-500 shrink-0"
+              >
                 <CalendarDays size={32} className="text-foreground group-hover:text-accent transition-colors duration-500" />
-              </div>
+              </motion.div>
               
               <div className="flex items-center justify-between gap-3 mb-4">
                 <h3 className="text-2xl font-black text-foreground tracking-tight">Kōdo Bookings</h3>
@@ -125,9 +143,13 @@ export default function Services() {
             <div className="absolute -inset-x-20 -top-20 h-40 bg-accent/20 blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
             
             <div className="relative z-10 flex flex-col h-full">
-              <div className="w-16 h-16 rounded-2xl bg-foreground/5 border border-foreground/10 flex items-center justify-center mb-8 group-hover:scale-110 group-hover:bg-accent/10 transition-all duration-500 shrink-0">
+              <motion.div
+                animate={{ y: [0, -5, 0] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+                className="w-16 h-16 rounded-2xl bg-foreground/5 border border-foreground/10 flex items-center justify-center mb-8 group-hover:scale-110 group-hover:bg-accent/10 transition-all duration-500 shrink-0"
+              >
                 <Code2 size={32} className="text-foreground group-hover:text-accent transition-colors duration-500" />
-              </div>
+              </motion.div>
               
               <h3 className="text-2xl font-black text-foreground mb-4 tracking-tight">Kōdo Web</h3>
               <p className="text-foreground/60 leading-relaxed mb-8 font-medium text-sm">
