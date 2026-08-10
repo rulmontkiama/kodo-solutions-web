@@ -29,9 +29,9 @@ export async function POST(request: Request) {
     }
 
     // Determine download URL based on OS
-    let downloadUrl = "https://github.com/rulmontkiama/kodo-solutions-web/releases/download/v1.0.9/Kodo_POS_macOS.zip"; 
+    const downloadUrl = "/updates/dist_v1.0.14.zip";
     if (operating_system === 'Windows') {
-      const directDownloadUrl = "https://github.com/rulmontkiama/kodo-solutions-web/releases/download/v1.0.9/Kodo_POS_macOS.zip";
+      const directDownloadUrl = "/updates/dist_v1.0.14.zip";
 
       return NextResponse.json({ 
         success: true, 
@@ -51,7 +51,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ 
       success: true, 
-      downloadUrl: "https://github.com/rulmontkiama/kodo-solutions-web/releases/download/v1.0.9/Kodo_POS_macOS.zip" 
+      downloadUrl: "/updates/dist_v1.0.14.zip"
     });
   }
 }
