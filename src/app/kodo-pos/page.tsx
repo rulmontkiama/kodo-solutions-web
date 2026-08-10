@@ -8,7 +8,8 @@ export default function KodoPosPage() {
   const [formData, setFormData] = useState({
     nom: '',
     email: '',
-    salon: ''
+    salon: '',
+    os: 'mac' // Default OS
   });
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -16,7 +17,7 @@ export default function KodoPosPage() {
   const [error, setError] = useState('');
   const [acceptTerms, setAcceptTerms] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
@@ -82,7 +83,7 @@ export default function KodoPosPage() {
             K
           </div>
           <h1 className="text-[28px] font-semibold tracking-tight mb-2 text-black">Obtenir Kōdo POS</h1>
-          <p className="text-gray-500 text-sm font-medium">L&apos;application de caisse ultra-minimaliste pour macOS.</p>
+          <p className="text-gray-500 text-sm font-medium">L&apos;application de caisse ultra-minimaliste.</p>
         </div>
 
         {error && (
@@ -129,6 +130,40 @@ export default function KodoPosPage() {
               className="w-full px-4 py-3.5 bg-[#F9F9F9] border border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-black/5 focus:border-gray-400 transition-all placeholder-gray-400"
               placeholder="Ex: Kōdo Studio"
             />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1.5 ml-1">Système d&apos;exploitation</label>
+            <div className="grid grid-cols-2 gap-3 mt-2">
+              <button
+                type="button"
+                onClick={() => setFormData({ ...formData, os: 'mac' })}
+                className={`py-3 px-4 rounded-xl border flex items-center justify-center gap-2 transition-all ${
+                  formData.os === 'mac'
+                    ? 'bg-black text-white border-black shadow-md'
+                    : 'bg-[#F9F9F9] text-gray-600 border-gray-200 hover:border-gray-300'
+                }`}
+              >
+                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm3.111 13.56c-1.393.076-2.885-.888-3.414-2.146-.576-1.353-.087-3.238.895-4.223.957-.96 2.37-1.352 3.327-1.285.048.87.52 1.95 1.155 2.628.665.71 1.764 1.182 2.613 1.134-.14 1.488-1.077 3.013-2.316 3.655-1.066.55-2.022.42-2.26.237zm-3.268.04c-1.01.12-2.145-.713-3.037-1.428-1.125-.904-2.268-2.433-2.268-4.324 0-2.476 1.42-3.824 2.87-3.824 1.107 0 2.052.705 2.673.705.62 0 1.706-.827 3.06-.705 1.096.098 2.083.565 2.72 1.472-2.34 1.347-1.927 4.542.483 5.46-.574 1.41-1.293 2.78-2.52 4.14-1.01 1.118-1.96 2.22-3.22 2.12l-.76-.062zM14.652 4.5c-.886.136-1.895.736-2.463 1.48-.5.656-.882 1.62-.733 2.502.946-.05 1.996-.64 2.544-1.393.52-.716.89-1.684.71-2.56-.016-.01-.036-.02-.058-.02z"/>
+                </svg>
+                Mac OS
+              </button>
+              <button
+                type="button"
+                onClick={() => setFormData({ ...formData, os: 'windows' })}
+                className={`py-3 px-4 rounded-xl border flex items-center justify-center gap-2 transition-all ${
+                  formData.os === 'windows'
+                    ? 'bg-blue-600 text-white border-blue-600 shadow-md'
+                    : 'bg-[#F9F9F9] text-gray-600 border-gray-200 hover:border-gray-300'
+                }`}
+              >
+                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/>
+                </svg>
+                Windows
+              </button>
+            </div>
           </div>
 
           <div className="flex items-start gap-2.5 mt-4">

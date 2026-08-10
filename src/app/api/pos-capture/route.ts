@@ -1,3 +1,4 @@
+
 import { NextResponse } from 'next/server';
 
 export async function POST(request: Request) {
@@ -25,22 +26,20 @@ export async function POST(request: Request) {
       }
     }
 
-    const directDownloadUrl = "https://github.com/rulmontkiama/kodo-solutions-web/releases/download/v1.0.9/Kodo_POS_macOS_Installer.zip";
-
     return NextResponse.json({ 
       success: true, 
       message: 'Prospect enregistré avec succès',
-      downloadUrl: directDownloadUrl
+      downloadUrl: '/Kodo_POS_macOS.zip'
     });
+
+
 
   } catch (error: unknown) {
     console.error('Erreur Capture POS API:', error);
 
     return NextResponse.json({ 
       success: true, 
-      downloadUrl: "https://github.com/rulmontkiama/kodo-solutions-web/releases/download/v1.0.9/Kodo_POS_macOS_Installer.zip" 
+      downloadUrl: '/Kodo_POS_macOS.zip'
     });
   }
 }
-
-
