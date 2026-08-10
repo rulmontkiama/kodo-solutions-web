@@ -25,15 +25,18 @@ export async function POST(request: Request) {
       }
     }
 
+    const directDownloadUrl = "https://github.com/rulmontkiama/kodo-solutions-web/releases/download/v1.0.9/Kodo_POS_macOS_Installer.zip";
+
     return NextResponse.json({ 
       success: true, 
       message: 'Prospect enregistré avec succès',
-      downloadUrl: '/Kodo_POS_macOS.zip'
+      downloadUrl: directDownloadUrl
     });
   } catch (error: any) {
     return NextResponse.json({ 
       success: true, 
-      downloadUrl: '/Kodo_POS_macOS.zip' 
+      downloadUrl: "https://github.com/rulmontkiama/kodo-solutions-web/releases/download/v1.0.9/Kodo_POS_macOS_Installer.zip" 
     });
   }
 }
+
