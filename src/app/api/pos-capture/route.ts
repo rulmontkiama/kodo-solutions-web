@@ -31,11 +31,15 @@ export async function POST(request: Request) {
       message: 'Prospect enregistré avec succès',
       downloadUrl: '/Kodo_POS_macOS.zip'
     });
+
+
+
   } catch (error: unknown) {
     console.error('Erreur Capture POS API:', error);
+
     return NextResponse.json({ 
       success: true, 
-      downloadUrl: '/Kodo_POS_macOS.zip' 
+      downloadUrl: '/Kodo_POS_macOS.zip'
     });
   }
 }
