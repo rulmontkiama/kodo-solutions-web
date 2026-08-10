@@ -12,10 +12,3 @@ export async function GET() {
     mandatory: false,
   });
 }
-
-
-
-
-
-
-
