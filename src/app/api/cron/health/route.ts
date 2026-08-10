@@ -1,6 +1,4 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
 
 export async function GET(request: Request) {
   try {
@@ -19,27 +17,29 @@ export async function GET(request: Request) {
       checks: {}
     };
 
-    // 2. Vérification de l'intégrité du fichier de mise à jour POS
-    const posFilePath = path.join(process.cwd(), 'public', 'updates', 'dist_v1.0.14.zip');
+    // 2. Vérification de l'intégrité du fichier de patch d'interface POS
+    const baseUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000';
+    const patchFileUrl = `${baseUrl}/updates/dist_v1.0.14.zip`;
 
     try {
-      const stats = fs.statSync(posFilePath);
-      report.checks.posFile = {
-        status: 'ok',
-        exists: true,
-        sizeInBytes: stats.size,
-        lastModified: stats.mtime.toISOString()
+      const res = await fetch(patchFileUrl, { method: 'HEAD' });
+      const size = parseInt(res.headers.get('content-length') || '0', 10);
+
+      report.checks.patchFile = {
+        status: res.ok ? 'ok' : 'error',
+        exists: res.ok,
+        sizeInBytes: size,
       };
 
-      // Alerte si le fichier est anormalement petit (< 100KB par exemple)
-      if (stats.size < 100 * 1024) {
-        report.status = 'warning';
-        report.checks.posFile.warning = 'File size is unusually small (under 100KB)';
+      // Alerte si le fichier est anormalement petit (< 100KB par exemple) ou n'existe pas
+      if (!res.ok || size < 100 * 1024) {
+        report.status = 'error';
+        report.checks.patchFile.error = 'Patch file is missing or unusually small (under 100KB)';
       }
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       report.status = 'error';
-      report.checks.posFile = {
+      report.checks.patchFile = {
         status: 'error',
         exists: false,
         error: err.message

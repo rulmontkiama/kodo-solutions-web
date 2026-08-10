@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Apple, Monitor, ChevronRight, CheckCircle2, ShieldCheck, Download, Loader2 } from 'lucide-react';
+import { Monitor, ChevronRight, CheckCircle2, ShieldCheck, Download, Loader2 } from 'lucide-react';
 
 type OS = 'macOS' | 'Windows';
 
@@ -26,7 +26,7 @@ export default function KodoPosPage() {
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setOs('Windows');
     } else if (userAgent.includes('mac')) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
+
       setOs('macOS');
     }
   }, []);
@@ -81,7 +81,7 @@ export default function KodoPosPage() {
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ delay: 0.2, type: 'spring' }}
-            className="inline-flex items-center justify-center w-16 h-16 rounded-2xl glass mb-6 shadow-2xl shadow-[var(--accent-glow)]"
+            className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-surface-variant/50 backdrop-blur-[24px] border border-outline mb-6 shadow-2xl shadow-[var(--accent-glow)]"
           >
             <span className="font-['Outfit'] font-black text-3xl bg-clip-text text-transparent bg-gradient-to-br from-foreground to-foreground/60">K</span>
           </motion.div>
@@ -98,7 +98,7 @@ export default function KodoPosPage() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="glass p-8 rounded-[2rem] shadow-2xl relative overflow-hidden"
+              className="bg-surface-variant/50 backdrop-blur-[24px] border border-outline p-8 rounded-[2rem] shadow-2xl relative overflow-hidden"
             >
               {/* Internal subtle glow */}
               <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-[var(--accent)] to-transparent opacity-50" />
@@ -110,7 +110,7 @@ export default function KodoPosPage() {
                   onClick={() => setOs('macOS')}
                   className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-semibold transition-all ${os === 'macOS' ? 'bg-foreground text-background shadow-lg' : 'text-foreground/50 hover:text-foreground hover:bg-foreground/5'}`}
                 >
-                  <Apple size={18} className={os === 'macOS' ? 'fill-background' : ''} /> macOS
+                  <span className="text-lg leading-none"></span> macOS
                 </button>
                 <button
                   type="button"
@@ -169,7 +169,7 @@ export default function KodoPosPage() {
               key="success"
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="glass p-10 rounded-[2.5rem] shadow-2xl text-center relative overflow-hidden"
+              className="bg-surface-variant/50 backdrop-blur-[24px] border border-outline p-10 rounded-[2.5rem] shadow-2xl text-center relative overflow-hidden"
             >
               <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-emerald-500/50 to-transparent opacity-50" />
 
