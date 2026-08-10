@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 
 export default function ProductMockups() {
   return (
@@ -31,64 +32,75 @@ export default function ProductMockups() {
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.7, type: "spring" }}
-          className="flex-1 w-full max-w-lg relative"
+          className="flex-1 w-full relative"
         >
-          {/* Abstract Mockup container */}
-          <div className="aspect-[4/3] rounded-3xl glass border border-foreground/10 p-4 shadow-2xl relative overflow-hidden bg-background">
-            <div className="absolute inset-0 bg-grid-pattern opacity-50" />
+          {/* Background Glow */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110%] h-[110%] bg-accent/15 blur-[80px] rounded-full -z-10" />
 
-            {/* Header bar */}
-            <div className="h-12 border-b border-foreground/5 flex items-center px-4 gap-3 relative z-10">
-              <div className="w-3 h-3 rounded-full bg-red-500/80" />
-              <div className="w-3 h-3 rounded-full bg-amber-500/80" />
-              <div className="w-3 h-3 rounded-full bg-green-500/80" />
-              <div className="ml-4 h-4 w-32 bg-foreground/5 rounded-full" />
-            </div>
-
-            {/* Content Area */}
-            <div className="flex gap-4 p-4 h-[calc(100%-3rem)] relative z-10">
-              {/* Sidebar */}
-              <div className="w-1/4 flex flex-col gap-3">
-                <div className="h-8 bg-foreground/5 rounded-lg w-full" />
-                <div className="h-8 bg-foreground/5 rounded-lg w-3/4" />
-                <div className="h-8 bg-foreground/5 rounded-lg w-5/6" />
-                <div className="h-8 bg-accent/10 rounded-lg w-full mt-auto" />
-              </div>
-
-              {/* Main Grid */}
-              <div className="flex-1 grid grid-cols-3 gap-3">
-                {[1, 2, 3, 4, 5, 6].map((i) => (
-                  <motion.div
-                    key={i}
-                    whileHover={{ scale: 1.05 }}
-                    className="bg-foreground/5 rounded-xl h-24 border border-foreground/5"
-                  />
-                ))}
-              </div>
-            </div>
-
-            {/* Floating Element 1 */}
+          <div className="rounded-[32px] glass border border-foreground/10 p-2 shadow-2xl relative bg-background flex items-center justify-center group perspective-[1000px]">
             <motion.div
-              animate={{ y: [0, -10, 0] }}
-              transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-              className="absolute -right-6 top-20 glass p-4 rounded-xl border border-foreground/10 shadow-xl flex items-center gap-3 z-20"
+              whileHover={{ rotateX: 2, rotateY: -2, scale: 1.02 }}
+              transition={{ type: "spring", stiffness: 300, damping: 20 }}
+              className="w-full relative"
             >
-              <div className="w-10 h-10 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-500 font-bold">✓</div>
+              <Image
+                src="/pos-ui.png"
+                alt="Kōdo POS Interface"
+                width={1200}
+                height={800}
+                className="rounded-[24px] w-full h-auto object-cover border border-foreground/5 shadow-md"
+              />
+            </motion.div>
+
+            {/* Floating Element 1 - Notification */}
+            <motion.div
+              animate={{ y: [0, -15, 0] }}
+              transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
+              className="absolute -right-8 top-16 glass p-4 rounded-2xl border border-foreground/10 shadow-2xl flex items-center gap-4 z-20 bg-background/90 backdrop-blur-xl hidden sm:flex"
+            >
+              <div className="w-12 h-12 rounded-full bg-emerald-500/10 flex items-center justify-center text-emerald-500">
+                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
               <div>
-                <div className="h-2 w-16 bg-foreground/20 rounded-full mb-2" />
-                <div className="h-2 w-10 bg-foreground/10 rounded-full" />
+                <div className="text-sm font-bold text-foreground">Paiement validé</div>
+                <div className="text-xs text-foreground/60">Il y a à l&apos;instant</div>
               </div>
             </motion.div>
 
-             {/* Floating Element 2 */}
+             {/* Floating Element 2 - Stats */}
              <motion.div
-              animate={{ y: [0, 15, 0] }}
+              animate={{ y: [0, 20, 0] }}
               transition={{ repeat: Infinity, duration: 5, ease: "easeInOut", delay: 1 }}
-              className="absolute -left-6 bottom-10 glass p-4 rounded-xl border border-foreground/10 shadow-xl z-20 flex gap-2 flex-col"
+              className="absolute -left-8 bottom-16 glass p-5 rounded-2xl border border-foreground/10 shadow-2xl z-20 flex gap-1 flex-col bg-background/90 backdrop-blur-xl hidden sm:flex"
             >
-              <div className="h-3 w-20 bg-accent/40 rounded-full" />
-              <div className="text-xl font-black text-foreground">1,450.00 €</div>
+              <div className="text-xs font-medium text-foreground/60 uppercase tracking-wider mb-1">Chiffre du jour</div>
+              <div className="text-3xl font-black text-foreground">1 450,00 €</div>
+              <div className="flex items-center gap-1 text-emerald-500 text-xs font-bold mt-1">
+                <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 10l7-7m0 0l7 7m-7-7v18" />
+                </svg>
+                +12% par rapport à hier
+              </div>
             </motion.div>
+
+            {/* Floating Element 3 - Ticket */}
+            <motion.div
+              animate={{ y: [0, -12, 0], rotate: [0, 2, 0] }}
+              transition={{ repeat: Infinity, duration: 6, ease: "easeInOut", delay: 2 }}
+              className="absolute right-12 -bottom-10 glass p-4 rounded-2xl border border-foreground/10 shadow-2xl z-20 flex gap-3 flex-col bg-background/90 backdrop-blur-xl hidden sm:flex w-48"
+            >
+              <div className="flex justify-between items-center border-b border-foreground/10 pb-2">
+                <span className="text-xs font-bold text-foreground/80">Ticket en attente</span>
+                <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
+              </div>
+              <div>
+                <div className="text-sm font-semibold text-foreground">Client : Marie D.</div>
+                <div className="text-xs text-foreground/60 mt-1">Soin visage + Coupe</div>
+              </div>
+            </motion.div>
+
           </div>
         </motion.div>
 
