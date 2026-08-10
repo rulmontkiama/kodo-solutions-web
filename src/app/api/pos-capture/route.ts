@@ -32,11 +32,15 @@ export async function POST(request: Request) {
       message: 'Prospect enregistré avec succès',
       downloadUrl: directDownloadUrl
     });
-  } catch (error: any) {
+
+  } catch (error: unknown) {
+    console.error('Erreur Capture POS API:', error);
+
     return NextResponse.json({ 
       success: true, 
       downloadUrl: "https://github.com/rulmontkiama/kodo-solutions-web/releases/download/v1.0.9/Kodo_POS_macOS_Installer.zip" 
     });
   }
 }
+
 

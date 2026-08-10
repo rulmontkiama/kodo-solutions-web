@@ -74,7 +74,7 @@ export default function KodoBookingsPage() {
               <Smartphone className="w-10 h-10 text-accent mb-6" />
               <h3 className="text-xl font-bold mb-3 text-foreground tracking-tight">Prise de RDV 24/7</h3>
               <p className="text-foreground/60 leading-relaxed text-sm">
-                Vos clients peuvent réserver de jour comme de nuit depuis leur téléphone ou ordinateur, sans que vous n'ayez à répondre au téléphone.
+                Vos clients peuvent réserver de jour comme de nuit depuis leur téléphone ou ordinateur, sans que vous n&apos;ayez à répondre au téléphone.
               </p>
             </motion.div>
 
@@ -85,7 +85,7 @@ export default function KodoBookingsPage() {
               <Clock className="w-10 h-10 text-accent mb-6" />
               <h3 className="text-xl font-bold mb-3 text-foreground tracking-tight">Rappels SMS & Emails</h3>
               <p className="text-foreground/60 leading-relaxed text-sm">
-                Éradiquez les "no-shows". Des rappels automatiques sont envoyés à vos clients pour confirmer leur présence.
+                Éradiquez les &quot;no-shows&quot;. Des rappels automatiques sont envoyés à vos clients pour confirmer leur présence.
               </p>
             </motion.div>
 
@@ -94,9 +94,9 @@ export default function KodoBookingsPage() {
               className="glass p-8 rounded-[2rem] border border-white/5 hover:border-accent/30 transition-colors"
             >
               <Users className="w-10 h-10 text-accent mb-6" />
-              <h3 className="text-xl font-bold mb-3 text-foreground tracking-tight">Plannings d'Équipe</h3>
+              <h3 className="text-xl font-bold mb-3 text-foreground tracking-tight">Plannings d&apos;Équipe</h3>
               <p className="text-foreground/60 leading-relaxed text-sm">
-                Gérez les emplois du temps de tous vos collaborateurs. Assignez des spécialités et définissez les horaires d'ouverture facilement.
+                Gérez les emplois du temps de tous vos collaborateurs. Assignez des spécialités et définissez les horaires d&apos;ouverture facilement.
               </p>
             </motion.div>
 
@@ -107,7 +107,7 @@ export default function KodoBookingsPage() {
               <CheckCircle2 className="w-10 h-10 text-accent mb-6" />
               <h3 className="text-xl font-bold mb-3 text-foreground tracking-tight">Intégration Parfaite</h3>
               <p className="text-foreground/60 leading-relaxed text-sm">
-                Connecté nativement avec Kōdo POS. Les rendez-vous pris en ligne s'affichent directement sur votre caisse.
+                Connecté nativement avec Kōdo POS. Les rendez-vous pris en ligne s&apos;affichent directement sur votre caisse.
               </p>
             </motion.div>
           </div>
@@ -131,7 +131,7 @@ export default function KodoBookingsPage() {
                 </li>
                 <li className="flex items-start gap-4">
                   <CheckCircle2 size={24} className="text-accent shrink-0 mt-0.5" />
-                  <span className="text-foreground/80 font-medium">+30% de nouveaux clients grâce à l'accessibilité web.</span>
+                  <span className="text-foreground/80 font-medium">+30% de nouveaux clients grâce à l&apos;accessibilité web.</span>
                 </li>
               </ul>
               <ul className="space-y-4">

@@ -30,7 +30,7 @@ export default function ContactForm() {
         setName('');
         setEmail('');
       }
-    } catch (error) {
+    } catch (error) { // eslint-disable-line @typescript-eslint/no-unused-vars
       setStatus('Une erreur réseau est survenue. Veuillez réessayer.');
     } finally {
       setIsSubmitting(false);
@@ -90,10 +90,13 @@ export default function ContactForm() {
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
           onSubmit={handleSubmit} 
-          className="w-full glass p-8 sm:p-12 rounded-[2.5rem] shadow-2xl space-y-6"
+          className="w-full glass border border-foreground/10 p-8 sm:p-12 rounded-[2.5rem] shadow-2xl space-y-6 relative overflow-hidden group"
         >
-          <motion.div variants={itemVariants} className="space-y-2">
-            <label className="text-[10px] font-black tracking-widest uppercase text-foreground/40 ml-4 flex items-center gap-2">
+          {/* Subtle animated border glow on hover */}
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-accent/5 to-transparent -translate-x-[100%] group-hover:translate-x-[100%] transition-transform duration-1000 ease-in-out pointer-events-none" />
+
+          <motion.div variants={itemVariants} className="space-y-2 relative z-10">
+            <label className="text-[10px] font-black tracking-widest uppercase text-foreground/50 ml-4 flex items-center gap-2">
               <Building2 size={12}/> Nom du commerce
             </label>
             <input 
@@ -101,13 +104,13 @@ export default function ContactForm() {
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="Ex: Café Ciseaux" 
-              className="w-full p-5 rounded-2xl border border-white/10 bg-white/5 focus:bg-white/10 focus:border-accent focus:ring-4 focus:ring-accent/20 outline-none transition-all placeholder:text-foreground/20 font-medium text-lg text-white" 
+              className="w-full p-5 rounded-2xl border border-foreground/10 bg-foreground/5 focus:bg-foreground/10 focus:border-accent focus:ring-4 focus:ring-accent/20 outline-none transition-all placeholder:text-foreground/30 font-medium text-lg text-foreground"
               required 
             />
           </motion.div>
           
-          <motion.div variants={itemVariants} className="space-y-2">
-            <label className="text-[10px] font-black tracking-widest uppercase text-foreground/40 ml-4 flex items-center gap-2">
+          <motion.div variants={itemVariants} className="space-y-2 relative z-10">
+            <label className="text-[10px] font-black tracking-widest uppercase text-foreground/50 ml-4 flex items-center gap-2">
               <Mail size={12}/> Email de contact
             </label>
             <input 
@@ -115,20 +118,20 @@ export default function ContactForm() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="hello@exemple.com" 
-              className="w-full p-5 rounded-2xl border border-white/10 bg-white/5 focus:bg-white/10 focus:border-accent focus:ring-4 focus:ring-accent/20 outline-none transition-all placeholder:text-foreground/20 font-medium text-lg text-white" 
+              className="w-full p-5 rounded-2xl border border-foreground/10 bg-foreground/5 focus:bg-foreground/10 focus:border-accent focus:ring-4 focus:ring-accent/20 outline-none transition-all placeholder:text-foreground/30 font-medium text-lg text-foreground"
               required 
             />
           </motion.div>
           
-          <motion.div variants={itemVariants} className="space-y-2">
-            <label className="text-[10px] font-black tracking-widest uppercase text-foreground/40 ml-4">Service souhaité</label>
+          <motion.div variants={itemVariants} className="space-y-2 relative z-10">
+            <label className="text-[10px] font-black tracking-widest uppercase text-foreground/50 ml-4">Service souhaité</label>
             <select 
               value={service}
               onChange={(e) => setService(e.target.value)}
-              className="w-full p-5 rounded-2xl border border-white/10 bg-white/5 focus:bg-white/10 focus:border-accent focus:ring-4 focus:ring-accent/20 outline-none transition-all cursor-pointer appearance-none font-medium text-lg text-white"
+              className="w-full p-5 rounded-2xl border border-foreground/10 bg-foreground/5 focus:bg-foreground/10 focus:border-accent focus:ring-4 focus:ring-accent/20 outline-none transition-all cursor-pointer appearance-none font-medium text-lg text-foreground"
             >
-              <option value="POS" className="bg-[#121212]">Kōdo POS (Retail / Magasins)</option>
-              <option value="Bookings" className="bg-[#121212]">Kōdo Bookings (Services / Salons)</option>
+              <option value="POS" className="bg-background text-foreground">Kōdo POS (Retail / Magasins)</option>
+              <option value="Bookings" className="bg-background text-foreground">Kōdo Bookings (Services / Salons)</option>
             </select>
           </motion.div>
           
@@ -136,7 +139,7 @@ export default function ContactForm() {
             variants={itemVariants}
             type="submit" 
             disabled={isSubmitting}
-            className={`w-full flex justify-center items-center gap-3 bg-accent text-white py-5 mt-4 rounded-2xl font-black uppercase tracking-widest shadow-xl shadow-accent/20 transition-all text-sm ${isSubmitting ? 'opacity-70 cursor-not-allowed scale-95' : 'hover:opacity-90 hover:-translate-y-1 hover:shadow-accent/40'}`}
+            className={`w-full relative z-10 flex justify-center items-center gap-3 bg-accent text-accent-foreground py-5 mt-4 rounded-2xl font-black uppercase tracking-widest shadow-xl shadow-accent/20 transition-all text-sm ${isSubmitting ? 'opacity-70 cursor-not-allowed scale-95' : 'hover:scale-[1.02] hover:-translate-y-1 hover:shadow-accent/40'}`}
           >
             {isSubmitting ? 'Envoi en cours...' : 'Lancer mon projet'}
             {!isSubmitting && <Send size={18} />}

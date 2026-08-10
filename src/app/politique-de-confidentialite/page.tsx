@@ -6,7 +6,7 @@ export default function PolitiquePage() {
       <div className="max-w-3xl mx-auto bg-white border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.02)] rounded-[32px] p-12">
         <header className="mb-10 border-b border-gray-100 pb-8">
           <Link href="/kodo-pos" className="text-sm font-semibold text-gray-400 hover:text-black transition-colors flex items-center gap-1 mb-4">
-            ← Retour à l'obtention de Kōdo POS
+            ← Retour à l&apos;obtention de Kōdo POS
           </Link>
           <h1 className="text-3xl font-bold tracking-tight text-black mb-2">Politique de Confidentialité</h1>
           <p className="text-gray-400 text-sm">Dernière mise à jour : 18 juillet 2026</p>
@@ -16,7 +16,7 @@ export default function PolitiquePage() {
           <section>
             <h2 className="text-lg font-bold text-black mb-3">1. Introduction</h2>
             <p>
-              Chez **Kōdo Solutions**, nous accordons une importance primordiale à la protection de vos données personnelles. La présente politique décrit comment nous collectons, utilisons, conservons et protégeons vos informations lors du téléchargement et de l'utilisation de notre application de caisse **Kōdo POS**.
+              Chez **Kōdo Solutions**, nous accordons une importance primordiale à la protection de vos données personnelles. La présente politique décrit comment nous collectons, utilisons, conservons et protégeons vos informations lors du téléchargement et de l&apos;utilisation de notre application de caisse **Kōdo POS**.
             </p>
           </section>
 
@@ -27,7 +27,7 @@ export default function PolitiquePage() {
             </p>
             <ul className="list-disc pl-5 mt-2 space-y-1.5">
               <li><strong>Données de lead/téléchargement</strong> : Votre nom, adresse email professionnelle et le nom de votre établissement commercial.</li>
-              <li><strong>Données de synchronisation cloud (si activée)</strong> : Les données transactionnelles (tickets, ventes de produits, clôtures Z, signatures d'intégrité) synchronisées de manière sécurisée vers votre espace Cloud personnel hébergé sur Firebase Firestore.</li>
+              <li><strong>Données de synchronisation cloud (si activée)</strong> : Les données transactionnelles (tickets, ventes de produits, clôtures Z, signatures d&apos;intégrité) synchronisées de manière sécurisée vers votre espace Cloud personnel hébergé sur Firebase Firestore.</li>
             </ul>
           </section>
 
@@ -37,9 +37,9 @@ export default function PolitiquePage() {
               Vos données sont traitées pour :
             </p>
             <ul className="list-disc pl-5 mt-2 space-y-1.5">
-              <li>Permettre le téléchargement et l'activation de votre licence Kōdo POS.</li>
+              <li>Permettre le téléchargement et l&apos;activation de votre licence Kōdo POS.</li>
               <li>Assurer la synchronisation en temps réel de votre point de vente pour éviter la perte de données en cas de panne matérielle.</li>
-              <li>Garantir la conformité comptable et la génération légale des rapports d'audit (Audit Trail).</li>
+              <li>Garantir la conformité comptable et la génération légale des rapports d&apos;audit (Audit Trail).</li>
             </ul>
           </section>
 
@@ -60,14 +60,14 @@ export default function PolitiquePage() {
           <section>
             <h2 className="text-lg font-bold text-black mb-3">6. Sécurité du Hachage et Protection</h2>
             <p>
-              L'accès à l'application Kōdo POS est sécurisé par un code PIN. Vos codes PIN sont hachés de manière irréversible (SHA-256 avec grain de sel) localement dans la base de données SQLite. Les connexions réseau pour les synchronisations Shopify et Cloud utilisent des protocoles HTTPS chiffrés et sécurisés de bout en bout.
+              L&apos;accès à l&apos;application Kōdo POS est sécurisé par un code PIN. Vos codes PIN sont hachés de manière irréversible (SHA-256 avec grain de sel) localement dans la base de données SQLite. Les connexions réseau pour les synchronisations Shopify et Cloud utilisent des protocoles HTTPS chiffrés et sécurisés de bout en bout.
             </p>
           </section>
 
           <section>
             <h2 className="text-lg font-bold text-black mb-3">7. Vos Droits (RGPD)</h2>
             <p>
-              Conformément à la réglementation européenne sur la protection des données (RGPD), vous disposez d'un droit d'accès, de rectification, de portabilité, de limitation et d'effacement de vos données personnelles. Pour exercer ces droits, vous pouvez nous contacter à l'adresse email : <strong>privacy@kodo-solutions.be</strong>.
+              Conformément à la réglementation européenne sur la protection des données (RGPD), vous disposez d&apos;un droit d&apos;accès, de rectification, de portabilité, de limitation et d&apos;effacement de vos données personnelles. Pour exercer ces droits, vous pouvez nous contacter à l&apos;adresse email : <strong>privacy@kodo-solutions.be</strong>.
             </p>
           </section>
         </main>

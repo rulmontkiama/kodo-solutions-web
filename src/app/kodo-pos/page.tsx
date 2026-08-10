@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 'use client';
 
 import { useState } from 'react';
@@ -39,7 +41,7 @@ export default function KodoPosPage() {
       setDownloadUrl(data.downloadUrl);
       setSuccess(true);
     } catch (err: any) {
-      setError(err.message);
+      setError((err as Error).message);
     } finally {
       setLoading(false);
     }
@@ -52,9 +54,9 @@ export default function KodoPosPage() {
           <div className="w-20 h-20 bg-[#F9F9F9] rounded-full mx-auto mb-6 flex items-center justify-center text-4xl">
             ✨
           </div>
-          <h1 className="text-[28px] font-semibold tracking-tight mb-3 text-black">C'est prêt !</h1>
+          <h1 className="text-[28px] font-semibold tracking-tight mb-3 text-black">C&apos;est prêt !</h1>
           <p className="text-gray-500 font-medium mb-8">
-            Bienvenue dans Kōdo POS. Vous pouvez télécharger l'application macOS ci-dessous.
+            Bienvenue dans Kōdo POS. Vous pouvez télécharger l&apos;application macOS ci-dessous.
           </p>
           <a
             href={downloadUrl}
@@ -80,7 +82,7 @@ export default function KodoPosPage() {
             K
           </div>
           <h1 className="text-[28px] font-semibold tracking-tight mb-2 text-black">Obtenir Kōdo POS</h1>
-          <p className="text-gray-500 text-sm font-medium">L'application de caisse ultra-minimaliste pour macOS.</p>
+          <p className="text-gray-500 text-sm font-medium">L&apos;application de caisse ultra-minimaliste pour macOS.</p>
         </div>
 
         {error && (
@@ -117,7 +119,7 @@ export default function KodoPosPage() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1.5 ml-1">Nom de l'Établissement</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1.5 ml-1">Nom de l&apos;Établissement</label>
             <input
               type="text"
               name="salon"
@@ -139,7 +141,7 @@ export default function KodoPosPage() {
               className="mt-1 h-4 w-4 rounded border-gray-300 text-black focus:ring-black cursor-pointer"
             />
             <label htmlFor="acceptTerms" className="text-xs leading-tight text-gray-500 font-medium select-none cursor-pointer">
-              J'accepte les <a href="/cgv" target="_blank" className="underline hover:text-black font-semibold">Conditions Générales de Vente (CGV)</a> et la <a href="/politique-de-confidentialite" target="_blank" className="underline hover:text-black font-semibold">Politique de Confidentialité</a>.
+              J&apos;accepte les <a href="/cgv" target="_blank" className="underline hover:text-black font-semibold">Conditions Générales de Vente (CGV)</a> et la <a href="/politique-de-confidentialite" target="_blank" className="underline hover:text-black font-semibold">Politique de Confidentialité</a>.
             </label>
           </div>
 

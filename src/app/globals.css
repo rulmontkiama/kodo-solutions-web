@@ -1,22 +1,54 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
-  --color-background: #030303;
-  --color-foreground: #ffffff;
-  --color-primary: #ffffff;
-  --color-primary-dark: #e0e0e0;
-  --color-accent: #FF7F7F;
-  --color-accent-glow: rgba(255, 127, 127, 0.5);
-  --color-surface: #0a0a0a;
-  --color-surface-variant: #121212;
-  --color-outline: #262626;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-dark: var(--primary-dark);
+  --color-accent: var(--accent);
+  --color-accent-glow: var(--accent-glow);
+  --color-surface: var(--surface);
+  --color-surface-variant: var(--surface-variant);
+  --color-outline: var(--outline);
   --font-sans: "Outfit", sans-serif;
 }
 
-:root {
+:root,
+.light {
+  --background: #fafafa;
+  --foreground: #09090b;
+  --primary: #000000;
+  --primary-dark: #333333;
+  --accent: #ef4444;
+  --accent-glow: rgba(239, 68, 68, 0.3);
+  --surface: #ffffff;
+  --surface-variant: #f4f4f5;
+  --outline: #e5e5e5;
+
+  --grid-line-color: rgba(0, 0, 0, 0.03);
+  --glass-bg: rgba(255, 255, 255, 0.6);
+  --glass-border: rgba(0, 0, 0, 0.08);
+  --text-glow-color: rgba(0, 0, 0, 0.1);
+}
+
+.dark {
   --background: #030303;
   --foreground: #ffffff;
+  --primary: #ffffff;
+  --primary-dark: #e0e0e0;
+  --accent: #FF7F7F;
+  --accent-glow: rgba(255, 127, 127, 0.5);
+  --surface: #0a0a0a;
+  --surface-variant: #121212;
+  --outline: #262626;
+
+  --grid-line-color: rgba(255, 255, 255, 0.03);
+  --glass-bg: rgba(255, 255, 255, 0.03);
+  --glass-border: rgba(255, 255, 255, 0.05);
+  --text-glow-color: rgba(255, 255, 255, 0.15);
 }
 
 body {
@@ -29,19 +61,19 @@ body {
 /* Premium Grid Background */
 .bg-grid-pattern {
   background-size: 40px 40px;
-  background-image: linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-                    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-image: linear-gradient(to right, var(--grid-line-color) 1px, transparent 1px),
+                    linear-gradient(to bottom, var(--grid-line-color) 1px, transparent 1px);
 }
 
 /* Glowing text effect */
 .text-glow {
-  text-shadow: 0 0 20px rgba(255, 255, 255, 0.15);
+  text-shadow: 0 0 20px var(--text-glow-color);
 }
 
 /* Glassmorphism */
 .glass {
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
 }

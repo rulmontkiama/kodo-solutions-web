@@ -3,13 +3,12 @@
 import React, { useEffect, useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import { CheckCircle2, Download, Copy, Sparkles, Key, Gift, ArrowRight } from 'lucide-react';
+import { CheckCircle2, Download, Copy, Key, Gift, ArrowRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 function SuccessContent() {
   const searchParams = useSearchParams();
   const sessionId = searchParams.get('session_id');
-  const plan = searchParams.get('plan') || 'Pro';
 
   const [copiedKey, setCopiedKey] = useState(false);
   const [copiedRef, setCopiedRef] = useState(false);
@@ -23,10 +22,13 @@ function SuccessContent() {
     const mockKey = `KODO-${Math.random().toString(36).substring(2, 6).toUpperCase()}-${Math.random().toString(36).substring(2, 6).toUpperCase()}-${Math.random().toString(36).substring(2, 6).toUpperCase()}`;
     const mockRef = `REF-KODO-${Math.floor(1000 + Math.random() * 9000)}`;
 
-    setLicenseData({
-      licenseKey: mockKey,
-      referralCode: mockRef,
-    });
+    const timer = setTimeout(() => {
+      setLicenseData({
+        licenseKey: mockKey,
+        referralCode: mockRef,
+      });
+    }, 0);
+    return () => clearTimeout(timer);
   }, [sessionId]);
 
   const copyToClipboard = (text: string, type: 'key' | 'ref') => {
