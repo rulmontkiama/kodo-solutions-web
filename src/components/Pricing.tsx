@@ -1,40 +1,13 @@
 'use client';
 
-import React, { useState } from 'react';
-import { CheckCircle2, Zap, ArrowRight, ShieldCheck, Gift } from 'lucide-react';
+import React from 'react';
+import { CheckCircle2, Zap, ArrowRight, ShieldCheck } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 export default function Pricing() {
-  const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
-  const [email, setEmail] = useState('');
-  const [referralCode, setReferralCode] = useState('');
-  const [showReferralInput, setShowReferralInput] = useState(false);
 
-  const handleCheckout = async (plan: 'monthly' | 'annual' | 'lifetime') => {
-    setLoadingPlan(plan);
-    try {
-      const res = await fetch('/api/checkout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          plan,
-          email: email.trim() || undefined,
-          referralCode: referralCode.trim() || undefined,
-        }),
-      });
-
-      const data = await res.json();
-      if (data.url) {
-        window.location.href = data.url;
-      } else {
-        alert(data.error || 'Erreur lors de la redirection vers le paiement Stripe');
-      }
-    } catch (err) {
-      console.error(err);
-      alert('Erreur réseau. Veuillez réessayer.');
-    } finally {
-      setLoadingPlan(null);
-    }
+  const handleWaitlist = async () => {
+    window.location.href = '#contact';
   };
 
   return (
@@ -72,33 +45,23 @@ export default function Pricing() {
             Logiciel Caisse Kōdo POS certifié conforme. Mises à jour automatisées, support prioritaire et sauvegarde cloud incluse.
           </p>
 
-          {/* Optional Email & Referral input */}
-          <div className="mt-8 max-w-md mx-auto bg-foreground/5 border border-foreground/10 p-4 rounded-2xl">
-            <input
-              type="email"
-              placeholder="Votre email (pour recevoir votre clé de licence)"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full bg-background border border-foreground/10 rounded-xl px-4 py-3 text-sm text-foreground placeholder-foreground/40 focus:outline-none focus:border-accent transition-colors mb-3"
-            />
-            {!showReferralInput ? (
-              <button
-                onClick={() => setShowReferralInput(true)}
-                className="text-xs text-accent hover:underline font-bold flex items-center gap-1 mx-auto"
-              >
-                <Gift size={12} /> Vous avez un code parrain ou de réduction ?
-              </button>
-            ) : (
-              <input
-                type="text"
-                placeholder="Code Parrain / Promo (ex: REF-DUPONT-1234)"
-                value={referralCode}
-                onChange={(e) => setReferralCode(e.target.value.toUpperCase())}
-                className="w-full bg-background border border-amber-500/30 rounded-xl px-4 py-3 text-sm text-amber-600 dark:text-amber-300 placeholder-amber-500/40 focus:outline-none focus:border-amber-500 transition-colors uppercase font-mono"
-              />
-            )}
-          </div>
         </div>
+
+        {/* Coming Soon Alert */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          className="max-w-xl mx-auto mb-16 p-6 glass rounded-2xl border border-amber-500/30 bg-amber-500/10 text-center relative overflow-hidden"
+        >
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-amber-500/10 to-transparent translate-x-[-100%] animate-[shimmer_2s_infinite]" />
+          <h3 className="font-heading font-black text-amber-500 text-xl mb-2 flex justify-center items-center gap-2">
+            🚧 Module de paiement bientôt disponible
+          </h3>
+          <p className="text-foreground/70 text-sm font-medium">
+            Kōdo POS est actuellement en phase de bêta fermée. Inscrivez-vous sur notre liste d&apos;attente via le formulaire de contact ci-dessous pour sécuriser votre place et vos avantages tarifaires.
+          </p>
+        </motion.div>
 
         {/* Pricing Cards Grid */}
         <motion.div
@@ -139,11 +102,10 @@ export default function Pricing() {
             </div>
 
             <button
-              onClick={() => handleCheckout('monthly')}
-              disabled={loadingPlan === 'monthly'}
+              onClick={handleWaitlist}
               className="w-full bg-foreground/10 hover:bg-foreground/20 text-foreground font-bold py-4 rounded-full transition-all flex items-center justify-center gap-2"
             >
-              {loadingPlan === 'monthly' ? 'Chargement...' : 'Choisir Mensuel'}
+              M&apos;inscrire sur liste d&apos;attente
               <ArrowRight size={16} />
             </button>
           </motion.div>
@@ -186,11 +148,10 @@ export default function Pricing() {
             </div>
 
             <button
-              onClick={() => handleCheckout('annual')}
-              disabled={loadingPlan === 'annual'}
+              onClick={handleWaitlist}
               className="w-full bg-accent text-accent-foreground font-black py-4 rounded-full hover:scale-105 transition-all shadow-xl flex items-center justify-center gap-2"
             >
-              {loadingPlan === 'annual' ? 'Chargement...' : 'Profiter des 2 Mois Offerts'}
+              M&apos;inscrire sur liste d&apos;attente
               <ArrowRight size={16} />
             </button>
           </motion.div>
@@ -222,11 +183,10 @@ export default function Pricing() {
             </div>
 
             <button
-              onClick={() => handleCheckout('lifetime')}
-              disabled={loadingPlan === 'lifetime'}
+              onClick={handleWaitlist}
               className="w-full bg-foreground/10 hover:bg-foreground/20 text-foreground font-bold py-4 rounded-full transition-all flex items-center justify-center gap-2"
             >
-              {loadingPlan === 'lifetime' ? 'Chargement...' : 'Acheter la Licence à Vie'}
+              M&apos;inscrire sur liste d&apos;attente
               <ArrowRight size={16} />
             </button>
           </motion.div>
@@ -235,11 +195,11 @@ export default function Pricing() {
 
         {/* Security badge */}
         <div className="mt-16 flex flex-col sm:flex-row items-center justify-center gap-6 text-xs text-foreground/50 font-medium">
-          <span className="flex items-center gap-2"><ShieldCheck size={16} className="text-emerald-400" /> Paiement 100% Sécurisé via Stripe</span>
+          <span className="flex items-center gap-2"><ShieldCheck size={16} className="text-emerald-400" /> Sécurisation des données garantie</span>
           <span>•</span>
           <span>🔒 Norme NF525 & Conforme Loi de Finance</span>
           <span>•</span>
-          <span>🚀 Activation & Téléchargement Instantané</span>
+          <span>🚀 Déploiement en cours (Q1 2024)</span>
         </div>
 
       </div>

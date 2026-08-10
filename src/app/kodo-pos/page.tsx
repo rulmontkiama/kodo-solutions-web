@@ -1,8 +1,9 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Apple, Monitor, ChevronRight, CheckCircle2, ShieldCheck, Download, Loader2 } from 'lucide-react';
+import { Apple, Monitor, ChevronRight, CheckCircle2, ShieldCheck, Download, Loader2, ArrowLeft } from 'lucide-react';
 
 type OS = 'macOS' | 'Windows';
 
@@ -18,13 +19,16 @@ export default function KodoPosPage() {
   const [success, setSuccess] = useState(false);
   const [downloadUrl, setDownloadUrl] = useState('');
   const [error, setError] = useState('');
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
 
   useEffect(() => {
     // Détection OS
     const userAgent = window.navigator.userAgent.toLowerCase();
     if (userAgent.includes('win')) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setOs('Windows');
     } else if (userAgent.includes('mac')) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setOs('macOS');
     }
   }, []);
@@ -35,6 +39,10 @@ export default function KodoPosPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!acceptedTerms) {
+      setError('Vous devez accepter les conditions générales et la politique de confidentialité.');
+      return;
+    }
     setLoading(true);
     setError('');
 
@@ -53,15 +61,24 @@ export default function KodoPosPage() {
 
       setDownloadUrl(data.downloadUrl);
       setSuccess(true);
-    } catch (err: any) {
+    } catch (err: unknown) {
       setError((err as Error).message);
     } finally {
       setLoading(false);
     }
   };
 
+  const router = useRouter();
+
   return (
-    <div className="min-h-screen bg-[#0B0B0F] text-white flex items-center justify-center p-6 relative overflow-hidden font-['Plus_Jakarta_Sans']">
+    <div className="min-h-screen bg-[#0B0B0F] flex flex-col items-center justify-center p-6 relative overflow-hidden">
+
+      <button
+        onClick={() => router.back()}
+        className="absolute top-8 left-8 z-50 flex items-center gap-2 text-white/50 hover:text-white transition-colors font-semibold tracking-wider text-sm uppercase bg-white/5 hover:bg-white/10 px-4 py-2 rounded-full border border-white/10"
+      >
+        <ArrowLeft size={16} /> Retour
+      </button>
 
       {/* Background glow effects */}
       <div className="absolute top-[-20%] left-[-10%] w-[600px] h-[600px] bg-[#FF7F7F]/10 blur-[150px] rounded-full pointer-events-none" />
@@ -80,9 +97,9 @@ export default function KodoPosPage() {
             transition={{ delay: 0.2, type: 'spring' }}
             className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-white/5 border border-white/10 mb-6 shadow-2xl shadow-[#FF7F7F]/20 backdrop-blur-md"
           >
-            <span className="font-['Outfit'] font-black text-3xl bg-clip-text text-transparent bg-gradient-to-br from-white to-white/60">K</span>
+            <span className="font-heading font-black text-3xl text-white">KŌDO</span>
           </motion.div>
-          <h1 className="font-['Outfit'] text-4xl md:text-5xl font-black tracking-tight mb-4 bg-clip-text text-transparent bg-gradient-to-b from-white to-white/70">
+          <h1 className="font-heading text-4xl md:text-5xl font-black tracking-tight mb-4 text-white">
             Obtenir Kōdo POS
           </h1>
           <p className="text-white/50 text-lg">Le système de caisse ultra-premium pour les commerçants ambitieux.</p>
@@ -140,10 +157,24 @@ export default function KodoPosPage() {
                   </div>
                 </div>
 
+                <div className="flex items-start gap-3 mt-4">
+                  <input
+                    type="checkbox"
+                    id="kodo_pos_terms"
+                    checked={acceptedTerms}
+                    onChange={(e) => setAcceptedTerms(e.target.checked)}
+                    className="mt-1 w-4 h-4 rounded border-white/20 text-[#FF7F7F] focus:ring-[#FF7F7F]/30 bg-white/5 cursor-pointer"
+                    required
+                  />
+                  <label htmlFor="kodo_pos_terms" className="text-xs text-white/60 leading-tight text-left">
+                    J&apos;accepte la <a href="/politique-de-confidentialite" className="text-[#FF7F7F] hover:underline" target="_blank">Politique de confidentialité</a> et les <a href="/cgv" className="text-[#FF7F7F] hover:underline" target="_blank">Conditions Générales d&apos;Utilisation</a>.
+                  </label>
+                </div>
+
                 <div className="pt-4">
                   <button
                     type="submit"
-                    disabled={loading}
+                    disabled={loading || !acceptedTerms}
                     className="w-full relative group overflow-hidden bg-white text-black font-bold text-lg rounded-xl py-4 transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-70 disabled:hover:scale-100 flex items-center justify-center gap-2"
                   >
                     {/* Button hover glow */}
@@ -174,9 +205,9 @@ export default function KodoPosPage() {
                 <CheckCircle2 size={40} />
               </div>
 
-              <h2 className="font-['Outfit'] text-3xl font-bold mb-4 text-white">Votre téléchargement est prêt.</h2>
+              <h2 className="font-heading text-3xl font-bold mb-4 text-white">Votre téléchargement est prêt.</h2>
               <p className="text-white/60 mb-10 leading-relaxed">
-                Merci de faire confiance à Kōdo POS. Lancez l'installateur ci-dessous pour démarrer l'expérience.
+                Merci de faire confiance à Kōdo POS. Lancez l&apos;installateur ci-dessous pour démarrer l&apos;expérience.
               </p>
 
               <a
@@ -190,17 +221,17 @@ export default function KodoPosPage() {
 
               <div className="bg-white/5 border border-white/10 rounded-2xl p-6 text-left">
                 <h3 className="font-semibold text-white mb-3 flex items-center gap-2">
-                  <ShieldCheck size={16} className="text-emerald-400" /> Instructions d'installation {os}
+                  <ShieldCheck size={16} className="text-emerald-400" /> Instructions d&apos;installation {os}
                 </h3>
                 {os === 'macOS' ? (
                   <ul className="space-y-3 text-sm text-white/60">
-                    <li className="flex gap-2 items-start"><ChevronRight size={16} className="shrink-0 mt-0.5 text-white/30" /> <span>Si un message "Développeur non vérifié" apparaît :</span></li>
-                    <li className="flex gap-2 items-start"><ChevronRight size={16} className="shrink-0 mt-0.5 text-white/30" /> <span>Faites un <strong>clic droit</strong> (ou Ctrl+clic) sur l'application.</span></li>
+                    <li className="flex gap-2 items-start"><ChevronRight size={16} className="shrink-0 mt-0.5 text-white/30" /> <span>Si un message &quot;Développeur non vérifié&quot; apparaît :</span></li>
+                    <li className="flex gap-2 items-start"><ChevronRight size={16} className="shrink-0 mt-0.5 text-white/30" /> <span>Faites un <strong>clic droit</strong> (ou Ctrl+clic) sur l&apos;application.</span></li>
                     <li className="flex gap-2 items-start"><ChevronRight size={16} className="shrink-0 mt-0.5 text-white/30" /> <span>Sélectionnez <strong>Ouvrir</strong> dans le menu contextuel.</span></li>
                   </ul>
                 ) : (
                   <ul className="space-y-3 text-sm text-white/60">
-                    <li className="flex gap-2 items-start"><ChevronRight size={16} className="shrink-0 mt-0.5 text-white/30" /> <span>Si Windows Defender SmartScreen bloque l'app :</span></li>
+                    <li className="flex gap-2 items-start"><ChevronRight size={16} className="shrink-0 mt-0.5 text-white/30" /> <span>Si Windows Defender SmartScreen bloque l&apos;app :</span></li>
                     <li className="flex gap-2 items-start"><ChevronRight size={16} className="shrink-0 mt-0.5 text-white/30" /> <span>Cliquez sur <strong>Informations complémentaires</strong>.</span></li>
                     <li className="flex gap-2 items-start"><ChevronRight size={16} className="shrink-0 mt-0.5 text-white/30" /> <span>Cliquez ensuite sur le bouton <strong>Exécuter quand même</strong>.</span></li>
                   </ul>

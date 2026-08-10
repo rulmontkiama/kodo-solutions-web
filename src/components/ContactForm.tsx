@@ -9,9 +9,14 @@ export default function ContactForm() {
   const [service, setService] = useState('POS');
   const [status, setStatus] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!acceptedTerms) {
+      setStatus('Vous devez accepter les conditions générales et la politique de confidentialité.');
+      return;
+    }
     setIsSubmitting(true);
     
     try {
@@ -134,11 +139,25 @@ export default function ContactForm() {
               <option value="Bookings" className="bg-background text-foreground">Kōdo Bookings (Services / Salons)</option>
             </select>
           </motion.div>
+
+          <motion.div variants={itemVariants} className="flex items-start gap-3 relative z-10 mt-6">
+            <input
+              type="checkbox"
+              id="contact_terms"
+              checked={acceptedTerms}
+              onChange={(e) => setAcceptedTerms(e.target.checked)}
+              className="mt-1 w-4 h-4 rounded border-foreground/20 text-accent focus:ring-accent/30 bg-foreground/5 cursor-pointer"
+              required
+            />
+            <label htmlFor="contact_terms" className="text-sm text-foreground/60 leading-tight">
+              J&apos;accepte la <a href="/politique-de-confidentialite" className="text-accent hover:underline">Politique de confidentialité</a> et les <a href="/cgv" className="text-accent hover:underline">Conditions Générales d&apos;Utilisation</a> de Kōdo.
+            </label>
+          </motion.div>
           
           <motion.button 
             variants={itemVariants}
             type="submit" 
-            disabled={isSubmitting}
+            disabled={isSubmitting || !acceptedTerms}
             className={`w-full relative z-10 flex justify-center items-center gap-3 bg-accent text-accent-foreground py-5 mt-4 rounded-2xl font-black uppercase tracking-widest shadow-xl shadow-accent/20 transition-all text-sm ${isSubmitting ? 'opacity-70 cursor-not-allowed scale-95' : 'hover:scale-[1.02] hover:-translate-y-1 hover:shadow-accent/40'}`}
           >
             {isSubmitting ? 'Envoi en cours...' : 'Lancer mon projet'}
