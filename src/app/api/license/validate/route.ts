@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
 import crypto from 'crypto';
+import { signLicenseToken } from '@/lib/jwt';
+import { PLAN_FEATURES } from '@/lib/license';
 
 const SECRET_LIC_SALT = "KODO_SECURE_LIC_SALT_2026_BELGIUM";
 
@@ -29,6 +31,8 @@ export async function POST(request: Request) {
       expires_at: string;
       hardware_id?: string;
       client_name?: string;
+      plan?: string;
+      features?: string[];
     } | null = null;
 
     // 1. Consultation optionnelle dans Firestore
@@ -41,11 +45,14 @@ export async function POST(request: Request) {
 
         if (doc.exists) {
           const data = doc.data();
+          const plan = data?.plan || 'PRO';
           licenseData = {
             status: data?.status || 'active',
             expires_at: data?.expiry_date || data?.expires_at || '2056-08-10',
             hardware_id: data?.hardware_id || data?.fingerprint,
-            client_name: data?.shop_name || data?.client_name
+            client_name: data?.shop_name || data?.client_name,
+            plan: plan,
+            features: data?.features || PLAN_FEATURES[plan as keyof typeof PLAN_FEATURES] || PLAN_FEATURES['PRO']
           };
 
           // Si le hardware_id n'était pas encore enregistré, association à la 1ère activation
@@ -81,10 +88,13 @@ export async function POST(request: Request) {
           ? "2056-08-10" 
           : new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
 
+        const plan = 'ENTERPRISE'; // Master/Demo keys get full access
         licenseData = {
           status: "active",
           expires_at: expiresAt,
-          hardware_id: cleanHardwareId
+          hardware_id: cleanHardwareId,
+          plan: plan,
+          features: PLAN_FEATURES[plan]
         };
       }
     }
@@ -124,13 +134,28 @@ export async function POST(request: Request) {
       cleanKey
     );
 
+    const plan = licenseData.plan || 'PRO';
+    const features = licenseData.features || PLAN_FEATURES[plan as keyof typeof PLAN_FEATURES] || PLAN_FEATURES['PRO'];
+
+    const jwt = await signLicenseToken({
+      license_key: cleanKey,
+      plan: plan,
+      features: features,
+      expires_at: licenseData.expires_at,
+      hardware_id: cleanHardwareId,
+      status: licenseData.status,
+    });
+
     return NextResponse.json({
       valid: true,
       status: licenseData.status,
       license_key: cleanKey,
       expires_at: licenseData.expires_at,
       hardware_id: cleanHardwareId,
+      plan: plan,
+      features: features,
       signature: signature,
+      token: jwt, // The new JWT payload for gating
       timestamp: new Date().toISOString(),
       message: "Licence certifiée conforme et active"
     });

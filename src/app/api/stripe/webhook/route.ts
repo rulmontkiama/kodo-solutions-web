@@ -28,7 +28,8 @@ export async function POST(request: Request) {
     const session = event.data.object as any;
     const customerEmail = session.customer_details?.email || session.customer_email;
     const customerName = session.customer_details?.name || 'Client Kōdo';
-    const plan = session.metadata?.plan || 'monthly';
+    const billingCycle = session.metadata?.plan || 'monthly';
+    const plan = session.metadata?.license_plan || 'PRO'; // Should come from metadata, defaults to PRO
     const referralCodeUsed = session.metadata?.referralCode || '';
 
     if (customerEmail) {
@@ -36,7 +37,8 @@ export async function POST(request: Request) {
       const license = await createLicenseRecord({
         email: customerEmail,
         customerName,
-        plan,
+        plan: plan as any,
+        billingCycle: billingCycle as any,
         stripeCustomerId: session.customer,
         stripeSubscriptionId: session.subscription,
         referredBy: referralCodeUsed,
@@ -88,13 +90,13 @@ export async function POST(request: Request) {
           const docRef = query.docs[0].ref;
           const data = query.docs[0].data();
 
-          // Extend expiry_date based on plan
+          // Extend expiry_date based on billingCycle
           let newExpiryDate = '2099-12-31';
-          if (data.plan === 'monthly') {
+          if (data.billingCycle === 'monthly' || data.plan === 'monthly') { // backward compatibility
              const d = new Date();
              d.setMonth(d.getMonth() + 1);
              newExpiryDate = d.toISOString().split('T')[0];
-          } else if (data.plan === 'annual') {
+          } else if (data.billingCycle === 'annual' || data.plan === 'annual') {
              const d = new Date();
              d.setFullYear(d.getFullYear() + 1);
              newExpiryDate = d.toISOString().split('T')[0];

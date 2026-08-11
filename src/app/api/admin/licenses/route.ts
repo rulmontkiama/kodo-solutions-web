@@ -54,26 +54,32 @@ export async function POST(request: Request) {
   }
 
   try {
-    const { shop_name, plan } = await request.json();
+    const { shop_name, billingCycle, plan } = await request.json();
     if (!adminDb) {
       return NextResponse.json({ error: 'DB not available' }, { status: 500 });
     }
 
     const licenseKey = generateLicenseKey();
     let expiryDate = '2099-12-31';
-    if (plan === 'annual') {
+    if (billingCycle === 'annual') {
        const d = new Date();
        d.setFullYear(d.getFullYear() + 1);
        expiryDate = d.toISOString().split('T')[0];
-    } else if (plan === 'monthly') {
+    } else if (billingCycle === 'monthly') {
        const d = new Date();
        d.setMonth(d.getMonth() + 1);
        expiryDate = d.toISOString().split('T')[0];
     }
 
+    const { PLAN_FEATURES } = await import('@/lib/license');
+    const licensePlan = plan || 'PRO';
+    const features = PLAN_FEATURES[licensePlan as keyof typeof PLAN_FEATURES] || PLAN_FEATURES['PRO'];
+
     const record = {
       license_key: licenseKey,
-      status: 'active',
+      status: 'ACTIVE',
+      plan: licensePlan,
+      features,
       expiry_date: expiryDate,
       hardware_id: '',
       shop_name: shop_name || 'Nouvelle Boutique',
