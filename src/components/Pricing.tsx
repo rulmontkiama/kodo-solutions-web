@@ -9,25 +9,31 @@ export default function Pricing() {
   const [email, setEmail] = useState('');
   const [referralCode, setReferralCode] = useState('');
   const [showReferralInput, setShowReferralInput] = useState(false);
+  const [successMsg, setSuccessMsg] = useState(false);
 
-  const handleCheckout = async (plan: 'monthly' | 'annual' | 'lifetime') => {
+  const handleWaitlist = async (plan: 'monthly' | 'annual' | 'lifetime') => {
+    if (!email.trim()) {
+      alert("Veuillez entrer une adresse email valide pour rejoindre la liste d'attente.");
+      return;
+    }
+
     setLoadingPlan(plan);
     try {
-      const res = await fetch('/api/checkout', {
+      const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          plan,
-          email: email.trim() || undefined,
-          referralCode: referralCode.trim() || undefined,
+          name: `Waitlist - ${plan.toUpperCase()}`,
+          email: email.trim(),
+          service: `Kodo POS Waitlist (Code: ${referralCode.trim() || 'Aucun'})`,
         }),
       });
 
-      const data = await res.json();
-      if (data.url) {
-        window.location.href = data.url;
+      if (res.ok) {
+        setSuccessMsg(true);
+        setTimeout(() => setSuccessMsg(false), 5000);
       } else {
-        alert(data.error || 'Erreur lors de la redirection vers le paiement Stripe');
+        alert('Erreur lors de l\'inscription à la liste d\'attente');
       }
     } catch (err) {
       console.error(err);
@@ -60,23 +66,31 @@ export default function Pricing() {
 
       <div className="max-w-6xl mx-auto relative z-10">
         <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 text-xs font-bold text-accent tracking-widest uppercase glass px-5 py-2.5 rounded-full mb-6">
-            <Zap size={14} className="text-accent" />
-            TARIFS CLAIRS & SANS ENGAGEMENT
+          <div className="inline-flex items-center gap-2 text-xs font-bold text-amber-500 tracking-widest uppercase glass px-5 py-2.5 rounded-full mb-6 border-amber-500/30">
+            <Zap size={14} className="text-amber-500" />
+            BÊTA FERMÉE - LISTE D&apos;ATTENTE
           </div>
 
           <h2 className="text-4xl md:text-6xl font-black text-foreground tracking-tight mb-6 text-glow">
-            Choisissez la formule <br className="hidden sm:block" /> adaptée à votre commerce.
+            L&apos;excellence a un prix, <br className="hidden sm:block" /> <span className="text-accent">la patience aussi.</span>
           </h2>
-          <p className="text-lg md:text-xl text-foreground/60 max-w-2xl mx-auto font-medium leading-relaxed">
+          <p className="text-lg md:text-xl text-foreground/60 max-w-2xl mx-auto font-medium leading-relaxed mb-4">
+            Kōdo POS est actuellement en <strong className="text-foreground">bêta fermée</strong>. Inscrivez-vous pour sécuriser votre accès et vos tarifs de lancement.
+          </p>
+          <p className="text-md text-foreground/50 max-w-2xl mx-auto font-medium leading-relaxed">
             Logiciel Caisse Kōdo POS certifié conforme. Mises à jour automatisées, support prioritaire et sauvegarde cloud incluse.
           </p>
 
           {/* Optional Email & Referral input */}
-          <div className="mt-8 max-w-md mx-auto bg-foreground/5 border border-foreground/10 p-4 rounded-2xl">
+          <div className="mt-8 max-w-md mx-auto bg-foreground/5 border border-foreground/10 p-4 rounded-2xl relative">
+            {successMsg && (
+              <div className="absolute -top-12 left-0 right-0 bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 p-2 rounded-lg text-sm font-bold shadow-lg backdrop-blur-md">
+                Merci ! Vous êtes sur la liste d&apos;attente. 🎉
+              </div>
+            )}
             <input
               type="email"
-              placeholder="Votre email (pour recevoir votre clé de licence)"
+              placeholder="Votre email pour rejoindre la liste d'attente"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="w-full bg-background border border-foreground/10 rounded-xl px-4 py-3 text-sm text-foreground placeholder-foreground/40 focus:outline-none focus:border-accent transition-colors mb-3"
@@ -139,11 +153,11 @@ export default function Pricing() {
             </div>
 
             <button
-              onClick={() => handleCheckout('monthly')}
+              onClick={() => handleWaitlist('monthly')}
               disabled={loadingPlan === 'monthly'}
               className="w-full bg-foreground/10 hover:bg-foreground/20 text-foreground font-bold py-4 rounded-full transition-all flex items-center justify-center gap-2"
             >
-              {loadingPlan === 'monthly' ? 'Chargement...' : 'Choisir Mensuel'}
+              {loadingPlan === 'monthly' ? 'Chargement...' : 'Rejoindre la liste d\'attente'}
               <ArrowRight size={16} />
             </button>
           </motion.div>
@@ -186,11 +200,11 @@ export default function Pricing() {
             </div>
 
             <button
-              onClick={() => handleCheckout('annual')}
+              onClick={() => handleWaitlist('annual')}
               disabled={loadingPlan === 'annual'}
               className="w-full bg-accent text-accent-foreground font-black py-4 rounded-full hover:scale-105 transition-all shadow-xl flex items-center justify-center gap-2"
             >
-              {loadingPlan === 'annual' ? 'Chargement...' : 'Profiter des 2 Mois Offerts'}
+              {loadingPlan === 'annual' ? 'Chargement...' : 'Rejoindre la liste d\'attente (2 mois offerts)'}
               <ArrowRight size={16} />
             </button>
           </motion.div>
@@ -222,11 +236,11 @@ export default function Pricing() {
             </div>
 
             <button
-              onClick={() => handleCheckout('lifetime')}
+              onClick={() => handleWaitlist('lifetime')}
               disabled={loadingPlan === 'lifetime'}
               className="w-full bg-foreground/10 hover:bg-foreground/20 text-foreground font-bold py-4 rounded-full transition-all flex items-center justify-center gap-2"
             >
-              {loadingPlan === 'lifetime' ? 'Chargement...' : 'Acheter la Licence à Vie'}
+              {loadingPlan === 'lifetime' ? 'Chargement...' : 'Rejoindre la liste d\'attente (À Vie)'}
               <ArrowRight size={16} />
             </button>
           </motion.div>
