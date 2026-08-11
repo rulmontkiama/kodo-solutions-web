@@ -21,7 +21,7 @@ export async function POST(request: Request) {
       }, { status: 400 });
     }
 
-    const cleanKey = license_key.trim().upperCase ? license_key.trim().toUpperCase() : license_key.trim();
+    const cleanKey = license_key.trim().toUpperCase();
     const cleanHardwareId = hardware_id ? hardware_id.trim().toUpperCase() : "UNKNOWN";
 
     let licenseData: {
