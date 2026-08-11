@@ -82,9 +82,9 @@ export default function Pricing() {
           </p>
 
           {/* Optional Email & Referral input */}
-          <div className="mt-8 max-w-md mx-auto bg-foreground/5 border border-foreground/10 p-4 rounded-2xl relative">
+          <div className="mt-8 max-w-md mx-auto bg-foreground/5 border border-foreground/10 p-4 rounded-2xl relative flex flex-col items-center justify-center">
             {successMsg && (
-              <div className="absolute -top-12 left-0 right-0 bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 p-2 rounded-lg text-sm font-bold shadow-lg backdrop-blur-md">
+              <div className="absolute -top-12 left-0 right-0 bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 p-2 rounded-lg text-sm font-bold shadow-lg backdrop-blur-md flex items-center justify-center text-center">
                 Merci ! Vous êtes sur la liste d&apos;attente. 🎉
               </div>
             )}
@@ -93,12 +93,12 @@ export default function Pricing() {
               placeholder="Votre email pour rejoindre la liste d'attente"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full bg-background border border-foreground/10 rounded-xl px-4 py-3 text-sm text-foreground placeholder-foreground/40 focus:outline-none focus:border-accent transition-colors mb-3"
+              className="w-full bg-background border border-foreground/10 rounded-xl px-4 py-3 text-sm text-center text-foreground placeholder-foreground/40 focus:outline-none focus:border-accent transition-colors mb-3"
             />
             {!showReferralInput ? (
               <button
                 onClick={() => setShowReferralInput(true)}
-                className="text-xs text-accent hover:underline font-bold flex items-center gap-1 mx-auto"
+                className="text-xs text-accent hover:underline font-bold flex items-center justify-center gap-1 w-full text-center"
               >
                 <Gift size={12} /> Vous avez un code parrain ou de réduction ?
               </button>
@@ -108,7 +108,7 @@ export default function Pricing() {
                 placeholder="Code Parrain / Promo (ex: REF-DUPONT-1234)"
                 value={referralCode}
                 onChange={(e) => setReferralCode(e.target.value.toUpperCase())}
-                className="w-full bg-background border border-amber-500/30 rounded-xl px-4 py-3 text-sm text-amber-600 dark:text-amber-300 placeholder-amber-500/40 focus:outline-none focus:border-amber-500 transition-colors uppercase font-mono"
+                className="w-full bg-background border border-amber-500/30 rounded-xl px-4 py-3 text-sm text-center text-amber-600 dark:text-amber-300 placeholder-amber-500/40 focus:outline-none focus:border-amber-500 transition-colors uppercase font-mono"
               />
             )}
           </div>

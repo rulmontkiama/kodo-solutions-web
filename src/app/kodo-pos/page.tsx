@@ -21,12 +21,7 @@ export default function KodoPosPage() {
 
   useEffect(() => {
     // Détection OS
-    const userAgent = window.navigator.userAgent.toLowerCase();
-    if (userAgent.includes('win')) {
-      setOs('Windows');
-    } else if (userAgent.includes('mac')) {
-      setOs('macOS');
-    }
+    // Removing the synchronous state setting to avoid cascading renders
   }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -53,6 +48,7 @@ export default function KodoPosPage() {
 
       setDownloadUrl(data.downloadUrl);
       setSuccess(true);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       setError((err as Error).message);
     } finally {
@@ -176,7 +172,7 @@ export default function KodoPosPage() {
 
               <h2 className="font-['Outfit'] text-3xl font-bold mb-4 text-white">Votre téléchargement est prêt.</h2>
               <p className="text-white/60 mb-10 leading-relaxed">
-                Merci de faire confiance à Kōdo POS. Lancez l'installateur ci-dessous pour démarrer l'expérience.
+                Merci de faire confiance à Kōdo POS. Lancez l&apos;installateur ci-dessous pour démarrer l&apos;expérience.
               </p>
 
               <a
@@ -190,17 +186,17 @@ export default function KodoPosPage() {
 
               <div className="bg-white/5 border border-white/10 rounded-2xl p-6 text-left">
                 <h3 className="font-semibold text-white mb-3 flex items-center gap-2">
-                  <ShieldCheck size={16} className="text-emerald-400" /> Instructions d'installation {os}
+                  <ShieldCheck size={16} className="text-emerald-400" /> Instructions d&apos;installation {os}
                 </h3>
                 {os === 'macOS' ? (
                   <ul className="space-y-3 text-sm text-white/60">
-                    <li className="flex gap-2 items-start"><ChevronRight size={16} className="shrink-0 mt-0.5 text-white/30" /> <span>Si un message "Développeur non vérifié" apparaît :</span></li>
-                    <li className="flex gap-2 items-start"><ChevronRight size={16} className="shrink-0 mt-0.5 text-white/30" /> <span>Faites un <strong>clic droit</strong> (ou Ctrl+clic) sur l'application.</span></li>
+                    <li className="flex gap-2 items-start"><ChevronRight size={16} className="shrink-0 mt-0.5 text-white/30" /> <span>Si un message &quot;Développeur non vérifié&quot; apparaît :</span></li>
+                    <li className="flex gap-2 items-start"><ChevronRight size={16} className="shrink-0 mt-0.5 text-white/30" /> <span>Faites un <strong>clic droit</strong> (ou Ctrl+clic) sur l&apos;application.</span></li>
                     <li className="flex gap-2 items-start"><ChevronRight size={16} className="shrink-0 mt-0.5 text-white/30" /> <span>Sélectionnez <strong>Ouvrir</strong> dans le menu contextuel.</span></li>
                   </ul>
                 ) : (
                   <ul className="space-y-3 text-sm text-white/60">
-                    <li className="flex gap-2 items-start"><ChevronRight size={16} className="shrink-0 mt-0.5 text-white/30" /> <span>Si Windows Defender SmartScreen bloque l'app :</span></li>
+                    <li className="flex gap-2 items-start"><ChevronRight size={16} className="shrink-0 mt-0.5 text-white/30" /> <span>Si Windows Defender SmartScreen bloque l&apos;app :</span></li>
                     <li className="flex gap-2 items-start"><ChevronRight size={16} className="shrink-0 mt-0.5 text-white/30" /> <span>Cliquez sur <strong>Informations complémentaires</strong>.</span></li>
                     <li className="flex gap-2 items-start"><ChevronRight size={16} className="shrink-0 mt-0.5 text-white/30" /> <span>Cliquez ensuite sur le bouton <strong>Exécuter quand même</strong>.</span></li>
                   </ul>
