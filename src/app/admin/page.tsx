@@ -34,6 +34,18 @@ export default function AdminPortal() {
   const [activeTab, setActiveTab] = useState<'leads' | 'licenses'>('leads');
   const [loading, setLoading] = useState(true);
   const [generatingFor, setGeneratingFor] = useState<string | null>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [password, setPassword] = useState('');
+  const [authError, setAuthError] = useState('');
+
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (password === '123') {
+      setIsAuthenticated(true);
+    } else {
+      setAuthError('Mauvais mot de passe');
+    }
+  };
 
   const fetchData = async () => {
     setLoading(true);
@@ -54,9 +66,11 @@ export default function AdminPortal() {
   };
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    fetchData();
-  }, []);
+    if (isAuthenticated) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      fetchData();
+    }
+  }, [isAuthenticated]);
 
   const handleGenerateLicense = async (leadId: string) => {
     setGeneratingFor(leadId);
@@ -94,6 +108,50 @@ export default function AdminPortal() {
     lead.full_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     lead.email.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-background flex flex-col items-center justify-center p-6 relative overflow-hidden">
+        <div className="absolute top-[-20%] left-[-10%] w-[600px] h-[600px] bg-accent/10 blur-[150px] rounded-full pointer-events-none" />
+        <div className="absolute bottom-[-20%] right-[-10%] w-[600px] h-[600px] bg-accent/10 blur-[150px] rounded-full pointer-events-none" />
+
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="bg-foreground/5 backdrop-blur-[24px] border border-foreground/10 p-10 rounded-[2.5rem] shadow-2xl relative overflow-hidden w-full max-w-md"
+        >
+          <div className="text-center mb-8">
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-foreground/10 mb-6 text-accent">
+              <ShieldCheck size={32} />
+            </div>
+            <h1 className="text-2xl font-black tracking-tight mb-2 text-foreground">Accès Administrateur</h1>
+            <p className="text-foreground/50 text-sm">Veuillez vous identifier pour accéder au tableau de bord.</p>
+          </div>
+
+          <form onSubmit={handleLogin} className="space-y-4">
+            <div>
+              <input
+                type="password"
+                placeholder="Mot de passe"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full bg-background border border-foreground/10 rounded-xl px-5 py-4 text-foreground placeholder-foreground/30 focus:outline-none focus:border-accent/50 focus:bg-foreground/10 transition-all text-center tracking-widest text-lg font-bold"
+              />
+            </div>
+            {authError && (
+              <p className="text-red-500 text-sm text-center font-semibold">{authError}</p>
+            )}
+            <button
+              type="submit"
+              className="w-full bg-accent text-background font-bold text-lg rounded-xl py-4 transition-all hover:scale-[1.02] active:scale-[0.98] mt-4"
+            >
+              Se Connecter
+            </button>
+          </form>
+        </motion.div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background text-foreground p-8 relative overflow-hidden">

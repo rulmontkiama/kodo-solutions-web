@@ -90,15 +90,7 @@ export default function KodoPosPage() {
         transition={{ duration: 0.6 }}
         className="w-full max-w-lg z-10"
       >
-        <div className="text-center mb-10">
-          <motion.div
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ delay: 0.2, type: 'spring' }}
-            className="inline-flex items-center justify-center mb-6"
-          >
-            <span className="font-black text-3xl tracking-widest text-foreground uppercase">KŌDO</span>
-          </motion.div>
+        <div className="text-center mb-10 pt-10">
           <h1 className=" text-4xl md:text-5xl font-black tracking-tight mb-4 text-foreground">
             Obtenir Kōdo POS
           </h1>
