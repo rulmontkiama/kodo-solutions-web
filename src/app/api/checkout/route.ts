@@ -5,19 +5,19 @@ import { stripe } from '@/lib/stripe';
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { plan, email, referralCode } = body;
+    const { plan, email, referralCode } = body; // plan = 'BASIC', 'PRO', or 'ENTERPRISE'
 
-    if (!plan || !['monthly', 'annual', 'lifetime'].includes(plan)) {
-      return NextResponse.json({ error: 'Plan invalide (monthly, annual, lifetime)' }, { status: 400 });
+    if (!plan || !['BASIC', 'PRO', 'ENTERPRISE'].includes(plan)) {
+      return NextResponse.json({ error: 'Plan invalide (BASIC, PRO, ENTERPRISE)' }, { status: 400 });
     }
 
     const domain = process.env.NEXT_PUBLIC_SITE_URL || 'https://kodo-solutions-web.vercel.app';
 
     // Pricing definition
     const prices = {
-      monthly: { amount: 2900, name: 'Kōdo POS Pro — Abonnement Mensuel' },
-      annual: { amount: 29000, name: 'Kōdo POS Pro — Abonnement Annuel (2 Mois Offerts)' },
-      lifetime: { amount: 69000, name: 'Kōdo POS Pro — Licence À Vie' },
+      BASIC: { amount: 3900, name: 'Kōdo Starter (BASIC) — Abonnement Mensuel', desc: 'Encaissement simple et gestion des stocks de base.' },
+      PRO: { amount: 7900, name: 'Kōdo Pro (PRO) — Abonnement Mensuel', desc: 'Synchronisation Shopify, module certifié NF525 et statistiques avancées.' },
+      ENTERPRISE: { amount: 14900, name: 'Kōdo Max (ENTERPRISE) — Abonnement Mensuel', desc: 'Gestion multi-caisses, support prioritaire et fonctionnalités illimitées.' },
     };
 
     const selectedPrice = prices[plan as keyof typeof prices];
@@ -31,7 +31,7 @@ export async function POST(request: Request) {
             currency: 'eur',
             product_data: {
               name: selectedPrice.name,
-              description: 'Accès complet au logiciel Kōdo POS, mises à jour à distance automatiques et support prioritaire.',
+              description: selectedPrice.desc,
             },
             unit_amount: selectedPrice.amount,
           },
