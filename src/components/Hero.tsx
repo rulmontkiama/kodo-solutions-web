@@ -2,7 +2,6 @@
 
 import React from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { ArrowRight, Sparkles } from 'lucide-react';
 import { ThemeToggle } from './ThemeToggle';
@@ -39,12 +38,8 @@ export default function Hero() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <Link href="/" className="flex items-center gap-3 group">
-              <div className="relative h-8 w-8 transition-transform group-hover:scale-105">
-                <Image src="/logo-light.png" alt="Logo KŌDO Solutions - Mode sombre" width={32} height={32} className="h-8 w-auto drop-shadow-md hidden dark:block" />
-                <Image src="/logo-dark.png" alt="Logo KŌDO Solutions - Mode clair" width={32} height={32} className="h-8 w-auto drop-shadow-md block dark:hidden" />
-              </div>
-              <span className="text-xl font-black tracking-widest text-foreground uppercase mt-1">KŌDO</span>
+            <Link href="/" className="flex items-center gap-2 group">
+              <span className="text-2xl font-black tracking-widest text-foreground uppercase mt-1 transition-transform group-hover:scale-105 ">KŌDO</span>
             </Link>
           </motion.div>
           <motion.div 

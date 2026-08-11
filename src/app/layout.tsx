@@ -40,20 +40,11 @@ export const metadata: Metadata = {
     siteName: "KŌDO Solutions",
     locale: "fr_FR",
     type: "website",
-    images: [
-      {
-        url: "/logo-light.png",
-        width: 1200,
-        height: 630,
-        alt: "KŌDO Solutions",
-      },
-    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "KŌDO Solutions | Le système d'exploitation de votre commerce",
     description: "POS moderne, réservations intelligentes et présence digitale propulsés par l'IA.",
-    images: ["/logo-light.png"],
   },
   robots: {
     index: true,

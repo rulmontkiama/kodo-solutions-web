@@ -4,9 +4,12 @@ import { motion } from 'framer-motion';
 import { ArrowLeft, CheckCircle2, CalendarDays, Smartphone, Clock, Users } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 
 export default function KodoBookingsPage() {
+  const router = useRouter();
+
   return (
     <div className="min-h-screen flex flex-col relative z-10">
       
@@ -17,9 +20,12 @@ export default function KodoBookingsPage() {
       <main className="flex-1 pt-32 pb-20 px-6">
         <div className="max-w-4xl mx-auto">
           
-          <Link href="/#services" className="inline-flex items-center gap-2 text-foreground/50 hover:text-accent transition-colors font-semibold tracking-wider text-sm uppercase mb-12">
-            <ArrowLeft size={16} /> Retour aux services
-          </Link>
+          <button
+            onClick={() => router.back()}
+            className="inline-flex items-center gap-2 text-foreground/50 hover:text-accent transition-colors font-semibold tracking-wider text-sm uppercase mb-12"
+          >
+            <ArrowLeft size={16} /> Retour
+          </button>
 
           {/* Hero Section */}
           <div className="mb-20 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">

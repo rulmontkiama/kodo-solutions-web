@@ -29,7 +29,7 @@ export async function POST(request: Request) {
     }
 
     // Determine download URL based on OS
-    let downloadUrl = "https://github.com/rulmontkiama/kodo-solutions-web/releases/download/v1.0.9/Kodo_POS_macOS.zip"; 
+    const downloadUrl = "https://github.com/rulmontkiama/kodo-solutions-web/releases/download/v1.0.9/Kodo_POS_macOS.zip";
     if (operating_system === 'Windows') {
       const directDownloadUrl = "https://github.com/rulmontkiama/kodo-solutions-web/releases/download/v1.0.9/Kodo_POS_macOS.zip";
 

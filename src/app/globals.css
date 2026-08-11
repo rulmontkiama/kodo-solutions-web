@@ -14,7 +14,7 @@
   --color-surface-variant: var(--surface-variant);
   --color-outline: var(--outline);
   --font-sans: "Outfit", sans-serif;
-}
+  }
 
 :root,
 .light {
@@ -57,6 +57,7 @@ body {
   font-family: "Outfit", sans-serif;
   -webkit-font-smoothing: antialiased;
 }
+
 
 /* Premium Grid Background */
 .bg-grid-pattern {
