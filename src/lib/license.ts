@@ -70,7 +70,7 @@ export async function createLicenseRecord(params: {
   };
 
   // Save to Firestore licenses collection
-  await adminDb.collection('licenses').doc(licenseKey).set(record);
+  await adminDb.collection('pos_licenses').doc(licenseKey).set(record);
   
   // Save reverse lookup by email
   await adminDb.collection('user_licenses').doc(params.email.toLowerCase()).set({

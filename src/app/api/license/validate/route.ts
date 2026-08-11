@@ -21,7 +21,7 @@ export async function POST(request: Request) {
       }, { status: 400 });
     }
 
-    const cleanKey = license_key.trim().upperCase ? license_key.trim().toUpperCase() : license_key.trim();
+    const cleanKey = license_key.trim().toUpperCase ? license_key.trim().toUpperCase() : license_key.trim();
     const cleanHardwareId = hardware_id ? hardware_id.trim().toUpperCase() : "UNKNOWN";
 
     let licenseData: {
@@ -35,31 +35,28 @@ export async function POST(request: Request) {
     try {
       const { adminDb } = await import('@/lib/firebase/admin');
       if (adminDb) {
-        // Recherche par clé de licence dans la collection pos_licenses ou licenses
-        const snapshot = await adminDb.collection('pos_licenses')
-          .where('license_key', '==', cleanKey)
-          .limit(1)
-          .get();
+        // Recherche par ID de document (clé de licence) dans la collection pos_licenses
+        const docRef = adminDb.collection('pos_licenses').doc(cleanKey);
+        const doc = await docRef.get();
 
-        if (!snapshot.empty) {
-          const doc = snapshot.docs[0];
+        if (doc.exists) {
           const data = doc.data();
           licenseData = {
-            status: data.status || 'active',
-            expires_at: data.expires_at || data.expiry_date || '2056-08-10',
-            hardware_id: data.hardware_id || data.fingerprint,
-            client_name: data.client_name || data.shop_name
+            status: data?.status || 'active',
+            expires_at: data?.expiry_date || data?.expires_at || '2056-08-10',
+            hardware_id: data?.hardware_id || data?.fingerprint,
+            client_name: data?.shop_name || data?.client_name
           };
 
           // Si le hardware_id n'était pas encore enregistré, association à la 1ère activation
-          if (!data.hardware_id && cleanHardwareId !== "UNKNOWN") {
-            await doc.ref.update({
+          if (!data?.hardware_id && cleanHardwareId !== "UNKNOWN") {
+            await docRef.update({
               hardware_id: cleanHardwareId,
               activated_at: new Date().toISOString(),
               last_check: new Date().toISOString()
             });
             licenseData.hardware_id = cleanHardwareId;
-          } else if (data.hardware_id && data.hardware_id !== cleanHardwareId) {
+          } else if (data?.hardware_id && data.hardware_id !== cleanHardwareId) {
             return NextResponse.json({
               valid: false,
               status: "hardware_mismatch",
