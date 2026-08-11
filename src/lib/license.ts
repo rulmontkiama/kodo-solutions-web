@@ -1,11 +1,23 @@
 import { adminDb } from '@/lib/firebase/admin';
 
+export type LicensePlan = 'BASIC' | 'PRO' | 'ENTERPRISE';
+export type LicenseStatus = 'ACTIVE' | 'EXPIRED' | 'REVOKED' | 'PENDING' | 'active' | 'suspended' | 'expired';
+
+export const PLAN_FEATURES: Record<LicensePlan, string[]> = {
+  BASIC: ['basic_sales', 'basic_inventory'],
+  PRO: ['basic_sales', 'basic_inventory', 'advanced_stats', 'shopify_sync', 'nfs525_module'],
+  ENTERPRISE: ['basic_sales', 'basic_inventory', 'advanced_stats', 'shopify_sync', 'nfs525_module', 'multi_cashier', 'priority_support']
+};
+
 export interface LicenseRecord {
   licenseKey: string;
   email: string;
   customerName?: string;
-  plan: 'monthly' | 'annual' | 'lifetime';
-  status: 'active' | 'suspended' | 'expired';
+  plan: LicensePlan;
+  billingCycle: 'monthly' | 'annual' | 'lifetime';
+  features: string[];
+  hardware_id?: string;
+  status: LicenseStatus;
   referralCode: string;
   referredBy?: string;
   createdAt: string;
@@ -33,7 +45,8 @@ export function generateReferralCode(name: string): string {
 export async function createLicenseRecord(params: {
   email: string;
   customerName?: string;
-  plan: 'monthly' | 'annual' | 'lifetime';
+  plan?: LicensePlan;
+  billingCycle: 'monthly' | 'annual' | 'lifetime';
   stripeCustomerId?: string;
   stripeSubscriptionId?: string;
   referredBy?: string;
@@ -42,11 +55,11 @@ export async function createLicenseRecord(params: {
   const referralCode = generateReferralCode(params.customerName || params.email.split('@')[0]);
 
   let expiryDate: string | undefined;
-  if (params.plan === 'monthly') {
+  if (params.billingCycle === 'monthly') {
     const d = new Date();
     d.setMonth(d.getMonth() + 1);
     expiryDate = d.toISOString().split('T')[0];
-  } else if (params.plan === 'annual') {
+  } else if (params.billingCycle === 'annual') {
     const d = new Date();
     d.setFullYear(d.getFullYear() + 1);
     expiryDate = d.toISOString().split('T')[0];
@@ -55,12 +68,17 @@ export async function createLicenseRecord(params: {
     expiryDate = '2099-12-31';
   }
 
+  const plan = params.plan || 'PRO'; // Default to PRO if not specified
+  const features = PLAN_FEATURES[plan] || PLAN_FEATURES['PRO'];
+
   const record: LicenseRecord = {
     licenseKey,
     email: params.email,
     customerName: params.customerName || 'Client Kōdo',
-    plan: params.plan,
-    status: 'active',
+    plan,
+    billingCycle: params.billingCycle,
+    features,
+    status: 'ACTIVE',
     referralCode,
     referredBy: params.referredBy || '',
     createdAt: new Date().toISOString(),

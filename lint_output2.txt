@@ -1,0 +1,114 @@
+
+> kodo-solutions-web@0.1.0 lint
+> eslint
+
+
+/app/src/app/admin/licenses/page.tsx
+   5:69  warning  'CheckCircle2' is defined but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      @typescript-eslint/no-unused-vars
+  60:7   error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/app/src/app/admin/licenses/page.tsx:60:7
+  58 |     const token = localStorage.getItem('kodo_admin_auth');
+  59 |     if (token === 'true') {
+> 60 |       fetchLicenses();
+     |       ^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  61 |     }
+  62 |   // eslint-disable-next-line react-hooks/exhaustive-deps
+  63 |   }, []);  react-hooks/set-state-in-effect
+
+/app/src/app/admin/page.tsx
+   3:20  warning  'useEffect' is defined but never used          @typescript-eslint/no-unused-vars
+  25:17  warning  'setLeads' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+/app/src/app/api/admin/licenses/route.ts
+  23:46  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  28:12  warning  'error' is defined but never used         @typescript-eslint/no-unused-vars
+  46:12  warning  'error' is defined but never used         @typescript-eslint/no-unused-vars
+  91:12  warning  'error' is defined but never used         @typescript-eslint/no-unused-vars
+
+/app/src/app/api/cron/health/route.ts
+  25:15  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  45:15  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+/app/src/app/api/dashboard/patron/route.ts
+  36:39  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  57:36  error    Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  92:12  warning  'error' is defined but never used         @typescript-eslint/no-unused-vars
+
+/app/src/app/api/license/validate/route.ts
+  16:39  warning  'app_version' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+/app/src/app/dashboard/patron/page.tsx
+   43:7   error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/app/src/app/dashboard/patron/page.tsx:43:7
+  41 |     const token = localStorage.getItem('kodo_patron_auth');
+  42 |     if (token === 'true') {
+> 43 |       fetchDashboardData();
+     |       ^^^^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  44 |     }
+  45 |   // eslint-disable-next-line react-hooks/exhaustive-deps
+  46 |   }, []);  react-hooks/set-state-in-effect
+  103:76  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            react/no-unescaped-entities
+  128:22  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            react/no-unescaped-entities
+  146:22  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            react/no-unescaped-entities
+  209:56  error  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   @typescript-eslint/no-explicit-any
+  229:26  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            react/no-unescaped-entities
+
+/app/src/app/kodo-pos/page.tsx
+   26:7    error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/app/src/app/kodo-pos/page.tsx:26:7
+  24 |     const userAgent = window.navigator.userAgent.toLowerCase();
+  25 |     if (userAgent.includes('win')) {
+> 26 |       setOs('Windows');
+     |       ^^^^^ Avoid calling setState() directly within an effect
+  27 |     } else if (userAgent.includes('mac')) {
+  28 |       setOs('macOS');
+  29 |     }  react-hooks/set-state-in-effect
+   56:19   error  Unexpected any. Specify a different type                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     @typescript-eslint/no-explicit-any
+  179:62   error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              react/no-unescaped-entities
+  179:102  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              react/no-unescaped-entities
+  193:88   error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              react/no-unescaped-entities
+  197:149  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              react/no-unescaped-entities
+  197:173  error  `"` can be escaped with `&quot;`, `&ldquo;`, `&#34;`, `&rdquo;`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              react/no-unescaped-entities
+  198:193  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              react/no-unescaped-entities
+  203:175  error  `'` can be escaped with `&apos;`, `&lsquo;`, `&#39;`, `&rsquo;`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              react/no-unescaped-entities
+
+/app/src/lib/gating/LicenseContext.tsx
+  70:5  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+/app/src/lib/gating/LicenseContext.tsx:70:5
+  68 |     // Avoid synchronous state updates inside useEffect
+  69 |     let isMounted = true;
+> 70 |     initLicense().then(() => {
+     |     ^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  71 |        if (!isMounted) return;
+  72 |     });
+  73 |     return () => { isMounted = false; };  react-hooks/set-state-in-effect
+
+✖ 30 problems (22 errors, 8 warnings)
