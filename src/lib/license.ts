@@ -4,7 +4,7 @@ export interface LicenseRecord {
   licenseKey: string;
   email: string;
   customerName?: string;
-  plan: 'monthly' | 'annual' | 'lifetime';
+  plan: string;
   status: 'active' | 'suspended' | 'expired';
   referralCode: string;
   referredBy?: string;
@@ -14,11 +14,12 @@ export interface LicenseRecord {
   stripeSubscriptionId?: string;
 }
 
-export function generateLicenseKey(): string {
+export function generateLicenseKey(plan?: string): string {
   const parts = Array.from({ length: 4 }, () => 
     Math.random().toString(36).substring(2, 6).toUpperCase()
   );
-  return `KODO-${parts.join('-')}`;
+  const prefix = plan ? `KODO-${plan.toUpperCase()}` : 'KODO';
+  return `${prefix}-${parts.join('-')}`;
 }
 
 export function generateReferralCode(name: string): string {
@@ -33,16 +34,16 @@ export function generateReferralCode(name: string): string {
 export async function createLicenseRecord(params: {
   email: string;
   customerName?: string;
-  plan: 'monthly' | 'annual' | 'lifetime';
+  plan: string;
   stripeCustomerId?: string;
   stripeSubscriptionId?: string;
   referredBy?: string;
 }): Promise<LicenseRecord> {
-  const licenseKey = generateLicenseKey();
+  const licenseKey = generateLicenseKey(params.plan);
   const referralCode = generateReferralCode(params.customerName || params.email.split('@')[0]);
 
   let expiryDate: string | undefined;
-  if (params.plan === 'monthly') {
+  if (['starter', 'pro', 'max', 'monthly'].includes(params.plan)) {
     const d = new Date();
     d.setMonth(d.getMonth() + 1);
     expiryDate = d.toISOString().split('T')[0];

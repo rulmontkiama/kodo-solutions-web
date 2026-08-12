@@ -90,7 +90,7 @@ export async function POST(request: Request) {
 
           // Extend expiry_date based on plan
           let newExpiryDate = '2099-12-31';
-          if (data.plan === 'monthly') {
+          if (['starter', 'pro', 'max', 'monthly'].includes(data.plan)) {
              const d = new Date();
              d.setMonth(d.getMonth() + 1);
              newExpiryDate = d.toISOString().split('T')[0];

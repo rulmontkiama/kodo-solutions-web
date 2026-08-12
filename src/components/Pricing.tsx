@@ -10,7 +10,7 @@ export default function Pricing() {
   const [referralCode, setReferralCode] = useState('');
   const [showReferralInput, setShowReferralInput] = useState(false);
 
-  const handleCheckout = async (plan: 'monthly' | 'annual' | 'lifetime') => {
+  const handleCheckout = async (plan: 'starter' | 'pro' | 'max') => {
     setLoadingPlan(plan);
     try {
       const res = await fetch('/api/checkout', {
@@ -112,7 +112,7 @@ export default function Pricing() {
           className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch"
         >
           
-          {/* Plan: Monthly */}
+          {/* Plan: Starter */}
           <motion.div 
             variants={{
               hidden: { opacity: 0, y: 30 },
@@ -122,33 +122,33 @@ export default function Pricing() {
             className="glass p-10 rounded-[2.5rem] border border-foreground/10 flex flex-col justify-between relative bg-gradient-to-b from-foreground/5 to-transparent"
           >
             <div>
-              <h3 className="text-2xl font-black text-foreground mb-2">Offre Mensuelle</h3>
-              <p className="text-xs text-foreground/60 font-medium mb-6">Flexibilité totale, résiliable à tout moment</p>
+              <h3 className="text-2xl font-black text-foreground mb-2">Formule Starter</h3>
+              <p className="text-xs text-foreground/60 font-medium mb-6">L&apos;essentiel pour démarrer votre caisse</p>
 
               <div className="flex items-baseline gap-2 mb-8">
-                <span className="text-5xl font-black text-foreground">29€</span>
+                <span className="text-5xl font-black text-foreground">39€</span>
                 <span className="text-foreground/60 font-bold text-sm">/ mois</span>
               </div>
 
               <ul className="space-y-4 mb-10 text-sm font-semibold text-foreground/80">
                 <li className="flex items-center gap-3"><CheckCircle2 size={18} className="text-accent shrink-0" /> Application Kōdo POS Mac</li>
-                <li className="flex items-center gap-3"><CheckCircle2 size={18} className="text-accent shrink-0" /> Mises à jour à distance illimitées</li>
-                <li className="flex items-center gap-3"><CheckCircle2 size={18} className="text-accent shrink-0" /> Rapports Z & Export Comptables</li>
-                <li className="flex items-center gap-3"><CheckCircle2 size={18} className="text-accent shrink-0" /> Support client prioritaire</li>
+                <li className="flex items-center gap-3"><CheckCircle2 size={18} className="text-accent shrink-0" /> Encaissement rapide & tickets</li>
+                <li className="flex items-center gap-3"><CheckCircle2 size={18} className="text-accent shrink-0" /> Catalogue & Stocks simples</li>
+                <li className="flex items-center gap-3"><CheckCircle2 size={18} className="text-accent shrink-0" /> Mises à jour automatisées</li>
               </ul>
             </div>
 
             <button
-              onClick={() => handleCheckout('monthly')}
-              disabled={loadingPlan === 'monthly'}
+              onClick={() => handleCheckout('starter')}
+              disabled={loadingPlan === 'starter'}
               className="w-full bg-foreground/10 hover:bg-foreground/20 text-foreground font-bold py-4 rounded-full transition-all flex items-center justify-center gap-2"
             >
-              {loadingPlan === 'monthly' ? 'Chargement...' : 'Choisir Mensuel'}
+              {loadingPlan === 'starter' ? 'Chargement...' : 'Choisir Starter'}
               <ArrowRight size={16} />
             </button>
           </motion.div>
 
-          {/* Plan: Annual (POPULAR) */}
+          {/* Plan: Pro (POPULAR) */}
           <motion.div 
             variants={{
               hidden: { opacity: 0, y: 30 },
@@ -162,40 +162,40 @@ export default function Pricing() {
             className="glass p-10 rounded-[2.5rem] border-2 border-accent flex flex-col justify-between relative bg-gradient-to-b from-accent/10 to-transparent lg:scale-105 z-20 group"
           >
             <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-accent text-accent-foreground text-[10px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full shadow-lg whitespace-nowrap">
-              🔥 2 MOIS OFFERTS — RECOMMANDÉ
+              🔥 FORMULE LA PLUS POPULAIRE
             </div>
 
             {/* Subtle internal animated glow */}
             <div className="absolute -inset-x-10 -top-10 h-32 bg-accent/20 blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
 
             <div>
-              <h3 className="text-2xl font-black text-foreground mb-2 mt-2">Offre Annuelle</h3>
-              <p className="text-xs text-foreground/60 font-medium mb-6">Économisez 58€ par an avec l&apos;engagement annuel</p>
+              <h3 className="text-2xl font-black text-foreground mb-2 mt-2">Formule Pro</h3>
+              <p className="text-xs text-foreground/60 font-medium mb-6">Le choix complet pour gérer votre commerce</p>
 
               <div className="flex items-baseline gap-2 mb-8">
-                <span className="text-5xl font-black text-foreground">290€</span>
-                <span className="text-foreground/60 font-bold text-sm">/ an</span>
+                <span className="text-5xl font-black text-foreground">79€</span>
+                <span className="text-foreground/60 font-bold text-sm">/ mois</span>
               </div>
 
               <ul className="space-y-4 mb-10 text-sm font-semibold text-foreground/80">
-                <li className="flex items-center gap-3"><CheckCircle2 size={18} className="text-accent shrink-0" /> Tout ce qui est inclus dans Mensuel</li>
-                <li className="flex items-center gap-3"><CheckCircle2 size={18} className="text-accent shrink-0" /> 2 Mois gratuits inclus (290€ au lieu de 348€)</li>
-                <li className="flex items-center gap-3"><CheckCircle2 size={18} className="text-accent shrink-0" /> Multi-postes & imprimantes thermiques</li>
-                <li className="flex items-center gap-3"><CheckCircle2 size={18} className="text-accent shrink-0" /> Synchro Cloud Firebase & Shopify</li>
+                <li className="flex items-center gap-3"><CheckCircle2 size={18} className="text-accent shrink-0" /> Tout ce qui est inclus dans Starter</li>
+                <li className="flex items-center gap-3"><CheckCircle2 size={18} className="text-accent shrink-0" /> Conforme NF525 & Clôtures Z</li>
+                <li className="flex items-center gap-3"><CheckCircle2 size={18} className="text-accent shrink-0" /> Synchronisation Shopify & Cloud</li>
+                <li className="flex items-center gap-3"><CheckCircle2 size={18} className="text-accent shrink-0" /> Analyse avancée & Multi-vendeurs</li>
               </ul>
             </div>
 
             <button
-              onClick={() => handleCheckout('annual')}
-              disabled={loadingPlan === 'annual'}
+              onClick={() => handleCheckout('pro')}
+              disabled={loadingPlan === 'pro'}
               className="w-full bg-accent text-accent-foreground font-black py-4 rounded-full hover:scale-105 transition-all shadow-xl flex items-center justify-center gap-2"
             >
-              {loadingPlan === 'annual' ? 'Chargement...' : 'Profiter des 2 Mois Offerts'}
+              {loadingPlan === 'pro' ? 'Chargement...' : 'Choisir Pro'}
               <ArrowRight size={16} />
             </button>
           </motion.div>
 
-          {/* Plan: Lifetime */}
+          {/* Plan: Max */}
           <motion.div 
             variants={{
               hidden: { opacity: 0, y: 30 },
@@ -205,28 +205,28 @@ export default function Pricing() {
             className="glass p-10 rounded-[2.5rem] border border-foreground/10 flex flex-col justify-between relative bg-gradient-to-b from-foreground/5 to-transparent"
           >
             <div>
-              <h3 className="text-2xl font-black text-foreground mb-2">Licence À Vie</h3>
-              <p className="text-xs text-foreground/60 font-medium mb-6">Un seul paiement, accès à vie sans abonnement</p>
+              <h3 className="text-2xl font-black text-foreground mb-2">Formule Max</h3>
+              <p className="text-xs text-foreground/60 font-medium mb-6">Pour les commerces exigeants & multi-boutiques</p>
 
               <div className="flex items-baseline gap-2 mb-8">
-                <span className="text-5xl font-black text-foreground">690€</span>
-                <span className="text-foreground/60 font-bold text-sm">une fois</span>
+                <span className="text-5xl font-black text-foreground">149€</span>
+                <span className="text-foreground/60 font-bold text-sm">/ mois</span>
               </div>
 
               <ul className="space-y-4 mb-10 text-sm font-semibold text-foreground/80">
-                <li className="flex items-center gap-3"><CheckCircle2 size={18} className="text-accent shrink-0" /> Licence définitive illimitée</li>
-                <li className="flex items-center gap-3"><CheckCircle2 size={18} className="text-accent shrink-0" /> Aucune redevance mensuelle</li>
-                <li className="flex items-center gap-3"><CheckCircle2 size={18} className="text-accent shrink-0" /> Mises à jour majeures à vie</li>
-                <li className="flex items-center gap-3"><CheckCircle2 size={18} className="text-accent shrink-0" /> Installation & Paramétrage inclus</li>
+                <li className="flex items-center gap-3"><CheckCircle2 size={18} className="text-accent shrink-0" /> Tout ce qui est inclus dans Pro</li>
+                <li className="flex items-center gap-3"><CheckCircle2 size={18} className="text-accent shrink-0" /> Multi-boutiques & Stocks partagés</li>
+                <li className="flex items-center gap-3"><CheckCircle2 size={18} className="text-accent shrink-0" /> Sauvegarde offline étendue & API</li>
+                <li className="flex items-center gap-3"><CheckCircle2 size={18} className="text-accent shrink-0" /> Support VIP ultra-prioritaire 24/7</li>
               </ul>
             </div>
 
             <button
-              onClick={() => handleCheckout('lifetime')}
-              disabled={loadingPlan === 'lifetime'}
+              onClick={() => handleCheckout('max')}
+              disabled={loadingPlan === 'max'}
               className="w-full bg-foreground/10 hover:bg-foreground/20 text-foreground font-bold py-4 rounded-full transition-all flex items-center justify-center gap-2"
             >
-              {loadingPlan === 'lifetime' ? 'Chargement...' : 'Acheter la Licence à Vie'}
+              {loadingPlan === 'max' ? 'Chargement...' : 'Choisir Max'}
               <ArrowRight size={16} />
             </button>
           </motion.div>

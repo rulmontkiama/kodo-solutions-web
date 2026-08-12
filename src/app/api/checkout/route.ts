@@ -7,17 +7,17 @@ export async function POST(request: Request) {
     const body = await request.json();
     const { plan, email, referralCode } = body;
 
-    if (!plan || !['monthly', 'annual', 'lifetime'].includes(plan)) {
-      return NextResponse.json({ error: 'Plan invalide (monthly, annual, lifetime)' }, { status: 400 });
+    if (!plan || !['starter', 'pro', 'max'].includes(plan)) {
+      return NextResponse.json({ error: 'Plan invalide (starter, pro, max)' }, { status: 400 });
     }
 
     const domain = process.env.NEXT_PUBLIC_SITE_URL || 'https://kodo-solutions-web.vercel.app';
 
     // Pricing definition
     const prices = {
-      monthly: { amount: 2900, name: 'Kōdo POS Pro — Abonnement Mensuel' },
-      annual: { amount: 29000, name: 'Kōdo POS Pro — Abonnement Annuel (2 Mois Offerts)' },
-      lifetime: { amount: 69000, name: 'Kōdo POS Pro — Licence À Vie' },
+      starter: { amount: 3900, name: 'Kōdo POS Starter — Abonnement Mensuel' },
+      pro: { amount: 7900, name: 'Kōdo POS Pro — Abonnement Mensuel' },
+      max: { amount: 14900, name: 'Kōdo POS Max — Abonnement Mensuel' },
     };
 
     const selectedPrice = prices[plan as keyof typeof prices];
@@ -34,11 +34,14 @@ export async function POST(request: Request) {
               description: 'Accès complet au logiciel Kōdo POS, mises à jour à distance automatiques et support prioritaire.',
             },
             unit_amount: selectedPrice.amount,
+            recurring: {
+              interval: 'month',
+            },
           },
           quantity: 1,
         },
       ],
-      mode: 'payment',
+      mode: 'subscription',
       customer_email: email || undefined,
       allow_promotion_codes: true, // Enables promo code input on Stripe Checkout
       metadata: {
