@@ -3,8 +3,6 @@ import { NextResponse } from 'next/server';
 export async function POST(request: Request) {
   try {
     const body = await request.json().catch(() => ({}));
-    // Note: The form now sends full_name instead of nom, shop_name instead of salon,
-    // phone, and operating_system.
     const { full_name, email, shop_name, phone, operating_system } = body || {};
 
     if (full_name && email && shop_name) {
@@ -29,16 +27,9 @@ export async function POST(request: Request) {
     }
 
     // Determine download URL based on OS
-    const downloadUrl = "https://github.com/rulmontkiama/kodo-solutions-web/releases/download/v1.0.9/Kodo_POS_macOS.zip";
-    if (operating_system === 'Windows') {
-      const directDownloadUrl = "https://github.com/rulmontkiama/kodo-solutions-web/releases/download/v1.0.9/Kodo_POS_macOS.zip";
-
-      return NextResponse.json({ 
-        success: true, 
-        message: 'Prospect enregistré avec succès',
-        downloadUrl: directDownloadUrl
-      });
-    }
+    const downloadUrl = operating_system === 'Windows' 
+      ? '/Kodo_POS_v1.0.18_Windows_Pack.zip'
+      : '/Installation_Kodo_POS_macOS.zip';
 
     return NextResponse.json({ 
       success: true, 
@@ -51,7 +42,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ 
       success: true, 
-      downloadUrl: "https://github.com/rulmontkiama/kodo-solutions-web/releases/download/v1.0.9/Kodo_POS_macOS.zip" 
+      downloadUrl: '/Installation_Kodo_POS_macOS.zip'
     });
   }
 }
