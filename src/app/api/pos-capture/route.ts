@@ -28,8 +28,8 @@ export async function POST(request: Request) {
 
     // Determine download URL based on OS
     const downloadUrl = operating_system === 'Windows' 
-      ? '/Kodo_POS_v1.0.44_Windows_Pack.zip'
-      : '/Installation_Kodo_POS_macOS.zip';
+      ? '/Kodo_POS_Windows_Standalone.zip'
+      : '/Installation_Kodo_POS.dmg';
 
     return NextResponse.json({ 
       success: true, 
@@ -42,7 +42,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ 
       success: true, 
-      downloadUrl: '/Installation_Kodo_POS_macOS.zip'
+      downloadUrl: '/Installation_Kodo_POS.dmg'
     });
   }
 }
