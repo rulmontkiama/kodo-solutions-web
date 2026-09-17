@@ -1,11 +1,11 @@
 {
-  "latestVersion": "1.0.45",
-  "latest_version": "1.0.45",
-  "version": "1.0.45",
-  "releaseDate": "2026-09-15",
-  "distPatchUrl": "https://raw.githubusercontent.com/rulmontkiama/Kodo-Ecosystem/main/public/dist_v1.0.45.zip",
-  "dist_patch_url": "https://raw.githubusercontent.com/rulmontkiama/Kodo-Ecosystem/main/public/dist_v1.0.45.zip",
-  "downloadUrl": "https://raw.githubusercontent.com/rulmontkiama/Kodo-Ecosystem/main/public/dist_v1.0.45.zip",
+  "latestVersion": "1.0.63",
+  "latest_version": "1.0.63",
+  "version": "1.0.63",
+  "releaseDate": "2026-09-17",
+  "distPatchUrl": "https://raw.githubusercontent.com/rulmontkiama/Kodo-Ecosystem/main/public/dist_v1.0.63.zip",
+  "dist_patch_url": "https://raw.githubusercontent.com/rulmontkiama/Kodo-Ecosystem/main/public/dist_v1.0.63.zip",
+  "downloadUrl": "https://raw.githubusercontent.com/rulmontkiama/Kodo-Ecosystem/main/public/dist_v1.0.63.zip",
   "has_update": true,
-  "changelog": "v1.0.45 : Renforcement du cœur backend (Calculs Panier Decimal, Grand Livre fiscal inaltérable SHA-256, Crash Recovery temps réel), HWID matériel Apple immuable, réimpression directe des tickets et personnalisation du logo thermique 80mm."
+  "changelog": "v1.0.63 : 1) Paramètres > Stock & Alertes : réglage du seuil d'alerte par défaut pour toute la boutique (persistant en SQLite). 2) Stocks : nouvelle action groupée « Seuil alerte (N) » pour modifier le seuil ou rétablir le seuil général en masse. 3) Fiche Produit : affichage du seuil par défaut en placeholder/badge, vider le champ rétablit l'héritage sans forcer 5. 4) Compteur et filtre « Alertes » : respect strict du seuil effectif de chaque article (personnalisé ou global). 5) Fichier Client : correction du blocage de l'enregistrement lié au champ email."
 }
