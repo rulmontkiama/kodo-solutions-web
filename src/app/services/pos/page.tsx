@@ -1,10 +1,9 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { ArrowLeft, CheckCircle2, Store, CreditCard, PieChart, ShieldCheck } from 'lucide-react';
+import { ArrowLeft, CheckCircle2, Store, CreditCard, PieChart, ShieldCheck, AlertTriangle } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
-
 
 export default function KodoPOSPage() {
   return (
@@ -31,14 +30,17 @@ export default function KodoPOSPage() {
               <div className="w-20 h-20 rounded-3xl bg-white/5 border border-white/10 flex items-center justify-center shadow-2xl shadow-accent/10 mb-8">
                 <Store size={40} className="text-accent" />
               </div>
+              <div className="inline-block px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-500 text-xs font-semibold mb-4 tracking-wide">
+                BÊTA FERMÉE FERME — RETAIL VÊTEMENTS (BELGIQUE)
+              </div>
               <h1 className="text-4xl md:text-6xl font-black text-foreground tracking-tight mb-6 text-glow">
                 Kōdo <span className="text-accent">POS</span>
               </h1>
               <p className="text-xl text-foreground/70 font-medium leading-relaxed mb-8">
-                Le cerveau de votre commerce. Un système d&apos;encaissement intelligent, conçu pour la rapidité, la fiabilité et l&apos;analyse de données prédictive.
+                Le système d&apos;encaissement spécialement pensé pour les boutiques de prêt-à-porter (gestion des tailles, couleurs, retours, arrondi espèces 5c).
               </p>
-              <Link href="/#contact" className="inline-block bg-accent text-accent-foreground font-black px-8 py-4 rounded-full tracking-widest uppercase text-sm hover:scale-105 hover:shadow-[0_0_40px_rgba(var(--accent),0.4)] transition-all">
-                Demander une démo
+              <Link href="/kodo-pos" className="inline-block bg-accent text-accent-foreground font-black px-8 py-4 rounded-full tracking-widest uppercase text-sm hover:scale-105 hover:shadow-[0_0_40px_rgba(var(--accent),0.4)] transition-all">
+                Rejoindre le test bêta
               </Link>
             </motion.div>
 
@@ -62,6 +64,17 @@ export default function KodoPOSPage() {
             </motion.div>
           </div>
 
+          {/* Horeca / SCE 2.0 Refusal Banner */}
+          <div className="bg-amber-500/10 border border-amber-500/20 rounded-2xl p-6 mb-12 text-sm text-amber-900 dark:text-amber-200 leading-relaxed flex items-start gap-4">
+            <AlertTriangle size={24} className="shrink-0 text-amber-500 mt-0.5" />
+            <div>
+              <strong className="text-base font-bold">Important — Champ d&apos;application exclusif :</strong>
+              <p className="mt-1 opacity-90">
+                Kōdo POS est exclusivement développé pour le commerce de détail de vêtements. Il ne dispose pas de l&apos;homologation FDM / SCE 2.0 requise par le SPF Finances pour le secteur Horeca (restaurants, bars, cafés).
+              </p>
+            </div>
+          </div>
+
           {/* Features Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-20">
             <motion.div 
@@ -69,9 +82,9 @@ export default function KodoPOSPage() {
               className="glass p-8 rounded-[2rem] border border-white/5 hover:border-accent/30 transition-colors"
             >
               <CreditCard className="w-10 h-10 text-accent mb-6" />
-              <h3 className="text-xl font-bold mb-3 text-foreground tracking-tight">Encaissement Multi-Canal</h3>
+              <h3 className="text-xl font-bold mb-3 text-foreground tracking-tight">Encaissement Prêt-à-Porter</h3>
               <p className="text-foreground/60 leading-relaxed text-sm">
-                Acceptez tous les moyens de paiement (Cartes, Sans Contact, Apple Pay, Espèces). Interface ultra-rapide optimisée pour les heures de pointe. Ticket de caisse digital par email ou SMS.
+                Sélection instantanée par grille de tailles et couleurs. Gestion intégrée des retours, avoirs et arrondi légal belge sur espèces (5 centimes).
               </p>
             </motion.div>
 
@@ -80,9 +93,9 @@ export default function KodoPOSPage() {
               className="glass p-8 rounded-[2rem] border border-white/5 hover:border-accent/30 transition-colors"
             >
               <PieChart className="w-10 h-10 text-accent mb-6" />
-              <h3 className="text-xl font-bold mb-3 text-foreground tracking-tight">Analytics Prédictifs</h3>
+              <h3 className="text-xl font-bold mb-3 text-foreground tracking-tight">Clôture Z & Audit Trail</h3>
               <p className="text-foreground/60 leading-relaxed text-sm">
-                Tableaux de bord en temps réel. Découvrez vos meilleures ventes, vos heures d&apos;affluence et anticipez les tendances pour optimiser votre stock.
+                Rapports de fin de journée (Z) automatisés avec chaînage cryptographique des tickets pour assurer la traçabilité des ventes.
               </p>
             </motion.div>
 
@@ -91,9 +104,9 @@ export default function KodoPOSPage() {
               className="glass p-8 rounded-[2rem] border border-white/5 hover:border-accent/30 transition-colors"
             >
               <Store className="w-10 h-10 text-accent mb-6" />
-              <h3 className="text-xl font-bold mb-3 text-foreground tracking-tight">Gestion d&apos;Inventaire IA</h3>
+              <h3 className="text-xl font-bold mb-3 text-foreground tracking-tight">Gestion des Stocks & Variantes</h3>
               <p className="text-foreground/60 leading-relaxed text-sm">
-                Décompte automatique des stocks à chaque vente. Alertes intelligentes de rupture et suggestion de commandes fournisseurs.
+                Décompte automatique par déclinaison (S/M/L/XL) lors de chaque transaction pour un suivi d&apos;inventaire exact.
               </p>
             </motion.div>
 
@@ -102,9 +115,9 @@ export default function KodoPOSPage() {
               className="glass p-8 rounded-[2rem] border border-white/5 hover:border-accent/30 transition-colors"
             >
               <ShieldCheck className="w-10 h-10 text-accent mb-6" />
-              <h3 className="text-xl font-bold mb-3 text-foreground tracking-tight">Conformité Fiscale</h3>
+              <h3 className="text-xl font-bold mb-3 text-foreground tracking-tight">Banc d&apos;Essai « EN L’ÉTAT »</h3>
               <p className="text-foreground/60 leading-relaxed text-sm">
-                Certification légale garantie (normes européennes et lois anti-fraude). Export simplifié pour votre comptable en un clic.
+                Mise à disposition gratuite pour test opérationnel en parallèle de votre journal des recettes légal pour valider les usages métiers.
               </p>
             </motion.div>
           </div>
@@ -117,33 +130,31 @@ export default function KodoPOSPage() {
             <div className="absolute top-0 right-0 w-64 h-64 bg-accent/20 blur-[80px] rounded-full pointer-events-none" />
             
             <h2 className="text-3xl font-black mb-8 text-foreground tracking-tight relative z-10">
-              Résultats prouvés
+              Conditions du banc d&apos;essai
             </h2>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 relative z-10">
               <ul className="space-y-4">
                 <li className="flex items-start gap-4">
                   <CheckCircle2 size={24} className="text-accent shrink-0 mt-0.5" />
-                  <span className="text-foreground/80 font-medium">Gain de temps de 45% sur la clôture de caisse quotidienne.</span>
+                  <span className="text-foreground/80 font-medium">Programme 100% gratuit en échange de vos retours d&apos;expérience.</span>
                 </li>
                 <li className="flex items-start gap-4">
                   <CheckCircle2 size={24} className="text-accent shrink-0 mt-0.5" />
-                  <span className="text-foreground/80 font-medium">Réduction de 90% des erreurs d&apos;inventaire.</span>
+                  <span className="text-foreground/80 font-medium">Double tenue recommandée avec votre journal de caisse officiel.</span>
                 </li>
               </ul>
               <ul className="space-y-4">
                 <li className="flex items-start gap-4">
                   <CheckCircle2 size={24} className="text-accent shrink-0 mt-0.5" />
-                  <span className="text-foreground/80 font-medium">Augmentation du panier moyen via les suggestions IA.</span>
+                  <span className="text-foreground/80 font-medium">Installation locale rapide sous macOS et Windows.</span>
                 </li>
                 <li className="flex items-start gap-4">
                   <CheckCircle2 size={24} className="text-accent shrink-0 mt-0.5" />
-                  <span className="text-foreground/80 font-medium">Fidélisation client renforcée par un parcours fluide.</span>
+                  <span className="text-foreground/80 font-medium">Convention de test bêta à signer pour vos boutiques pilotes.</span>
                 </li>
               </ul>
             </div>
-
-
           </motion.div>
 
         </div>
@@ -151,7 +162,7 @@ export default function KodoPOSPage() {
       
       <footer className="bg-foreground text-background py-8 text-center mt-auto">
         <p className="text-sm font-medium opacity-80">
-          &copy; {new Date().getFullYear()} Kōdo Solutions. Tous droits réservés.
+          &copy; {new Date().getFullYear()} Kōdo POS • Programme Bêta Fermé Commerce de Détail Belgique.
         </p>
       </footer>
     </div>
