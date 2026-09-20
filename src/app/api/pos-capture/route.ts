@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 export async function POST(request: Request) {
   try {
     const body = await request.json().catch(() => ({}));
-    const { full_name, email, shop_name, phone, city, accepted_terms, operating_system } = body || {};
+    const { full_name, email, shop_name, phone, operating_system } = body || {};
 
     if (full_name && email && shop_name) {
       // Sauvegarde optionnelle non-bloquante dans Firestore
@@ -12,16 +12,13 @@ export async function POST(request: Request) {
         if (adminDb) {
           const leadRef = adminDb.collection('leads').doc();
           await leadRef.set({
-            type: 'beta_pos_apparel',
             shop_name: shop_name || '',
             full_name: full_name || '',
             email: email || '',
             phone: phone || '',
-            city: city || '',
-            accepted_terms: Boolean(accepted_terms),
             operating_system: operating_system || 'macOS',
             created_at: new Date().toISOString(),
-            status: 'beta_applicant'
+            status: 'pending'
           });
         }
       } catch (dbError) {
@@ -36,7 +33,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ 
       success: true, 
-      message: 'Candidature enregistrée avec succès',
+      message: 'Prospect enregistré avec succès',
       downloadUrl: downloadUrl
     });
 

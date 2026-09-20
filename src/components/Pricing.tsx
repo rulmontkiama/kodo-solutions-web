@@ -30,18 +30,18 @@ export default function Pricing() {
       <div className="max-w-4xl mx-auto relative z-10 text-center">
         <div className="inline-flex items-center gap-2 text-xs font-bold text-accent tracking-widest uppercase glass px-5 py-2.5 rounded-full mb-6">
           <Zap size={14} className="text-accent" />
-          PROGRAMME BÊTA PRIVÉ EN COURS
+          PROGRAMME BÊTA PRIVÉ — ACCÈS GRATUIT
         </div>
 
         <h2 className="text-4xl md:text-6xl font-black text-foreground tracking-tight mb-6 text-glow">
-          Abonnements payants suspendus. <br />
-          <span className="text-accent">Accès 100% Gratuit sur Candidature.</span>
+          Offres commerciales à venir. <br />
+          <span className="text-accent">Accès Bêta 100% Gratuit sur Candidature.</span>
         </h2>
         <p className="text-lg md:text-xl text-foreground/70 max-w-2xl mx-auto font-medium leading-relaxed mb-12">
-          Dans le cadre de notre banc d&apos;essai technique réservé aux boutiques de prêt-à-porter en Belgique, les offres commerciales payantes sont temporairement mises en suspense.
+          Avant notre lancement commercial officiel, nous ouvrons notre banc d&apos;essai gratuit à un nombre restreint de boutiques de prêt-à-porter pilotes en Belgique.
         </p>
 
-        {/* Suspended pricing banner box */}
+        {/* Free Beta Access Box */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -54,15 +54,15 @@ export default function Pricing() {
 
           <div className="relative z-10 max-w-xl mx-auto space-y-6">
             <span className="inline-block px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 text-xs font-black uppercase tracking-wider">
-              🎁 BÊTA FERMÉE & GRATUITE
+              🎁 ACCÈS BÊTA FERMÉE & GRATUITE
             </span>
 
             <h3 className="text-2xl md:text-3xl font-black text-foreground">
-              Rejoignez les boutiques partenaires pilotes
+              Devenez boutique partenaire pilote
             </h3>
 
             <p className="text-foreground/70 text-sm md:text-base leading-relaxed">
-              Bénéficiez du logiciel d&apos;encaissement Kōdo POS gratuitement et participez directement à l&apos;amélioration des fonctionnalités métier avant le lancement commercial officiel.
+              Profitez du logiciel d&apos;encaissement Kōdo POS à titre gracieux et participez à l&apos;optimisation des fonctionnalités métier avant l&apos;ouverture des formules d&apos;abonnement.
             </p>
 
             <div className="pt-4">
@@ -79,9 +79,9 @@ export default function Pricing() {
 
         {/* Security / Legal badge */}
         <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-6 text-xs text-foreground/50 font-medium">
-          <span className="flex items-center gap-2"><ShieldCheck size={16} className="text-emerald-400" /> Bêta-test B2B pour boutiques de vêtements</span>
+          <span className="flex items-center gap-2"><ShieldCheck size={16} className="text-emerald-400" /> Programme d&apos;évaluation pour boutiques de vêtements</span>
           <span>•</span>
-          <span>🇧🇪 Développeur Indépendant Belgique</span>
+          <span>🇧🇪 Développeur Indépendant (Belgique)</span>
           <span>•</span>
           <span>📄 Convention de test encadrée</span>
         </div>

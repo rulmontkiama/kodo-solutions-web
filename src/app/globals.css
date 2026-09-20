@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
 @import "tailwindcss";
 
 @custom-variant dark (&:where(.dark, .dark *));
@@ -14,8 +14,6 @@
   --color-surface-variant: var(--surface-variant);
   --color-outline: var(--outline);
   --font-sans: "Outfit", sans-serif;
-  --font-heading: "Outfit", sans-serif;
-  --font-body: "Plus Jakarta Sans", sans-serif;
 }
 
 :root,
@@ -56,12 +54,8 @@
 body {
   background-color: var(--background);
   color: var(--foreground);
-  font-family: "Plus Jakarta Sans", "Outfit", sans-serif;
-  -webkit-font-smoothing: antialiased;
-}
-
-h1, h2, h3, h4, h5, h6 {
   font-family: "Outfit", sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
 
 /* Premium Grid Background */
