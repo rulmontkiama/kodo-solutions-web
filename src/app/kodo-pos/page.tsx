@@ -1,215 +1,342 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Apple, Monitor, ChevronRight, CheckCircle2, ShieldCheck, Download, Loader2 } from 'lucide-react';
+import { useState, useEffect, Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
+import Link from 'next/link';
+import Image from 'next/image';
+import {
+  Apple,
+  Monitor,
+  Key,
+  ShieldCheck,
+  Download,
+  Loader2,
+  CheckCircle2,
+  CreditCard,
+  ArrowRight,
+  Lock,
+  AlertCircle,
+} from 'lucide-react';
+import { ThemeToggle } from '@/components/ThemeToggle';
 
-type OS = 'macOS' | 'Windows';
+type VerifiedPortal = {
+  license: {
+    licenseKey: string;
+    plan: string;
+    planLabel: string;
+    billingCycle: 'monthly' | 'yearly';
+    expiryDate: string;
+    email: string;
+    hasBillingPortal: boolean;
+  };
+  release: {
+    version: string;
+    releaseDate: string;
+    changelog: string;
+    macFilename: string;
+    winFilename: string;
+  };
+  r2Ready: boolean;
+};
 
-export default function KodoPosPage() {
-  const [os, setOs] = useState<OS>('macOS');
-  const [formData, setFormData] = useState({
-    shop_name: '',
-    full_name: '',
-    email: '',
-    phone: '',
-  });
+function DownloadPortalContent() {
+  const searchParams = useSearchParams();
+  const initialKey = searchParams.get('key') || '';
+
+  const [os, setOs] = useState<'mac' | 'win'>('mac');
+  const [licenseKey, setLicenseKey] = useState(initialKey);
   const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState(false);
-  const [downloadUrl, setDownloadUrl] = useState('');
+  const [portalLoading, setPortalLoading] = useState(false);
   const [error, setError] = useState('');
+  const [portal, setPortal] = useState<VerifiedPortal | null>(null);
 
   useEffect(() => {
-    // Détection OS
-    const userAgent = window.navigator.userAgent.toLowerCase();
-    if (userAgent.includes('win')) {
-      setOs('Windows');
-    } else if (userAgent.includes('mac')) {
-      setOs('macOS');
-    }
+    const ua = window.navigator.userAgent.toLowerCase();
+    if (ua.includes('win')) setOs('win');
   }, []);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  const verifyKey = async (rawKey: string) => {
+    const clean = rawKey.trim().toUpperCase();
+    if (!clean) return;
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
     setLoading(true);
     setError('');
-
     try {
-      const response = await fetch('/api/pos-capture', {
+      const res = await fetch('/api/download', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, operating_system: os })
+        body: JSON.stringify({ license_key: clean }),
       });
+      const data = await res.json();
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || 'Erreur lors de la soumission');
+      if (!res.ok || !data.valid) {
+        setPortal(null);
+        setError(data.error || 'Clé de licence invalide ou expirée.');
+      } else {
+        setPortal(data);
       }
-
-      setDownloadUrl(data.downloadUrl);
-      setSuccess(true);
-    } catch (err: any) {
-      setError((err as Error).message);
+    } catch {
+      setError('Erreur réseau lors de la vérification.');
     } finally {
       setLoading(false);
     }
   };
 
+  useEffect(() => {
+    if (initialKey) {
+      verifyKey(initialKey);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialKey]);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    verifyKey(licenseKey);
+  };
+
+  const handleBillingPortal = async () => {
+    if (!portal?.license.licenseKey) return;
+    setPortalLoading(true);
+    try {
+      const res = await fetch('/api/billing-portal', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ license_key: portal.license.licenseKey }),
+      });
+      const data = await res.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        setError(data.error || 'Portail de facturation indisponible.');
+      }
+    } finally {
+      setPortalLoading(false);
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-[#0B0B0F] text-white flex items-center justify-center p-6 relative overflow-hidden font-['Plus_Jakarta_Sans']">
-
-      {/* Background glow effects */}
-      <div className="absolute top-[-20%] left-[-10%] w-[600px] h-[600px] bg-[#FF7F7F]/10 blur-[150px] rounded-full pointer-events-none" />
-      <div className="absolute bottom-[-20%] right-[-10%] w-[600px] h-[600px] bg-indigo-500/10 blur-[150px] rounded-full pointer-events-none" />
-
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="w-full max-w-lg z-10"
-      >
-        <div className="text-center mb-10">
-          <motion.div
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ delay: 0.2, type: 'spring' }}
-            className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-white/5 border border-white/10 mb-6 shadow-2xl shadow-[#FF7F7F]/20 backdrop-blur-md"
-          >
-            <span className="font-['Outfit'] font-black text-3xl bg-clip-text text-transparent bg-gradient-to-br from-white to-white/60">K</span>
-          </motion.div>
-          <h1 className="font-['Outfit'] text-4xl md:text-5xl font-black tracking-tight mb-4 bg-clip-text text-transparent bg-gradient-to-b from-white to-white/70">
-            Obtenir Kōdo POS
-          </h1>
-          <p className="text-white/50 text-lg">Le système de caisse ultra-premium pour les commerçants ambitieux.</p>
+    <div className="max-w-xl w-full space-y-6 relative z-10">
+      <div className="text-center">
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass text-accent text-xs font-black uppercase tracking-widest mb-5">
+          <Lock size={13} />
+          <span>Espace Téléchargement Sécurisé</span>
         </div>
+        <h1 className="text-4xl sm:text-5xl font-black text-foreground tracking-tight text-glow mb-3">
+          Télécharger <span className="text-accent">Kōdo POS</span>
+        </h1>
+        <p className="text-sm sm:text-base text-foreground/60 font-medium">
+          Saisissez votre clé de licence active pour accéder à la dernière version signée (macOS &amp; Windows) et aux mises à jour.
+        </p>
+      </div>
 
-        <AnimatePresence mode="wait">
-          {!success ? (
-            <motion.div
-              key="form"
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              className="bg-white/5 backdrop-blur-[24px] border border-white/10 p-8 rounded-[2rem] shadow-2xl relative overflow-hidden"
-            >
-              {/* Internal subtle glow */}
-              <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-[#FF7F7F]/50 to-transparent opacity-50" />
-
-              {/* OS Selector */}
-              <div className="flex p-1 bg-white/5 rounded-2xl mb-8">
-                <button
-                  type="button"
-                  onClick={() => setOs('macOS')}
-                  className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-semibold transition-all ${os === 'macOS' ? 'bg-white text-black shadow-lg' : 'text-white/50 hover:text-white hover:bg-white/5'}`}
-                >
-                  <Apple size={18} className={os === 'macOS' ? 'fill-black' : ''} /> macOS
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setOs('Windows')}
-                  className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-semibold transition-all ${os === 'Windows' ? 'bg-white text-[#0078D7] shadow-lg' : 'text-white/50 hover:text-white hover:bg-white/5'}`}
-                >
-                  <Monitor size={18} /> Windows
-                </button>
-              </div>
-
-              {error && (
-                <div className="mb-6 p-4 bg-red-500/10 border border-red-500/30 text-red-400 rounded-xl text-sm text-center flex items-center justify-center gap-2">
-                  <ShieldCheck size={16} /> {error}
-                </div>
-              )}
-
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="space-y-4">
-                  <div className="relative group">
-                    <input type="text" name="shop_name" required value={formData.shop_name} onChange={handleChange} placeholder="Nom de l'établissement" className="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white placeholder-white/30 focus:outline-none focus:border-[#FF7F7F]/50 focus:bg-white/10 transition-all" />
-                  </div>
-                  <div className="relative group">
-                    <input type="text" name="full_name" required value={formData.full_name} onChange={handleChange} placeholder="Prénom & Nom" className="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white placeholder-white/30 focus:outline-none focus:border-[#FF7F7F]/50 focus:bg-white/10 transition-all" />
-                  </div>
-                  <div className="relative group">
-                    <input type="email" name="email" required value={formData.email} onChange={handleChange} placeholder="Email professionnel" className="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white placeholder-white/30 focus:outline-none focus:border-[#FF7F7F]/50 focus:bg-white/10 transition-all" />
-                  </div>
-                  <div className="relative group">
-                    <input type="tel" name="phone" required value={formData.phone} onChange={handleChange} placeholder="Numéro de téléphone" className="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white placeholder-white/30 focus:outline-none focus:border-[#FF7F7F]/50 focus:bg-white/10 transition-all" />
-                  </div>
-                </div>
-
-                <div className="pt-4">
-                  <button
-                    type="submit"
-                    disabled={loading}
-                    className="w-full relative group overflow-hidden bg-white text-black font-bold text-lg rounded-xl py-4 transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-70 disabled:hover:scale-100 flex items-center justify-center gap-2"
-                  >
-                    {/* Button hover glow */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-black/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
-
-                    {loading ? <Loader2 className="animate-spin" size={20} /> : <Download size={20} />}
-                    {loading ? 'Préparation...' : `Télécharger pour ${os}`}
-                  </button>
-                </div>
-
-                <p className="text-center text-xs text-white/40 mt-4 flex items-center justify-center gap-3">
-                  <span className="flex items-center gap-1"><ShieldCheck size={12} className="text-emerald-400" /> Zéro Abonnement Caché</span>
-                  <span>|</span>
-                  <span className="flex items-center gap-1"><CheckCircle2 size={12} className="text-[#FF7F7F]" /> Mode Hors-Ligne Assuré</span>
-                </p>
-              </form>
-            </motion.div>
-          ) : (
-            <motion.div
-              key="success"
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              className="bg-white/5 backdrop-blur-[24px] border border-white/10 p-10 rounded-[2.5rem] shadow-2xl text-center relative overflow-hidden"
-            >
-              <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-emerald-500/50 to-transparent opacity-50" />
-
-              <div className="w-20 h-20 bg-emerald-500/20 rounded-2xl border border-emerald-500/30 flex items-center justify-center mx-auto mb-8 text-emerald-400">
-                <CheckCircle2 size={40} />
-              </div>
-
-              <h2 className="font-['Outfit'] text-3xl font-bold mb-4 text-white">Votre téléchargement est prêt.</h2>
-              <p className="text-white/60 mb-10 leading-relaxed">
-                Merci de faire confiance à Kōdo POS. Lancez l'installateur ci-dessous pour démarrer l'expérience.
-              </p>
-
-              <a
-                href={downloadUrl}
-                download
-                className="inline-flex items-center justify-center gap-3 w-full py-5 px-6 bg-emerald-500 hover:bg-emerald-400 text-black font-bold rounded-2xl transition-all hover:scale-[1.02] active:scale-[0.98] mb-8 shadow-[0_0_40px_rgba(16,185,129,0.3)]"
+      {/* Main Card */}
+      <div className="glass rounded-[2rem] p-7 sm:p-9 border border-foreground/10 shadow-2xl">
+        {!portal ? (
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <div>
+              <label
+                htmlFor="license-key-input"
+                className="text-[11px] font-black uppercase tracking-widest text-foreground/55 mb-2 flex items-center gap-1.5"
               >
-                <Download size={20} />
-                Télécharger {os === 'macOS' ? 'Kōdo POS.dmg' : 'Kōdo POS.exe'}
-              </a>
+                <Key size={13} className="text-accent" /> Clé de licence Kōdo POS
+              </label>
+              <input
+                id="license-key-input"
+                type="text"
+                required
+                value={licenseKey}
+                onChange={(e) => setLicenseKey(e.target.value.toUpperCase())}
+                placeholder="Ex: KODO-PRO-1M-A1B2-C3D4"
+                className="w-full px-5 py-4 rounded-2xl bg-foreground/[0.04] border border-foreground/15 focus:border-accent outline-none font-mono text-sm sm:text-base text-foreground placeholder:text-foreground/30 uppercase tracking-wider"
+              />
+            </div>
 
-              <div className="bg-white/5 border border-white/10 rounded-2xl p-6 text-left">
-                <h3 className="font-semibold text-white mb-3 flex items-center gap-2">
-                  <ShieldCheck size={16} className="text-emerald-400" /> Instructions d'installation {os}
-                </h3>
-                {os === 'macOS' ? (
-                  <ul className="space-y-3 text-sm text-white/60">
-                    <li className="flex gap-2 items-start"><ChevronRight size={16} className="shrink-0 mt-0.5 text-white/30" /> <span>Si un message "Développeur non vérifié" apparaît :</span></li>
-                    <li className="flex gap-2 items-start"><ChevronRight size={16} className="shrink-0 mt-0.5 text-white/30" /> <span>Faites un <strong>clic droit</strong> (ou Ctrl+clic) sur l'application.</span></li>
-                    <li className="flex gap-2 items-start"><ChevronRight size={16} className="shrink-0 mt-0.5 text-white/30" /> <span>Sélectionnez <strong>Ouvrir</strong> dans le menu contextuel.</span></li>
-                  </ul>
-                ) : (
-                  <ul className="space-y-3 text-sm text-white/60">
-                    <li className="flex gap-2 items-start"><ChevronRight size={16} className="shrink-0 mt-0.5 text-white/30" /> <span>Si Windows Defender SmartScreen bloque l'app :</span></li>
-                    <li className="flex gap-2 items-start"><ChevronRight size={16} className="shrink-0 mt-0.5 text-white/30" /> <span>Cliquez sur <strong>Informations complémentaires</strong>.</span></li>
-                    <li className="flex gap-2 items-start"><ChevronRight size={16} className="shrink-0 mt-0.5 text-white/30" /> <span>Cliquez ensuite sur le bouton <strong>Exécuter quand même</strong>.</span></li>
-                  </ul>
-                )}
+            {error && (
+              <div className="p-3.5 rounded-xl bg-accent/15 border border-accent/30 text-accent text-xs font-bold flex items-center gap-2">
+                <AlertCircle size={16} className="shrink-0" />
+                <span>{error}</span>
               </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </motion.div>
+            )}
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full py-4 rounded-full bg-foreground hover:bg-foreground/90 text-background font-bold text-sm shadow-xl transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60"
+            >
+              {loading ? (
+                <>
+                  <Loader2 size={17} className="animate-spin" />
+                  <span>Vérification en cours...</span>
+                </>
+              ) : (
+                <>
+                  <ShieldCheck size={17} />
+                  <span>Débloquer mon téléchargement</span>
+                </>
+              )}
+            </button>
+
+            <p className="text-xs text-foreground/45 text-center font-medium">
+              Les liens Cloudflare R2 générés sont privés et expirent automatiquement après 5 minutes.
+            </p>
+          </form>
+        ) : (
+          <div className="space-y-6">
+            {/* Active License Status */}
+            <div className="flex flex-wrap items-center justify-between gap-3 p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/25">
+              <div className="flex items-center gap-3">
+                <CheckCircle2 size={22} className="text-emerald-400 shrink-0" />
+                <div>
+                  <div className="text-sm font-black text-foreground">
+                    Licence {portal.license.planLabel} active
+                  </div>
+                  <div className="text-xs text-foreground/60 font-mono">
+                    {portal.license.licenseKey} • Valide jusqu&apos;au {portal.license.expiryDate}
+                  </div>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setPortal(null)}
+                className="text-xs font-bold text-foreground/55 hover:text-foreground cursor-pointer"
+              >
+                Changer de clé
+              </button>
+            </div>
+
+            {/* OS Selector */}
+            <div className="flex p-1 bg-foreground/[0.04] border border-foreground/10 rounded-xl">
+              <button
+                type="button"
+                onClick={() => setOs('mac')}
+                className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-xs sm:text-sm font-bold transition-all cursor-pointer ${
+                  os === 'mac'
+                    ? 'bg-foreground text-background shadow-md'
+                    : 'text-foreground/65 hover:text-foreground'
+                }`}
+              >
+                <Apple size={16} /> macOS (.dmg)
+              </button>
+              <button
+                type="button"
+                onClick={() => setOs('win')}
+                className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-xs sm:text-sm font-bold transition-all cursor-pointer ${
+                  os === 'win'
+                    ? 'bg-foreground text-background shadow-md'
+                    : 'text-foreground/65 hover:text-foreground'
+                }`}
+              >
+                <Monitor size={16} /> Windows (.zip)
+              </button>
+            </div>
+
+            {/* Direct Signed R2 Download */}
+            <a
+              href={`/api/download?os=${os}&key=${encodeURIComponent(portal.license.licenseKey)}`}
+              className="w-full py-4 px-6 rounded-full bg-accent hover:opacity-90 text-white dark:text-black font-black text-sm shadow-xl shadow-accent/25 transition-all flex items-center justify-center gap-2.5"
+            >
+              <Download size={18} />
+              <span>
+                Télécharger v{portal.release.version} (
+                {os === 'mac' ? portal.release.macFilename : portal.release.winFilename})
+              </span>
+            </a>
+
+            {!portal.r2Ready && (
+              <p className="text-xs text-amber-600 dark:text-amber-300 bg-amber-500/10 border border-amber-500/25 rounded-xl p-3 text-center">
+                Ajoutez vos variables Cloudflare R2 (R2_ACCOUNT_ID, R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY) pour activer le lien signé.
+              </p>
+            )}
+
+            {/* Latest Release Notes */}
+            <div className="p-4 rounded-2xl bg-foreground/[0.03] border border-foreground/10 text-xs text-foreground/65 space-y-1.5">
+              <div className="font-bold text-foreground flex items-center justify-between">
+                <span>Dernière version : v{portal.release.version}</span>
+                <span className="text-foreground/45 font-mono">{portal.release.releaseDate}</span>
+              </div>
+              <p className="leading-relaxed whitespace-pre-line">{portal.release.changelog}</p>
+            </div>
+
+            {/* Stripe Billing Portal Button */}
+            {portal.license.hasBillingPortal && (
+              <button
+                type="button"
+                onClick={handleBillingPortal}
+                disabled={portalLoading}
+                className="w-full py-3 rounded-xl glass hover:bg-foreground/10 border border-foreground/10 text-xs font-bold text-foreground flex items-center justify-center gap-2 transition-colors cursor-pointer"
+              >
+                <CreditCard size={15} className="text-accent" />
+                <span>
+                  {portalLoading
+                    ? 'Ouverture du portail Stripe...'
+                    : 'Gérer mon abonnement, changer d’offre ou télécharger mes factures'}
+                </span>
+              </button>
+            )}
+          </div>
+        )}
+      </div>
+
+      {/* Not subscribed yet CTA */}
+      <div className="glass rounded-2xl p-5 border border-foreground/10 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div>
+          <p className="text-sm font-bold text-foreground">Pas encore de licence Kōdo POS ?</p>
+          <p className="text-xs text-foreground/55">
+            Débloquez l&apos;installateur et les mises à jour dès 29€/mois, sans engagement.
+          </p>
+        </div>
+        <Link
+          href="/#pricing"
+          className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-accent hover:opacity-90 text-white dark:text-black text-xs font-black whitespace-nowrap transition-all"
+        >
+          <span>Choisir une offre</span>
+          <ArrowRight size={14} />
+        </Link>
+      </div>
+    </div>
+  );
+}
+
+export default function KodoPosPage() {
+  return (
+    <div className="flex flex-col min-h-screen bg-background text-foreground bg-grid-pattern relative overflow-hidden">
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[400px] bg-accent/15 blur-[120px] rounded-full pointer-events-none" />
+
+      <nav className="fixed top-0 left-0 right-0 w-full z-40 glass border-b border-white/5 transition-all duration-300">
+        <div className="max-w-5xl mx-auto px-6 h-20 flex justify-between items-center">
+          <Link href="/" className="flex items-center gap-3 group">
+            <div className="relative h-8 w-8 transition-transform group-hover:scale-105">
+              <Image src="/logo-light.png" alt="Logo KŌDO Solutions - Mode sombre" width={32} height={32} className="h-8 w-auto drop-shadow-md hidden dark:block" />
+              <Image src="/logo-dark.png" alt="Logo KŌDO Solutions - Mode clair" width={32} height={32} className="h-8 w-auto drop-shadow-md block dark:hidden" />
+            </div>
+            <span className="text-xl font-black tracking-widest text-foreground uppercase mt-1">KŌDO</span>
+          </Link>
+          <div className="space-x-6 text-sm text-foreground/70 font-medium flex items-center">
+            <Link href="/#pricing" className="hover:text-foreground transition-colors">Tarifs</Link>
+            <Link href="/#contact" className="text-foreground hover:text-accent transition-colors hidden sm:inline">Demander une démo</Link>
+            <ThemeToggle />
+          </div>
+        </div>
+      </nav>
+
+      <main className="flex-1 pt-32 pb-20 px-6 flex items-center justify-center">
+        <Suspense
+          fallback={
+            <div className="flex items-center gap-2 text-sm font-bold text-foreground/60">
+              <Loader2 className="animate-spin text-accent" size={18} />
+              Chargement...
+            </div>
+          }
+        >
+          <DownloadPortalContent />
+        </Suspense>
+      </main>
+
+      <footer className="bg-foreground text-background py-8 text-center">
+        <p className="text-sm font-medium opacity-80">
+          &copy; {new Date().getFullYear()} Kōdo Solutions. Tous droits réservés.
+        </p>
+      </footer>
     </div>
   );
 }

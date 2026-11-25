@@ -1,28 +1,48 @@
-
 import { NextResponse } from 'next/server';
 import { stripe } from '@/lib/stripe';
+
+const PLAN_ALIAS_MAP: Record<string, 'starter' | 'pro' | 'max'> = {
+  starter: 'starter',
+  essentiel: 'starter',
+  pro: 'pro',
+  max: 'max',
+  omnicanal: 'max',
+};
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { plan, email, referralCode } = body;
+    const { plan, email, referralCode, billing } = body;
 
-    if (!plan || !['starter', 'pro', 'max'].includes(plan)) {
-      return NextResponse.json({ error: 'Plan invalide (starter, pro, max)' }, { status: 400 });
+    const normalizedPlan = typeof plan === 'string' ? PLAN_ALIAS_MAP[plan.toLowerCase()] : undefined;
+
+    if (!normalizedPlan) {
+      return NextResponse.json(
+        { error: 'Plan invalide (essentiel/starter, pro, omnicanal/max)' },
+        { status: 400 }
+      );
     }
 
+    const billingCycle: 'monthly' | 'yearly' =
+      billing === 'annual' || billing === 'yearly' ? 'yearly' : 'monthly';
     const domain = process.env.NEXT_PUBLIC_SITE_URL || 'https://kodo-solutions-web.vercel.app';
 
-    // Pricing definition
+    // Radical tier pricing: Essentiel 29€ / Pro 69€ / Omnicanal 149€ (-20% annual)
     const prices = {
-      starter: { amount: 3900, name: 'Kōdo POS Starter — Abonnement Mensuel' },
-      pro: { amount: 7900, name: 'Kōdo POS Pro — Abonnement Mensuel' },
-      max: { amount: 14900, name: 'Kōdo POS Max — Abonnement Mensuel' },
+      monthly: {
+        starter: { amount: 2900, name: 'Kōdo POS Essentiel — Abonnement Mensuel' },
+        pro: { amount: 6900, name: 'Kōdo POS Pro — Abonnement Mensuel' },
+        max: { amount: 14900, name: 'Kōdo POS Omnicanal — Abonnement Mensuel' },
+      },
+      yearly: {
+        starter: { amount: 27600, name: 'Kōdo POS Essentiel — Abonnement Annuel (-20%)' },
+        pro: { amount: 66000, name: 'Kōdo POS Pro — Abonnement Annuel (-20%)' },
+        max: { amount: 142800, name: 'Kōdo POS Omnicanal — Abonnement Annuel (-20%)' },
+      },
     };
 
-    const selectedPrice = prices[plan as keyof typeof prices];
+    const selectedPrice = prices[billingCycle][normalizedPlan];
 
-    // Build Stripe Checkout Session line items
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: [
@@ -31,11 +51,12 @@ export async function POST(request: Request) {
             currency: 'eur',
             product_data: {
               name: selectedPrice.name,
-              description: 'Accès complet au logiciel Kōdo POS, mises à jour à distance automatiques et support prioritaire.',
+              description:
+                'Accès complet au logiciel Kōdo POS avec journal chaîné SHA-256, mode hors-ligne SQLite et mises à jour automatiques.',
             },
             unit_amount: selectedPrice.amount,
             recurring: {
-              interval: 'month',
+              interval: billingCycle === 'yearly' ? 'year' : 'month',
             },
           },
           quantity: 1,
@@ -43,12 +64,14 @@ export async function POST(request: Request) {
       ],
       mode: 'subscription',
       customer_email: email || undefined,
-      allow_promotion_codes: true, // Enables promo code input on Stripe Checkout
+      allow_promotion_codes: true,
       metadata: {
-        plan,
+        plan: normalizedPlan,
+        billing_cycle: billingCycle,
         referralCode: referralCode || '',
+        customer_email: email || '',
       },
-      success_url: `${domain}/checkout/success?session_id={CHECKOUT_SESSION_ID}&plan=${plan}`,
+      success_url: `${domain}/checkout/success?session_id={CHECKOUT_SESSION_ID}&plan=${normalizedPlan}`,
       cancel_url: `${domain}/#pricing`,
     });
 
@@ -56,7 +79,7 @@ export async function POST(request: Request) {
   } catch (error: unknown) {
     console.error('Erreur API Stripe Checkout:', error);
     return NextResponse.json(
-      { error:  (error as Error).message || 'Erreur lors de la création de la session de paiement' },
+      { error: (error as Error).message || 'Erreur lors de la création de la session de paiement' },
       { status: 500 }
     );
   }

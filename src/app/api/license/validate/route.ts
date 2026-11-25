@@ -1,9 +1,19 @@
 import { NextResponse } from 'next/server';
 import crypto from 'crypto';
+import { adminDb } from '@/lib/firebase/admin';
+import { findLicenseByKey, PLAN_DISPLAY_NAMES } from '@/lib/license';
+import { verifyLicenseKey } from '@/lib/license_generator';
 
-const SECRET_LIC_SALT = "KODO_SECURE_LIC_SALT_2026_BELGIUM";
+export const runtime = 'nodejs';
 
-function generateServerSignature(hardwareId: string, status: string, expiresAt: string, licenseKey: string): string {
+const SECRET_LIC_SALT = process.env.LICENSE_OFFLINE_SALT || 'KODO_SECURE_LIC_SALT_2026_BELGIUM';
+
+function generateServerSignature(
+  hardwareId: string,
+  status: string,
+  expiresAt: string,
+  licenseKey: string
+): string {
   const raw = `${hardwareId}|${status}|${expiresAt}|${licenseKey}|${SECRET_LIC_SALT}`;
   return crypto.createHash('sha256').update(raw).digest('hex');
 }
@@ -11,136 +21,163 @@ function generateServerSignature(hardwareId: string, status: string, expiresAt: 
 export async function POST(request: Request) {
   try {
     const body = await request.json().catch(() => ({}));
-    const { license_key, hardware_id, app_version } = body || {};
+    const { license_key, hardware_id } = body || {};
 
     if (!license_key || typeof license_key !== 'string') {
-      return NextResponse.json({
-        valid: false,
-        status: "invalid",
-        reason: "Veuillez fournir une clé de licence valide.",
-      }, { status: 400 });
+      return NextResponse.json(
+        {
+          valid: false,
+          status: 'invalid',
+          reason: 'Veuillez fournir une clé de licence valide.',
+        },
+        { status: 400 }
+      );
     }
 
-    const cleanKey = license_key.trim().toUpperCase ? license_key.trim().toUpperCase() : license_key.trim();
-    const cleanHardwareId = hardware_id ? hardware_id.trim().toUpperCase() : "UNKNOWN";
+    const cleanKey = license_key.trim().toUpperCase();
+    const cleanHardwareId =
+      typeof hardware_id === 'string' && hardware_id.trim()
+        ? hardware_id.trim().toUpperCase()
+        : 'UNKNOWN';
 
-    let licenseData: {
-      status: string;
-      expires_at: string;
-      hardware_id?: string;
-      client_name?: string;
-    } | null = null;
+    // 1. Canonical lookup in Firestore (`pos_licenses` + legacy `licenses`)
+    const found = await findLicenseByKey(cleanKey);
 
-    // 1. Consultation optionnelle dans Firestore
-    try {
-      const { adminDb } = await import('@/lib/firebase/admin');
-      if (adminDb) {
-        // Recherche par ID de document (clé de licence) dans la collection pos_licenses
-        const docRef = adminDb.collection('pos_licenses').doc(cleanKey);
-        const doc = await docRef.get();
+    if (found) {
+      const { record, collection } = found;
 
-        if (doc.exists) {
-          const data = doc.data();
-          licenseData = {
-            status: data?.status || 'active',
-            expires_at: data?.expiry_date || data?.expires_at || '2056-08-10',
-            hardware_id: data?.hardware_id || data?.fingerprint,
-            client_name: data?.shop_name || data?.client_name
-          };
-
-          // Si le hardware_id n'était pas encore enregistré, association à la 1ère activation
-          if (!data?.hardware_id && cleanHardwareId !== "UNKNOWN") {
-            await docRef.update({
-              hardware_id: cleanHardwareId,
-              activated_at: new Date().toISOString(),
-              last_check: new Date().toISOString()
-            });
-            licenseData.hardware_id = cleanHardwareId;
-          } else if (data?.hardware_id && data.hardware_id !== cleanHardwareId) {
-            return NextResponse.json({
-              valid: false,
-              status: "hardware_mismatch",
-              reason: "Cette clé de licence est déjà associée à un autre ordinateur.",
-              hardware_id: data.hardware_id
-            }, { status: 403 });
-          }
-        }
+      // Hardware binding check (1 computer per license unless unbound)
+      if (!record.hardware_id && cleanHardwareId !== 'UNKNOWN' && adminDb) {
+        await adminDb.collection(collection).doc(cleanKey).update({
+          hardware_id: cleanHardwareId,
+          activated_at: new Date().toISOString(),
+          last_check: new Date().toISOString(),
+        });
+        record.hardware_id = cleanHardwareId;
+      } else if (
+        record.hardware_id &&
+        cleanHardwareId !== 'UNKNOWN' &&
+        record.hardware_id.toUpperCase() !== cleanHardwareId
+      ) {
+        return NextResponse.json(
+          {
+            valid: false,
+            status: 'hardware_mismatch',
+            reason: 'Cette clé de licence est déjà associée à un autre ordinateur.',
+            hardware_id: record.hardware_id,
+          },
+          { status: 403 }
+        );
+      } else if (adminDb) {
+        await adminDb
+          .collection(collection)
+          .doc(cleanKey)
+          .update({ last_check: new Date().toISOString() })
+          .catch(() => {});
       }
-    } catch (dbError) {
-      console.warn('[LICENSE API] Consultation Firestore ignorée:', dbError);
-    }
 
-    // 2. Fallback algorithmique (Clés Master / 30-Year / Algorithmiques)
-    if (!licenseData) {
-      const isMasterKey = cleanKey.includes("30Y") || cleanKey.includes("MASTER") || cleanKey.includes("PERMANENT") || cleanKey.startsWith("KODO-30YS");
-      const isDemoKey = cleanKey === "DEMO-ACTIVE-2026";
-      const isStandardFormat = cleanKey.startsWith("KODO-") && cleanKey.length >= 12;
-
-      if (isMasterKey || isDemoKey || isStandardFormat) {
-        const expiresAt = isMasterKey 
-          ? "2056-08-10" 
-          : new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
-
-        licenseData = {
-          status: "active",
-          expires_at: expiresAt,
-          hardware_id: cleanHardwareId
-        };
+      if (record.status === 'suspended') {
+        return NextResponse.json(
+          {
+            valid: false,
+            status: 'suspended',
+            reason: 'Cette licence a été suspendue suite à un incident de paiement.',
+          },
+          { status: 403 }
+        );
       }
-    }
 
-    // 3. Traitement du statut et expiration
-    if (!licenseData) {
+      if (record.status === 'expired') {
+        return NextResponse.json(
+          {
+            valid: false,
+            status: 'expired',
+            reason: `Votre abonnement a expiré le ${record.expiryDate}.`,
+            expires_at: record.expiryDate,
+          },
+          { status: 403 }
+        );
+      }
+
+      const todayStr = new Date().toISOString().split('T')[0];
+      if (
+        record.expiryDate &&
+        record.expiryDate !== 'Permanent' &&
+        record.expiryDate !== 'A vie' &&
+        todayStr > record.expiryDate
+      ) {
+        return NextResponse.json(
+          {
+            valid: false,
+            status: 'expired',
+            reason: `La licence a expiré le ${record.expiryDate}.`,
+            expires_at: record.expiryDate,
+          },
+          { status: 403 }
+        );
+      }
+
+      const signature = generateServerSignature(
+        cleanHardwareId,
+        record.status,
+        record.expiryDate,
+        cleanKey
+      );
+
       return NextResponse.json({
-        valid: false,
-        status: "invalid",
-        reason: "Clé de licence incorrecte ou inconnue.",
-      }, { status: 404 });
+        valid: true,
+        status: record.status,
+        plan: record.plan,
+        plan_label: PLAN_DISPLAY_NAMES[record.plan] || record.plan,
+        license_key: cleanKey,
+        expires_at: record.expiryDate,
+        hardware_id: cleanHardwareId,
+        signature,
+        timestamp: new Date().toISOString(),
+        message: 'Licence vérifiée et active.',
+      });
     }
 
-    if (licenseData.status === 'suspended') {
+    // 2. Cryptographic HMAC fallback ONLY when Firestore is unavailable & HMAC secret verifies the key
+    const hmacSecret = process.env.LICENSE_HMAC_SECRET;
+    if (!adminDb && hmacSecret && verifyLicenseKey(cleanKey, hmacSecret)) {
+      const parts = cleanKey.split('-');
+      const plan = (parts[1] || 'PRO').toLowerCase();
+      const duration = parts[2] === '1Y' ? 365 : 30;
+      const expiresAt = new Date(Date.now() + duration * 86400000).toISOString().split('T')[0];
+      const signature = generateServerSignature(cleanHardwareId, 'active', expiresAt, cleanKey);
+
       return NextResponse.json({
-        valid: false,
-        status: "suspended",
-        reason: "Cette licence a été suspendue à distance.",
-      }, { status: 403 });
+        valid: true,
+        status: 'active',
+        plan,
+        plan_label: PLAN_DISPLAY_NAMES[plan] || plan,
+        license_key: cleanKey,
+        expires_at: expiresAt,
+        hardware_id: cleanHardwareId,
+        signature,
+        timestamp: new Date().toISOString(),
+        message: 'Licence cryptographique vérifiée.',
+      });
     }
 
-    const todayStr = new Date().toISOString().split('T')[0];
-    if (licenseData.expires_at !== 'Permanent' && licenseData.expires_at !== 'A vie' && todayStr > licenseData.expires_at) {
-      return NextResponse.json({
+    return NextResponse.json(
+      {
         valid: false,
-        status: "expired",
-        reason: `La licence a expiré le ${licenseData.expires_at}.`,
-        expires_at: licenseData.expires_at
-      }, { status: 403 });
-    }
-
-    // 4. Génération du Token Signé pour Mode Hors-Ligne Assuré
-    const signature = generateServerSignature(
-      cleanHardwareId,
-      licenseData.status,
-      licenseData.expires_at,
-      cleanKey
+        status: 'invalid',
+        reason: 'Clé de licence incorrecte ou introuvable.',
+      },
+      { status: 404 }
     );
-
-    return NextResponse.json({
-      valid: true,
-      status: licenseData.status,
-      license_key: cleanKey,
-      expires_at: licenseData.expires_at,
-      hardware_id: cleanHardwareId,
-      signature: signature,
-      timestamp: new Date().toISOString(),
-      message: "Licence certifiée conforme et active"
-    });
-
   } catch (error: unknown) {
     console.error('[LICENSE API] Erreur validation licence:', error);
-    return NextResponse.json({
-      valid: false,
-      status: "error",
-      reason: "Erreur serveur lors de la validation de la licence."
-    }, { status: 500 });
+    return NextResponse.json(
+      {
+        valid: false,
+        status: 'error',
+        reason: 'Erreur serveur lors de la validation de la licence.',
+      },
+      { status: 500 }
+    );
   }
 }
