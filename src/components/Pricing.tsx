@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Link from 'next/link';
 import { CheckCircle2, Zap, ArrowRight, ShieldCheck, Gift } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { PRICING_TIERS, type BillingCycle, type PlanKey } from '@/lib/pricing';
@@ -227,10 +228,22 @@ export default function Pricing() {
         <div className="mt-16 flex flex-col sm:flex-row items-center justify-center gap-6 text-xs text-foreground/50 font-medium">
           <span className="flex items-center gap-2"><ShieldCheck size={16} className="text-emerald-400" /> Paiement 100% Sécurisé via Stripe</span>
           <span>•</span>
-          <span>🔒 Journal chaîné SHA-256 &amp; Clôtures Z inaltérables</span>
+          <span>🔒 Journal d&apos;audit chaîné SHA-256 &amp; Clôtures Z</span>
           <span>•</span>
           <span>🚀 Activation &amp; Téléchargement Instantané</span>
         </div>
+
+        <p className="mt-4 text-center text-[11px] text-foreground/45 font-medium">
+          Logiciel B2B conçu pour le commerce de détail (retail, hors Horeca soumis au SCE). En souscrivant, vous acceptez nos{' '}
+          <Link href="/cgv" className="underline hover:text-foreground transition-colors">
+            CGV / CGU
+          </Link>{' '}
+          et notre{' '}
+          <Link href="/politique-de-confidentialite" className="underline hover:text-foreground transition-colors">
+            Politique de confidentialité
+          </Link>
+          .
+        </p>
 
       </div>
     </section>

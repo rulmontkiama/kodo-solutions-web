@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import Hero from '@/components/Hero';
 import Services from '@/components/Services';
 import ProductMockups from '@/components/ProductMockups';
@@ -43,6 +44,15 @@ export default function Home() {
         <p className="text-sm font-medium opacity-80">
           &copy; {new Date().getFullYear()} Kōdo Solutions. Tous droits réservés.
         </p>
+        <div className="mt-2 flex items-center justify-center gap-4 text-xs opacity-65">
+          <Link href="/cgv" className="hover:opacity-100 underline-offset-4 hover:underline transition-opacity">
+            CGV / CGU
+          </Link>
+          <span>•</span>
+          <Link href="/politique-de-confidentialite" className="hover:opacity-100 underline-offset-4 hover:underline transition-opacity">
+            Politique de confidentialité
+          </Link>
+        </div>
       </footer>
     </div>
   );

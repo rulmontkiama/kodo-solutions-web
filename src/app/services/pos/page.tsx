@@ -102,9 +102,9 @@ export default function KodoPOSPage() {
               className="glass p-8 rounded-[2rem] border border-white/5 hover:border-accent/30 transition-colors"
             >
               <ShieldCheck className="w-10 h-10 text-accent mb-6" />
-              <h3 className="text-xl font-bold mb-3 text-foreground tracking-tight">Journal chaîné SHA-256</h3>
+              <h3 className="text-xl font-bold mb-3 text-foreground tracking-tight">Journal d&apos;audit chaîné SHA-256</h3>
               <p className="text-foreground/60 leading-relaxed text-sm">
-                Intégrité cryptographique des ventes et clôtures Z sécurisées. Export simplifié pour votre comptable (WinBooks CSV, Excel, PDF) en un clic.
+                Traçabilité des ventes par empreinte cryptographique SHA-256 et clôtures Z. Export simplifié pour votre comptable (WinBooks CSV, Excel, PDF) en un clic.
               </p>
             </motion.div>
           </div>
